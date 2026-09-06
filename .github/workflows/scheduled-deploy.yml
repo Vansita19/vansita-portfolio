@@ -1,0 +1,21 @@
+name: Scheduled Vercel Deploy
+
+# Rebuilds the site hourly so edits published in Framer go live automatically.
+on:
+  schedule:
+    - cron: '0 * * * *' # Every hour
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deploy Hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::error::VERCEL_DEPLOY_HOOK secret is not set — nothing to trigger."
+            exit 1
+          fi
+          curl --fail --silent --show-error -X POST "$HOOK"

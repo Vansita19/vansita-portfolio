@@ -1,0 +1,37 @@
+---
+export const prerender = true;
+import * as cheerio from "cheerio";
+import { FRAMER_ORIGIN } from "../framer";
+
+// Mirror every page Framer lists in its sitemap, not just the homepage.
+export async function getStaticPaths() {
+  const xml = await fetch(`${FRAMER_ORIGIN}/sitemap.xml`).then((r) => r.text());
+  const slugs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((m) => new URL(m[1]).pathname.replace(/^\/+|\/+$/g, ""))
+    .filter((slug, i, all) => all.indexOf(slug) === i);
+
+  return slugs.map((slug) => ({ params: { slug: slug || undefined } }));
+}
+
+const { slug } = Astro.params;
+const response = await fetch(`${FRAMER_ORIGIN}/${slug ?? ""}`);
+const $ = cheerio.load(await response.text());
+
+//Remove Framer Badge
+$("#__framer-badge-container").remove();
+
+// Remove Framer Tracking
+$('script[src^="https://events.framer.com"]').remove();
+
+//Change canonical
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
+const canonicalTag = $('link[rel="canonical"]');
+canonicalTag.length > 0
+  ? canonicalTag.attr("href", canonical)
+  : $("head").append(`<link rel="canonical" href="${canonical}"/>`);
+
+//Convert to HTML
+const html = $.html();
+---
+
+<html set:html={html} />
