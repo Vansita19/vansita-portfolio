@@ -1,21 +1,57 @@
-name: Scheduled Vercel Deploy
+name: Deploy to Vercel
 
-# Rebuilds the site hourly so edits published in Framer go live automatically.
+# Rebuilds vansita.design so edits published in Framer go live automatically.
+# The site is a build-time mirror of vansitadesign.framer.website, so a rebuild
+# is the only way Framer changes reach production.
+#
+# Deploys with a Vercel token rather than Vercel's Git integration, because the
+# Vercel account is linked to a different GitHub account than the one that owns
+# this repo. Requires one secret: VERCEL_TOKEN.
+
 on:
   schedule:
-    - cron: '0 * * * *' # Every hour
-  workflow_dispatch: # Allow manual trigger
+    - cron: '0 * * * *' # Hourly, to pick up Framer edits
+  push:
+    branches: [main] # Deploy on every push
+  workflow_dispatch: # Manual trigger
+
+# Never let an hourly run collide with a push-triggered run.
+concurrency:
+  group: vercel-production-deploy
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      # Not secrets — these identifiers are useless without VERCEL_TOKEN.
+      VERCEL_ORG_ID: team_rkAjyyIGbv1v8E6A9RpVaoUm
+      VERCEL_PROJECT_ID: prj_ZkZucJ1t9SnLpj4OrA541SMeQGN9
     steps:
-      - name: Trigger Vercel Deploy Hook
+      - name: Check the token is configured
         env:
-          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+          TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          if [ -z "$HOOK" ]; then
-            echo "::error::VERCEL_DEPLOY_HOOK secret is not set — nothing to trigger."
+          if [ -z "$TOKEN" ]; then
+            echo "::error::VERCEL_TOKEN secret is not set — add it in Settings → Secrets and variables → Actions."
             exit 1
           fi
-          curl --fail --silent --show-error -X POST "$HOOK"
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel project settings
+        run: vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Build
+        run: vercel build --prod --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Deploy to production
+        run: vercel deploy --prebuilt --prod --token="${{ secrets.VERCEL_TOKEN }}"
