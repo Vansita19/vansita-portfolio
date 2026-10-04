@@ -4,6 +4,8 @@
 
 [Visit the live portfolio →](https://vansita.design) · [Explore the playground](https://vansita.design/playground) · [View my resume](https://vansita.design/assets/vansita-addanki-resume.pdf)
 
+[![Portfolio homepage with interactive flowers and product design introduction](docs/images/portfolio.jpg)](https://vansita.design)
+
 I'm Vansita, a product designer working across AI-native products and B2B SaaS. I take ideas from product direction and UX through visual design, motion, and frontend implementation. This repository contains the source for my personal portfolio.
 
 ## What's inside
