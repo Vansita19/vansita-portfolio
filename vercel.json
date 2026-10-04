@@ -1,0 +1,20 @@
+{
+  "headers": [
+    {
+      "source": "/:project(pitch-protocol|venture-os|gfvc|turboml|docus|ether|travello|shapeshifter|puch|my-drip)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, stale-while-revalidate=300"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/playground-2",
+      "destination": "/playground",
+      "permanent": true
+    }
+  ]
+}

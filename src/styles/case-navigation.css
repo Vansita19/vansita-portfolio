@@ -1,0 +1,238 @@
+/* Shared reading layout; each case study supplies its own section labels. */
+.case-study { --case-anchor-offset: 152; overflow: clip; }
+.case-reading-layout { display: grid; grid-template-columns: 176px minmax(0, 800px) 176px; gap: 80px; max-width: 1376px; margin-inline: auto; padding-inline: 32px; align-items: start; }
+.case-reading-layout .case-article { min-width: 0; width: 100%; padding-inline: 0; }
+.case-reading-layout .case-intro-content, .case-reading-layout .case-gallery { width: 100%; }
+.case-section-nav { position: sticky; top: 152px; align-self: start; padding-top: 40px; font: 400 14px/1.55 var(--sans); letter-spacing: -.015em; max-height: calc(100svh - 176px); overflow-y: auto; }
+.case-section-nav a { color: var(--text-secondary); text-decoration: none; transition: color .18s; }
+.case-section-nav a:hover, .case-section-nav a[aria-current] { color: var(--text-primary); }
+.case-home-link { display: flex; align-items: center; gap: 8px; width: fit-content; margin-bottom: 56px; }
+.case-section-links { display: flex; flex-direction: column; gap: 12px; }
+.case-section-nav a:focus-visible, .case-section-nav select:focus-visible { outline: 2px solid #ff522e; outline-offset: 5px; border-radius: 3px; }
+.case-section-mobile { display: none; }
+.case-study [data-case-section] { scroll-margin-top: 152px; }
+.case-study .case-section-label { margin: 0 0 -12px; color: var(--text-secondary); font: 400 14px/1.6 var(--sans); letter-spacing: -.012em; }
+.case-reading-layout .case-gallery:has(.case-section) { gap: 56px; }
+.case-reading-layout .case-section { padding-block: 16px; }
+.case-interactions-section { width: 100%; }
+.case-interactions-section > * { width: 100%; }
+@media (max-width: 767px) {
+  .case-study { --case-anchor-offset: 176; }
+  .case-reading-layout { display: block; padding-inline: 32px; }
+  .case-section-nav { z-index: 20; top: 104px; padding: 12px 0; margin-bottom: 20px; max-height: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; background: rgba(255,255,255,.96); border-bottom: 1px solid #efedeb; }
+  .case-home-link { margin: 0; flex-shrink: 0; }
+  .case-section-links { display: none; }
+  .case-section-mobile { display: block; min-width: 0; }
+  .case-section-mobile select { max-width: 100%; color: var(--text-primary); background: transparent; font: inherit; border: 0; padding: 8px 4px; }
+  .case-study [data-case-section] { scroll-margin-top: 176px; }
+}
+@media (max-width: 809px) {
+  .case-reading-layout { padding-inline: 24px; }
+  .case-reading-layout .case-intro-content, .case-reading-layout .case-gallery { width: 100%; }
+  .case-reading-layout .case-gallery:has(.case-section) { gap: 36px; }
+}
+.case-section-mobile .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+@media (max-width: 767px) { .case-section-nav { background: #fff; } }
+
+/* Keep the reading column centered independently of the left navigation. */
+.case-reading-layout .case-article { grid-column: 2; }
+.case-frame-header { position: absolute; top: 112px; left: var(--case-gutter); right: var(--case-gutter); height: 1px; pointer-events: none; }
+.case-frame-header .case-crossline { left: calc(-1 * var(--case-gutter)); right: calc(-1 * var(--case-gutter)); }
+.case-reading-layout .case-intro-grid { grid-template-columns: minmax(0, 1fr) 156px; gap: 40px; }
+.case-reading-layout .case-intro-grid.case-intro-solo { grid-template-columns: minmax(0, 1fr); }
+.case-reading-layout .case-details { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 24px; font-size: 14px; line-height: 1.6; }
+.case-reading-layout .case-details > div:first-child { grid-row: span 2; }
+.case-reading-layout .case-details dd { margin-top: 8px; }
+@media (max-width: 767px) {
+ .case-reading-layout { max-width: 864px; }
+}
+@media (max-width: 809px) {
+ .case-reading-layout .case-intro-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+ .case-reading-layout .case-details { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+ .case-reading-layout .case-details > div:first-child { grid-row: auto; }
+}
+@media (max-width: 479px) {
+ .case-reading-layout .case-details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Preserve the reference sidebar in desktop split-screen previews. */
+@media (min-width: 768px) and (max-width: 1375px) {
+ .case-reading-layout { grid-template-columns: 156px minmax(0, 800px); gap: 56px; max-width: 1120px; padding-inline: 32px; }
+ .case-reading-layout .case-article { grid-column: 2; }
+}
+@media (min-width: 768px) and (max-width: 950px) {
+ .case-reading-layout { grid-template-columns: 144px minmax(0, 1fr); gap: 32px; padding-inline: 24px; }
+ .case-section-nav { font-size: 13px; }
+}
+
+@media (min-width: 768px) and (max-width: 950px) {
+ .case-reading-layout .case-intro-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+ .case-reading-layout .case-details { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+ .case-reading-layout .case-details > div:first-child { grid-row: auto; }
+}
+
+/* Project facts always read top to bottom, including on smaller screens. */
+.case-reading-layout .case-details { display: flex; flex-direction: column; gap: 28px; }
+.case-reading-layout .case-details > div { grid-row: auto; }
+.case-home-link svg { flex-shrink: 0; }
+
+/* Anchor the sidebar to the page rails, independently of the reading column. */
+.case-nav-track { display: contents; }
+@media (min-width: 768px) {
+ .case-nav-track { display: block; position: absolute; top: 24px; bottom: 0; left: calc(var(--case-gutter) + 24px - (100vw - 100%) / 2); width: 176px; pointer-events: none; }
+ .case-nav-track .case-section-nav { position: sticky; top: 152px; padding-top: 0; pointer-events: auto; }
+}
+@media (min-width: 768px) and (max-width: 950px) {
+ .case-nav-track { left: calc(var(--case-gutter) + 16px - (100vw - 100%) / 2); top: 16px; width: 144px; }
+ .case-nav-track .case-section-nav { top: 144px; }
+}
+
+.case-detail-label-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.case-reading-layout { position: relative; }
+.case-reading-layout .case-details { font: 400 16px/1.7 var(--sans); letter-spacing: -.012em; }
+.case-reading-layout .case-details dd { color: var(--text-description); }
+@keyframes case-nav-appear {
+ from { opacity: 0; transform: translateY(8px); }
+ to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+ .case-home-link, .case-section-links a { animation: case-nav-appear .55s cubic-bezier(.22,1,.36,1) both; }
+ .case-section-links a { animation-delay: calc(100ms + var(--nav-index, 0) * 45ms); }
+}
+
+/* Pitch opening keeps the shared logo, title, and right-hand details layout. */
+.pitch-opening { display: flex; flex-direction: column; gap: 20px; }
+.case-pitch-protocol .pitch-opening h1 { font: 500 20px/1.4 var(--sans); letter-spacing: -.025em; margin: 0; }
+.case-pitch-protocol .pitch-opening h2 { font: 500 16px/1.7 var(--sans); letter-spacing: -.02em; margin: 0; }
+.case-study p.case-note { font-size: 14px; color: var(--text-secondary); }
+
+.case-pitch-protocol .pitch-opening h2 { color: var(--text-primary); }
+
+/* A simple reading experience on phones, using the reference's mobile type scale. */
+@media (max-width: 767px) {
+ .case-nav-track, .case-section-nav { display: none; }
+ .case-study h1,
+ .case-pitch-protocol .pitch-opening h1,
+ .case-study h2.case-paragraph,
+ .case-section h2,
+ .case-gallery-heading { font-size: 17.6px; line-height: 1.5; font-weight: 500; }
+ .case-study p.case-paragraph,
+ .case-reading-layout .case-details { font-size: 16px; line-height: 1.8; }
+ .case-section-label,
+ .case-study h2.case-label,
+ .case-study p.case-note { font-size: 14px; line-height: 1.8; }
+ .case-related-link > span { font-size: 30px; line-height: 1.2; }
+}
+
+/* Keep story headings and their supporting copy visually connected. */
+.case-study .case-section { gap: 16px; }
+.case-study .case-intro-story .case-prose { gap: 16px; }
+.case-study .case-intro-story p.case-note { font-size: 16px; line-height: 1.7; color: var(--text-description); }
+
+/* A curved, gently settling marker follows the current reading section. */
+@media(min-width:768px){
+ .case-section-nav{padding-left:22px!important;margin-left:-22px;overflow-x:hidden}
+ .case-section-links{position:relative}
+ .case-section-links a{transition:color .2s,translate .3s cubic-bezier(.22,1,.36,1)}
+ .case-section-links a[aria-current]{translate:18px 0;width:calc(100% - 18px);font-weight:500}
+ .case-active-dot{position:absolute;left:0;top:0;width:8px;height:8px;border-radius:50%;background:var(--orange,#ff522e);pointer-events:none;will-change:transform}
+}
+@media(prefers-reduced-motion:reduce){.case-section-links a{transition:none}}
+
+/* Shared type roles for every case study. */
+.case-study{--case-heading-size:20px;--case-body-size:16px;--case-label-size:16px}
+.case-study h1,.case-study .case-section h2,.case-study h2.case-paragraph{font:500 var(--case-heading-size)/1.4 var(--sans);color:var(--text-primary);letter-spacing:-.025em}
+.case-study .case-intro h2.case-project-one-liner{font:500 var(--case-body-size)/1.7 var(--sans);color:var(--text-primary);letter-spacing:-.02em;margin:0}
+.case-study p.case-paragraph,.case-study .case-details{font-size:var(--case-body-size);line-height:1.7;color:var(--text-description)}
+.case-study .case-section-label{font:400 var(--case-label-size)/1.5 var(--sans);color:var(--text-secondary)}
+.case-study .case-paragraph strong{font-weight:500}
+@media(max-width:767px){.case-study{--case-heading-size:17.6px;--case-label-size:14px}}
+
+@media(max-width:809.98px){
+ .case-study,.project-footer{--case-gutter:12px}
+ .case-reading-layout{display:block;padding-inline:28px}
+ .case-reading-layout .case-article{padding-inline:0}
+ .case-reading-layout .case-intro-content,.case-reading-layout .case-gallery{width:100%;max-width:100%;margin-inline:0}
+ .case-nav-track{display:none}
+ .case-study .case-related{width:calc(100% - 56px)}
+}
+
+@media(max-width:809.98px){.case-related-arrow{display:none}.case-related-link>span{white-space:normal;overflow-wrap:anywhere}}
+
+/* Laptop rails leave more room for the sidebar; large desktops retain wider margins. */
+@media (min-width:1200px) and (max-width:1919.98px){
+ .case-study,.project-footer{--case-gutter:32px}
+}
+@media (min-width:951px) and (max-width:1199.98px){
+ .case-reading-layout{column-gap:88px}
+}
+@media (min-width:810px) and (max-width:950px){
+ .case-reading-layout{column-gap:64px}
+}
+
+/* Hide scrollbar chrome, including on first paint, without disabling scrolling. */
+html:has(.case-study),html:has(.case-study) *{scrollbar-width:none}
+html:has(.case-study)::-webkit-scrollbar,
+html:has(.case-study) *::-webkit-scrollbar{display:none;width:0;height:0}
+
+/* The sidebar supplies topic labels on desktop; phones keep them in the story. */
+@media (min-width: 768px) {
+ .case-study .case-section-label { display: none; }
+}
+
+.case-study + .project-footer { padding-inline: var(--case-gutter); }
+
+/* Consistent reading rhythm: related copy is closer than separate ideas. */
+.case-study{--case-copy-gap:16px;--case-title-gap:34px;--case-copy-color:#717985;--case-title-color:#343b46}
+.case-study .pitch-opening,.case-study .case-intro-summary{gap:var(--case-copy-gap)}
+.case-study .pitch-opening h1 + h2,.case-study .case-intro-summary h1 + h2{margin-top:calc(var(--case-title-gap) - var(--case-copy-gap))}
+.case-study .case-section,.case-study .case-prose{gap:var(--case-copy-gap)}
+.case-study .case-prose p.case-paragraph{color:var(--case-copy-color);font-weight:400}
+.case-study .case-section h2,.case-study h2.case-paragraph,.case-study .case-gallery-heading{color:var(--case-title-color);letter-spacing:normal}
+.case-study .case-prose p+h2{margin-top:16px}
+
+/* Authoritative Pitch Protocol type roles; no section-specific size variants. */
+.case-pitch-protocol{--story-primary:36px;--story-subheading:20px;--story-mini:16px;--story-body:16px;--story-label:14px}
+.case-pitch-protocol .pitch-content .story-copy h2{font:350 var(--story-primary)/1.2 var(--serif);letter-spacing:normal;color:var(--case-title-color)}
+.case-pitch-protocol .pitch-content .story-copy .story-subheading{font:500 var(--story-subheading)/1.35 var(--sans);letter-spacing:-.012em;color:var(--case-title-color)}
+.case-pitch-protocol .pitch-content .three-up h3,.case-pitch-protocol .pitch-content .answer-row h3{font:500 var(--story-mini)/1.4 var(--sans);color:var(--case-title-color)}
+.case-pitch-protocol .pitch-content .story-copy p,.case-pitch-protocol .pitch-content .story-copy li,.case-pitch-protocol .pitch-content .three-up p,.case-pitch-protocol .pitch-content .answer-row p,.case-pitch-protocol .pitch-content .impact-details li,.case-pitch-protocol .pitch-opening p.case-paragraph{font:400 var(--story-body)/1.7 var(--sans);letter-spacing:-.012em;color:var(--case-copy-color)}
+.case-pitch-protocol .pitch-content .chapter-label,.case-pitch-protocol .pitch-content .version-label,.case-pitch-protocol .pitch-content .scope-note{font:400 var(--story-label)/1.6 var(--sans);color:var(--text-secondary)}
+@media(max-width:760px){.case-pitch-protocol{--story-primary:28px}}
+
+/* Shared project facts follow the cover rather than sitting beside the intro. */
+.case-reading-layout .case-stacked-intro { display:flex; flex-direction:column; gap:40px; }
+.case-stacked-intro > .case-intro-summary,.case-stacked-intro > .case-media { width:100%; }
+.case-reading-layout .case-details-below-cover { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; width:100%; }
+.case-reading-layout .case-details-below-cover > div { grid-row:auto; }
+@media(max-width:600px){
+ .case-reading-layout .case-details-below-cover{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;}
+}
+
+/* TurboML follows the Pitch Protocol story typography. */
+.case-turboml{--story-primary:36px;--story-body:16px}
+.case-turboml .case-section h2{font:350 var(--story-primary)/1.2 var(--serif);letter-spacing:normal;color:var(--case-title-color)}
+.case-turboml .case-section .case-section-label{display:none;font:400 14px/1.6 var(--sans);color:var(--text-secondary);margin:0 0 20px}
+@media(max-width:767px){.case-turboml .case-section .case-section-label{display:block}}
+.case-turboml .case-section p.case-paragraph,.case-turboml .case-points{font:400 var(--story-body)/1.7 var(--sans);letter-spacing:-.012em;color:var(--case-copy-color)}
+.case-points{margin:20px 0 0;padding-left:22px}.case-points li{padding-left:4px;margin-bottom:12px}.case-points strong{font-weight:500;color:var(--case-title-color)}
+@media(max-width:760px){.case-turboml{--story-primary:28px}}
+
+/* Shapeshifter uses the same editorial hierarchy as Pitch Protocol. */
+.case-shapeshifter{--story-primary:36px}
+.case-shapeshifter .case-section h2{font:350 var(--story-primary)/1.2 var(--serif);letter-spacing:normal;color:var(--case-title-color)}
+.case-shapeshifter .case-section .case-section-label{display:none}
+.case-shapeshifter .case-section p.case-paragraph,.case-shapeshifter .case-points{font:400 16px/1.7 var(--sans);letter-spacing:-.012em;color:var(--case-copy-color)}
+@media(max-width:767px){.case-shapeshifter{--story-primary:28px}.case-shapeshifter .case-section .case-section-label{display:block;font:400 14px/1.6 var(--sans);margin:0 0 20px}}
+
+/* Prominent, unboxed impact figures. */
+.case-points.case-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;list-style:none;padding:0;margin:36px 0 0}
+.case-points.case-stats li{padding:0;margin:0}
+.case-points.case-stats strong{display:block;font:500 clamp(32px,3.6vw,52px)/1.12 var(--sans);letter-spacing:-.045em;margin-bottom:14px;color:var(--case-title-color)}
+@media(max-width:767px){.case-points.case-stats{grid-template-columns:1fr;gap:28px}.case-points.case-stats strong{font-size:40px;margin-bottom:8px}}
+
+.case-testimonial{margin:48px 0 0;padding:0;border:0;max-width:740px}
+.case-testimonial p{font:400 clamp(22px,2.2vw,30px)/1.4 var(--serif);color:var(--case-title-color);margin:0 0 20px}
+.case-testimonial footer{font:500 14px/1.6 var(--sans);color:var(--case-title-color)}
+.case-testimonial footer span{display:block;font-weight:400;color:var(--case-copy-color)}

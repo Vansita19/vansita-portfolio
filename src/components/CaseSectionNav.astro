@@ -1,0 +1,79 @@
+---
+interface Props { sections: { id: string; label: string }[]; homeHref?: string }
+const { sections, homeHref = '/#home' } = Astro.props;
+---
+<nav class="case-section-nav" aria-label="Case study sections">
+  <a class="case-home-link" href={homeHref}><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 6H15.5C17.9853 6 20 8.01472 20 10.5C20 12.9853 17.9853 15 15.5 15H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.99998 12C6.99998 12 4.00001 14.2095 4 15C3.99999 15.7906 7 18 7 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Home</a>
+  <div class="case-section-links">
+    <span class="case-active-dot" aria-hidden="true"></span>
+    {sections.map((section, index) => <a style={{ '--nav-index': index }} href={`#${section.id}`} aria-current={index === 0 ? 'location' : undefined}>{section.label}</a>)}
+  </div>
+  <label class="case-section-mobile">
+    <span class="sr-only">Jump to section</span>
+    <select aria-label="Jump to section">
+      {sections.map(section => <option value={section.id}>{section.label}</option>)}
+    </select>
+  </label>
+</nav>
+<script>
+  const navigation = document.querySelector<HTMLElement>('.case-section-nav');
+  if (navigation) {
+    const links = Array.from(navigation.querySelectorAll<HTMLAnchorElement>('.case-section-links a'));
+    const menu = navigation.querySelector<HTMLSelectElement>('select')!;
+    const sections = links.map(link => document.getElementById(link.hash.slice(1))).filter((section): section is HTMLElement => !!section);
+    const offset = () => parseFloat(getComputedStyle(document.querySelector('.case-study')!).getPropertyValue('--case-anchor-offset')) || 160;
+    const dot = navigation.querySelector<HTMLElement>('.case-active-dot')!;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let dotY = 0, dotX = 0, dotFrame = 0, currentId = '';
+    function moveDot(link: HTMLAnchorElement, immediate = false) {
+      const target = link.offsetTop + link.offsetHeight / 2 - 4;
+      cancelAnimationFrame(dotFrame);
+      if(immediate || reduced.matches){dotX=0;dotY=target;dot.style.transform=`translate(0px, ${target}px)`;return;}
+      const startY=dotY, startX=dotX, distance=target-startY;
+      const duration=Math.min(650,420+Math.abs(distance)*.6), started=performance.now();
+      const arc=Math.min(18,10+Math.abs(distance)*.06);
+      function animate(now:number){
+        const t=Math.min(1,(now-started)/duration);
+        const eased=t*t*(3-2*t);
+        dotY=startY+distance*eased;
+        dotX=startX*(1-t)-Math.sin(Math.PI*t)*arc;
+        const settle=t>.8?Math.sin((t-.8)/.2*Math.PI)*.14:0;
+        dot.style.transform=`translate(${dotX}px, ${dotY}px) scale(${1+settle},${1-settle})`;
+        if(t<1)dotFrame=requestAnimationFrame(animate);
+      }
+      dotFrame=requestAnimationFrame(animate);
+    }
+    let pending = false;
+    const update = () => {
+      pending = false;
+      let active = sections[0];
+      for (const section of sections) if (section.getBoundingClientRect().top <= offset() + 24) active = section;
+      if (!active) return;
+      links.forEach(link => {
+        if (link.hash === `#${active.id}`) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+      const activeLink=links.find(link=>link.hash===`#${active.id}`)!;
+      if(currentId!==active.id){moveDot(activeLink,!currentId);currentId=active.id;}
+      menu.value = active.id;
+    };
+    window.addEventListener('scroll', () => {
+      if (!pending) { pending = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener('resize', () => {update();const link=links.find(l=>l.hasAttribute('aria-current'));if(link)moveDot(link,true);});
+    document.fonts.ready.then(()=>{const link=links.find(l=>l.hasAttribute('aria-current'));if(link)moveDot(link,true);});
+    window.addEventListener('load', update);
+    const jump = (id: string) => {
+      const target = document.getElementById(id);
+      if (!target) return;
+      history.pushState(null, '', `#${id}`);
+      window.scrollTo({ top: window.scrollY + target.getBoundingClientRect().top - offset(), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    };
+    links.forEach(link => link.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault(); jump(link.hash.slice(1));
+    }));
+    menu.addEventListener('change', () => jump(menu.value));
+    update();
+  }
+</script>

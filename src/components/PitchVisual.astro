@@ -1,0 +1,27 @@
+---
+interface Props { label:string; note?:string; src?:string; type?:string; fitContent?:boolean; }
+const {label,note='',src,type='image',fitContent=false}=Astro.props;
+---
+<figure class:list={['pitch-visual',{'is-placeholder':!src,'is-video':src&&type==='video','fit-content':fitContent}]}>
+ <div class="visual-frame">{src ? type==='video' ? <video src={src} autoplay loop muted playsinline preload="auto" aria-label={label} /> : <button class="enlarge-image" type="button" data-image-src={src} data-image-label={label} aria-label={`Enlarge ${label}`}><img src={src} alt={label} loading="lazy" /></button> : <div class="placeholder-content"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="3" y="5" width="26" height="20" rx="3" stroke="currentColor"/><path d="m7 21 6-6 4 4 4-6 5 8M11 10h.01M11 29h10" stroke="currentColor" stroke-linecap="round"/></svg><strong>{label}</strong><span>VISUAL PLACEHOLDER · 16:10</span>{note && <p class="visual-note">{note}</p>}</div>}</div>
+</figure>
+<script>
+const images=document.querySelectorAll<HTMLButtonElement>('.enlarge-image');
+if(images.length){
+ const viewer=document.createElement('dialog');viewer.className='pitch-image-viewer';viewer.setAttribute('aria-label','Expanded screenshot');
+ const close=document.createElement('button');close.type='button';close.textContent='Close ×';close.setAttribute('aria-label','Close expanded screenshot');
+ const image=document.createElement('img');viewer.append(close,image);document.body.append(viewer);
+ let trigger:HTMLButtonElement|null=null;
+ images.forEach(button=>button.addEventListener('click',()=>{trigger=button;image.src=button.dataset.imageSrc!;image.alt=button.dataset.imageLabel!;viewer.showModal();close.focus()}));
+ close.addEventListener('click',()=>viewer.close());viewer.addEventListener('click',event=>{if(event.target===viewer)viewer.close()});viewer.addEventListener('close',()=>trigger?.focus({preventScroll:true}));
+}
+</script>
+<style>
+.enlarge-image{display:block;position:relative;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in}.enlarge-image:focus-visible{outline:2px solid #fe4116;outline-offset:-3px}
+:global(.pitch-image-viewer){border:0;padding:48px 16px 16px;background:#fff;border-radius:16px;max-width:94vw;max-height:94svh;overflow:auto}:global(.pitch-image-viewer::backdrop){background:#171920b8;backdrop-filter:blur(8px)}:global(.pitch-image-viewer img){display:block;max-width:100%;height:auto;margin:auto}:global(.pitch-image-viewer button){position:absolute;right:16px;top:12px;border:0;background:#f0f1f3;border-radius:8px;padding:8px 12px;cursor:pointer;color:#343b46}
+
+.pitch-visual{margin:0;min-width:0}.visual-frame{aspect-ratio:16/10;background:#f1f2f4;border:1px solid #e3e5e9;border-radius:14px;overflow:hidden;display:grid;place-items:center}.visual-frame img,.visual-frame video{display:block;width:100%;height:100%;object-fit:contain}.placeholder-content{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:24px;color:#959ba5}.placeholder-content strong{font-size:14px;font-weight:500;color:#687281;max-width:300px;line-height:1.4}.placeholder-content span{font-size:9px;letter-spacing:.1em}.is-placeholder .visual-frame{background:linear-gradient(135deg,#f7f8fa,#eef0f4);border:1px dashed #ccd2db}.visual-note{font-size:11px;line-height:1.5;color:#929aa6;max-width:330px;margin:0}.pitch-visual .visual-note{margin:0}figcaption{font-size:12px;line-height:1.5;color:#818995;margin-top:12px;max-width:660px}
+
+.pitch-visual.is-video .visual-frame{aspect-ratio:auto;display:block}.pitch-visual.is-video video{width:100%;height:auto}
+.pitch-visual.fit-content .visual-frame{aspect-ratio:auto;display:block}.pitch-visual.fit-content img{height:auto}
+</style>

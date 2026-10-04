@@ -1,0 +1,38 @@
+---
+import imageSources from '../data/case-image-sources.json';
+import type { CaseBlock } from '../data/project-types';
+interface Props { media: CaseBlock; eager?: boolean; label: string; }
+const { media, eager = false, label } = Astro.props;
+const source = media.src ?? '';
+const images = imageSources as Record<string, string>;
+const imageSource = source;
+---
+<figure
+  class:list={['case-media', { 'case-media-video': media.type === 'video', 'case-media-bordered': media.border }]}
+  style={{ '--media-ratio': media.ratio, '--media-fit': media.fit ?? 'cover', '--media-radius': `${media.radius ?? 20}px`, '--wide-order': media.wideOrder }}
+>
+  {media.type === 'placeholder' ? (
+    <div class="case-image-slot" role="img" aria-label={`Image slot: ${media.title}. ${media.alt}`}>
+      <span>IMAGE SLOT</span>
+      <strong>{media.title}</strong>
+      <p>{media.alt}</p>
+    </div>
+  ) : media.type === 'video' ? (
+    <>
+      <video data-case-video data-autoplay={media.autoplay ?? true} src={source} muted loop={media.loop ?? true} playsinline preload="none" aria-label={label}>
+        <a href={source}>View {label}</a>
+      </video>
+      <button class="case-video-toggle" type="button" aria-label={`Play ${label}`} aria-pressed="false">Play</button>
+    </>
+  ) : (
+    <picture>
+      {media.wideSrc && <source media="(min-width: 1480px) and (max-width: 1799.98px)" srcset={media.wideSrc} />}
+      <img src={imageSource} width={media.width} height={media.height} alt={media.alt || label} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
+    </picture>
+  )}
+</figure>
+<style>
+.case-image-slot{min-height:240px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px;box-sizing:border-box;text-align:center;background:#f7f7f6;border:1px dashed #d6d6d2;border-radius:16px;color:#62625e}
+.case-image-slot span{font:11px/1.4 sans-serif;letter-spacing:.12em;color:#85857f}
+.case-image-slot strong{font-size:18px;font-weight:500}.case-image-slot p{max-width:470px;font-size:14px;line-height:1.6;margin:0}
+</style>

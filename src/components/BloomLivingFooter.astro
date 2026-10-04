@@ -1,0 +1,62 @@
+---
+import BloomEmailCTA from './BloomEmailCTA.astro';
+---
+<footer class="living-footer" id="paper-footer">
+ <canvas class="bloom-field" aria-hidden="true"></canvas>
+ <div class="footer-copy"><p class="eyebrow">A little curiosity goes a long way.</p><h2>Let’s make<br/>it happen</h2><BloomEmailCTA /></div>
+ <button class="bloom-invite" aria-label="Grow a flower in the footer">Tap anywhere. Let something bloom.</button>
+ <span class="footer-signature">Vansita</span>
+</footer>
+<script>
+const field=document.querySelector<HTMLCanvasElement>('.bloom-field');
+if(field){
+ const footer=field.closest('footer')!;
+ const ctx=field.getContext('2d')!;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ const palettes=[['#fa9cca','#b7a4fc','#ffe988','#82e9df'],['#a6e1f7','#f3aed6','#ffa98a','#ddd2ff'],['#ffce81','#f2a0c4','#a99cff','#b4f3dd'],['#a4efd4','#8ec9f1','#eac0ff','#fff3ba']];
+ // Cache soft pigment, a pearlescent contour, and the diffused final bloom.
+ const sprites=palettes.map((colors,index)=>{
+  const pigment=document.createElement('canvas');pigment.width=pigment.height=512;
+  const c=pigment.getContext('2d')!;c.translate(256,256);
+  const petals=[8,4,6,5][index];
+  const contour=new Path2D();for(let i=0;i<=240;i++){const a=i/240*Math.PI*2,r=164+(petals===4?43:30)*Math.cos(petals*a),x=Math.cos(a)*r,y=Math.sin(a)*r;i?contour.lineTo(x,y):contour.moveTo(x,y);}contour.closePath();
+  c.save();c.clip(contour);c.fillStyle=colors[0];c.fillRect(-256,-256,512,512);
+  [[-95,-80,colors[1]],[110,-45,colors[2]],[0,115,colors[3]],[0,0,colors[2]]].forEach(([x,y,color],i)=>{const g=c.createRadialGradient(Number(x),Number(y),0,Number(x),Number(y),i===3?85:205);g.addColorStop(0,String(color));g.addColorStop(1,String(color)+'00');c.fillStyle=g;c.fillRect(-256,-256,512,512);});c.restore();
+  const soft=document.createElement('canvas');soft.width=soft.height=512;const sc=soft.getContext('2d')!;sc.filter='blur(10px)';sc.drawImage(pigment,0,0);
+  const diffuse=document.createElement('canvas');diffuse.width=diffuse.height=512;const dc=diffuse.getContext('2d')!;dc.filter='blur(28px)';dc.drawImage(pigment,0,0);
+  const rim=document.createElement('canvas');rim.width=rim.height=512;const rc=rim.getContext('2d')!;rc.translate(256,256);const foil=rc.createConicGradient(.3,0,0);['#fffbe8','#f6bbdc','#aaf5f0','#fffdf3','#d0bdff','#ffc3a1','#fffbe8'].forEach((color,i)=>foil.addColorStop(i/6,color));rc.strokeStyle=foil;rc.lineWidth=7;rc.shadowColor='#fff4d5';rc.shadowBlur=16;rc.filter='blur(2px)';rc.stroke(contour);
+  return {soft,diffuse,rim};
+ });
+ type Bloom={x:number;y:number;born:number;size:number;rotation:number;palette:number};
+ let blooms:Bloom[]=[],width=1,height=1,frame=0,visible=false,lastSeed=0,sequence=0;
+ const duration=7200;
+ function add(x:number,y:number,age=0){blooms.push({x,y,born:performance.now()-age,size:Math.min(740,Math.max(370,width*.43)),rotation:Math.random()*Math.PI,palette:sequence++%sprites.length});if(blooms.length>22)blooms.shift();}
+ function render(now:number){
+  ctx.clearRect(0,0,width,height);
+  blooms=blooms.filter(b=>now-b.born<duration);
+  for(const b of blooms){const t=Math.max(0,(now-b.born)/duration),growth=1-Math.pow(1-t,2),fade=Math.min(1,t/.12)*Math.pow(1-t,1.1),dissolve=Math.max(0,(t-.35)/.65);
+   const size=b.size*(.08+growth*1.4),sprite=sprites[b.palette];ctx.save();ctx.translate(b.x*width,b.y*height);ctx.rotate(b.rotation+t*.12);
+   ctx.globalAlpha=fade*(1-dissolve)*.88;ctx.drawImage(sprite.soft,-size/2,-size/2,size,size);
+   ctx.globalAlpha=fade*dissolve*.9;ctx.drawImage(sprite.diffuse,-size/2,-size/2,size,size);
+   ctx.globalCompositeOperation='screen';ctx.globalAlpha=fade*(1-dissolve)*(.35+.3*Math.sin(t*18+b.rotation)**2);ctx.drawImage(sprite.rim,-size/2,-size/2,size,size);
+   // A second soft contour trails the growing edge like a flower-shaped ripple.
+   const echo=size*(.88+.09*t);ctx.globalAlpha=fade*(1-dissolve)*.16;ctx.drawImage(sprite.rim,-echo/2,-echo/2,echo,echo);ctx.restore();
+  }
+ }
+ function tick(now:number){frame=0;if(!visible||document.hidden||reduced.matches)return;if(now-lastSeed>2400){add(.25+Math.random()*.8,.05+Math.random()*.95);lastSeed=now;}render(now);frame=requestAnimationFrame(tick);}
+ function start(){if(visible&&!frame&&!document.hidden&&!reduced.matches)frame=requestAnimationFrame(tick);}
+ function resize(){const r=footer.getBoundingClientRect();width=r.width;height=r.height;const dpr=Math.min(devicePixelRatio,1.5);field.width=Math.round(width*dpr);field.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);render(performance.now());}
+ function seed(){blooms=[];add(.68,.36,2500);add(.94,.84,4500);add(.34,.88,3500);render(performance.now());}
+ footer.addEventListener('click',e=>{if((e.target as Element).closest('a'))return;const r=footer.getBoundingClientRect();const keyboard=e.detail===0;add(keyboard?.7:(e.clientX-r.left)/width,keyboard?.5:(e.clientY-r.top)/height,reduced.matches?3000:0);render(performance.now());start();});
+ new ResizeObserver(resize).observe(footer);
+ new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible){if(!blooms.length)seed();start();}else{cancelAnimationFrame(frame);frame=0;}},{rootMargin:'100px'}).observe(footer);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0;}else start();});
+ reduced.addEventListener('change',()=>{cancelAnimationFrame(frame);frame=0;seed();start();});resize();seed();
+}
+</script>
+<style>
+.living-footer{position:relative;isolation:isolate;width:100%;min-height:640px;height:78svh;max-height:960px;margin:0;overflow:hidden;background:#b9a5da;color:#392f41;cursor:crosshair}
+.bloom-field{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.footer-copy{position:relative;z-index:1;padding:clamp(64px,8vw,120px) max(28px,5vw);width:fit-content;pointer-events:none}.footer-copy :global(a){pointer-events:auto}.eyebrow{font-size:14px;margin:0 0 28px;color:#6f5d70}.footer-copy h2{font-family:var(--serif);font-size:clamp(64px,7.5vw,118px);font-weight:400;letter-spacing:-.045em;line-height:.95;margin:0 0 38px}.bloom-invite{position:absolute;left:max(28px,5vw);bottom:30px;padding:10px 0;border:0;background:none;color:#6f5d70;font:inherit;font-size:12px;cursor:pointer}.footer-signature{position:absolute;right:5vw;bottom:36px;font-family:var(--serif);font-size:26px;color:#66516e}.bloom-invite:focus-visible{outline:2px solid #fe4116;outline-offset:5px}
+@media(max-width:600px){.living-footer{min-height:620px;height:82svh}.footer-copy{padding-top:72px}.footer-copy h2{font-size:72px}.eyebrow{font-size:12px}.footer-signature{bottom:32px;font-size:22px}.bloom-invite{max-width:220px;text-align:left;font-size:11px}}
+</style>

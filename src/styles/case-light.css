@@ -1,0 +1,61 @@
+/* Main portfolio reading surface. Creative styling is scoped to case-night. */
+html:has(body.case-light) {
+  background: #fff;
+  color-scheme: light;
+}
+body.case-light {
+  --paper: #fff;
+  background: #fff;
+}
+body.case-light .case-study,
+body.case-light .case-star,
+body.case-light .project-footer {
+  background: #fff;
+}
+
+/* Align bullet dots with the reading column and preserve hanging text. */
+body.case-light .story-copy ul,
+body.case-light .case-points:not(.case-stats) {
+  list-style: none;
+  padding-inline-start: 0;
+  margin-inline: 0;
+}
+body.case-light .story-copy ul > li,
+body.case-light .case-points:not(.case-stats) > li {
+  position: relative;
+  padding-inline-start: 1em;
+}
+body.case-light .story-copy ul > li::before,
+body.case-light .case-points:not(.case-stats) > li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: .7em;
+  width: .3em;
+  height: .3em;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* One mobile opening hierarchy across every case study. */
+@media (max-width: 809.98px) {
+  body.case-light .case-study { padding-top: 84px; }
+  body.case-light .case-study .case-frame-header { top: 84px; }
+  body.case-light .case-study .case-intro-content {
+    padding-top: 40px !important;
+    gap: 24px;
+  }
+  body.case-light .case-intro-content > .case-section-label { display: none; }
+  body.case-light .case-study .case-company-logo { width: 64px; height: 64px; }
+  body.case-light .case-study .pitch-opening,
+  body.case-light .case-study .case-intro-summary { gap: 16px; }
+  body.case-light .case-study .case-intro h1 {
+    font: 500 20px/1.4 var(--sans);
+    margin: 0;
+  }
+  body.case-light .case-study .case-intro h2.case-project-one-liner {
+    font: 350 32px/1.2 var(--serif);
+    letter-spacing: -.025em;
+    margin: 16px 0 0;
+  }
+}

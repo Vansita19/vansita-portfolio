@@ -1,0 +1,63 @@
+{
+  "Find companies with AI-powered filters": [
+    {
+      "src": "/assets/pitch-ai-filters-v2.mp4",
+      "label": "Find companies with AI-powered filters",
+      "type": "video",
+      "background": "reference-tulip"
+    }
+  ],
+  "Final approach \u00b7 Combining AI with visible control": [
+    {
+      "src": "/assets/pitch-flow-filter-manual-control-v3.png",
+      "label": "AI-applied criteria remain editable through manual filters",
+      "background": "reference-tulip"
+    }
+  ],
+  "Making saved views work across the whole product": [
+    {
+      "src": "/assets/pitch-flow-chat-save-v2.png",
+      "label": "Save static or dynamic lists from AI chat"
+    },
+    {
+      "src": "/assets/pitch-flow-inbox-save-v2.png",
+      "label": "Add selected Inbox companies to a list"
+    }
+  ],
+  "Making team collaboration easier": [
+    {
+      "src": "/assets/pitch-company-notes-v3.mp4",
+      "label": "Company notes and shared research",
+      "type": "video",
+      "background": "yellow"
+    }
+  ],
+  "Ask AI questions and get structured answers": [
+    {
+      "src": "/assets/pitch-ai-chat-core-flow.mp4",
+      "label": "Ask AI questions and get structured answers",
+      "type": "video"
+    }
+  ],
+  "Building trust in AI recommendations": [
+    {
+      "src": "/assets/pitch-trust-recommendations.png",
+      "label": "Trace recommendations through findings, synthesis, evidence and sources",
+      "background": "reference-yellow"
+    }
+  ],
+  "The breakthrough was choosing what mattered": [
+    {
+      "src": "/assets/pitch-solutions-company-summary-v2.png",
+      "label": "Final snapshot \u00b7 Priorities, findings, and radar chart",
+      "background": "reference-daisy"
+    }
+  ],
+  "Keep the evidence close": [
+    {
+      "src": "/assets/pitch-protocol-evidence-lineage-v2.png",
+      "label": "Evidence lineage: findings, synthesis, evidence, and sources",
+      "background": "reference-tulip"
+    }
+  ]
+}

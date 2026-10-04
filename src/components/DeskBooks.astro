@@ -1,0 +1,57 @@
+---
+const books=[['the-correspondent','The Correspondent',3],['heart-the-lover','Heart the Lover',-4],['alchemised','Alchemised',-3],['never-known-men','I Who Have Never Known Men',-2],['mother-mary','Mother Mary Comes to Me',5],['artists-way',"The Artist’s Way",-5],['metamorphosis','Metamorphosis',2]];
+---
+<button class="book-switch" type="button" aria-label="The Correspondent. Show next favorite book" title="Tap for my next favorite read" style="--book-angle:3deg">
+ <span class="book-body">
+  <span class="book-bottom" aria-hidden="true"></span>
+  <span class="book-pages" aria-hidden="true"></span>
+  <span class="book-page-front" aria-hidden="true"></span>
+  <span class="book-page-side" aria-hidden="true"></span>
+  <span class="book-spine" aria-hidden="true"></span>
+  <span class="book-cover">
+   {books.map(([slug,title,angle],i)=><img src={`/assets/desk-books/${slug}.webp`} alt="" data-title={title} data-angle={angle} loading="lazy" hidden={i!==0} draggable="false"/>)}
+  </span>
+ </span>
+</button>
+<script>
+import { deskTapSound } from '../scripts/desk-sound';
+document.querySelectorAll<HTMLButtonElement>('.book-switch').forEach(button=>{
+ const images=Array.from(button.querySelectorAll<HTMLImageElement>('img'));
+ const bindings=['#9d3430','#b95413','#3d3438','#ae4933','#8e1820','#638c89','#805521'];
+ let index=0,busy=false;
+ button.addEventListener('click',async()=>{
+  if(busy)return;busy=true;
+  deskTapSound('book');
+   const next=(index+1)%images.length;
+  try{
+   images[next].loading='eager';await images[next].decode();
+   images[index].hidden=true;images[next].hidden=false;index=next;
+   button.style.setProperty('--binding',bindings[index]);
+   button.style.setProperty('--book-angle',`${images[index].dataset.angle}deg`);
+   button.setAttribute('aria-label',`${images[index].dataset.title}. Show next favorite book`);
+  }catch{}finally{busy=false;}
+ });
+});
+</script>
+<style>
+.book-switch{position:relative;display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer;touch-action:manipulation;perspective:600px;--binding:#9d3430;pointer-events:auto}
+.book-switch:focus-visible{outline:2px solid #9d7abb;outline-offset:6px;border-radius:3px}
+.book-body{position:absolute;left:13%;bottom:1%;width:74%;height:150%;transform:rotateX(52deg) rotateZ(var(--book-angle));transform-origin:50% 100%;transform-style:preserve-3d}
+.book-cover{position:absolute;inset:0;overflow:hidden;border-radius:2px;background:var(--binding);border:1px solid var(--binding);box-shadow:0 2px 0 var(--binding),inset 3px 0 3px #0003;transform:translateZ(12px)}
+.book-cover::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#0004,transparent 5%,#fff2 7%,transparent 10%);pointer-events:none}
+.book-cover img{width:100%;height:100%;object-fit:fill;display:block;pointer-events:none}
+.book-cover img[hidden]{display:none}
+.book-bottom{position:absolute;inset:0;border-radius:2px;background:var(--binding);box-shadow:0 2px 0 var(--binding),2px 5px 5px #49321940}
+.book-pages{position:absolute;inset:3px 3px 2px 4px;background:#e9e1cf;transform:translateZ(2px)}
+.book-page-front{position:absolute;left:4px;right:3px;top:calc(100% - 2px);height:9px;transform-origin:top;transform:translateZ(2px) rotateX(90deg);background:repeating-linear-gradient(#e5dcc8 0 1px,#bfb39c 1px 1.5px);border-left:1px solid #c4b79e}
+.book-page-side{position:absolute;left:calc(100% - 3px);top:3px;bottom:2px;width:9px;transform-origin:left;transform:translateZ(2px) rotateY(-90deg);background:repeating-linear-gradient(90deg,#e8e0d0 0 1px,#c9bea9 1px 1.5px)}
+.book-spine{position:absolute;left:0;top:0;bottom:0;width:12px;transform-origin:left;transform:rotateY(-90deg);border-radius:2px;background:linear-gradient(90deg,#0003,transparent 30%,#ffffff20 65%,#0002),var(--binding)}
+@media(max-width:700px){
+ .book-cover{transform:translateZ(3px);border-width:.5px;box-shadow:0 1px 0 var(--binding)}
+ .book-pages{inset:1px;transform:translateZ(.5px)}
+ .book-page-front{left:1px;right:1px;top:calc(100% - 1px);height:2.5px;transform:translateZ(.5px) rotateX(90deg);border:0;background:repeating-linear-gradient(#e5dcc8 0 .6px,#bfb39c .6px .8px)}
+ .book-page-side{left:calc(100% - 1px);top:1px;bottom:1px;width:2.5px;transform:translateZ(.5px) rotateY(-90deg)}
+ .book-spine{width:3px}
+ .book-bottom{box-shadow:0 1px 0 var(--binding),1px 2px 2px #49321930}
+}
+</style>

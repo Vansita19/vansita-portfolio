@@ -1,0 +1,102 @@
+---
+import projects from '../data/projects.json';
+import media from '../data/featured-media.json';
+import mobileCovers from '../data/mobile-covers.json';
+const mobile=(src:string)=>(mobileCovers as Record<string,{src:string,width:number}[]>)[src];
+const mobileSet=(src:string)=>mobile(src)?.map(x=>`${x.src} ${x.width}w`).join(', ');
+
+const cards = [
+ { slug: 'ether', name: 'Ether' },
+ { slug: 'travello', name: 'Travello' },
+ { slug: 'my-drip', name: 'My Drip' },
+ { slug: 'puch', name: 'Puch AI' },
+].map(card => ({ ...card, images: card.slug === 'puch' ? ['/assets/1m3F4NdhvGWCrHJQF7JarCOB2s.jpg'] : projects.find(p => p.slug === card.slug)!.galleries.flat().filter(item => item.type === 'image' && 'src' in item).map(item => ('src' in item ? item.src : '')) }));
+---
+<section class="more-projects" id="more-projects" aria-labelledby="more-projects-title">
+ <header><h2 id="more-projects-title">More projects</h2><div class="project-controls"><button type="button" data-project-prev aria-label="Previous projects"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7M5 12h14"/></svg></button><button type="button" data-project-next aria-label="Next projects"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 5 7 7-7 7M5 12h14"/></svg></button></div></header>
+ <div class="more-projects-grid" tabindex="0" role="region" aria-label="Project previews, scroll horizontally">
+  {cards.map(card => <a class="small-project" href={`/${card.slug}/`} data-small-project>
+   <div class:list={['small-preview', { 'travello-preview': card.slug === 'travello' }]} data-preview>
+    {card.slug === 'ether' ? <video src={media['/ether'].src} poster={mobile(media['/ether'].poster)?.at(-1)?.src || media['/ether'].poster} data-desktop-poster={media['/ether'].poster} data-mobile-poster={mobile(media['/ether'].poster)?.at(-1)?.src} muted loop playsinline preload="none" aria-label="Ether product preview" /> : card.images.map((src, i) => <picture><source media="(max-width:700px)" srcset={i===0?mobileSet(src):undefined} data-mobile-srcset={mobileSet(src)} sizes="calc(100vw - 56px)"/><img class:list={['preview-slide', { 'is-current': i === 0 }]} src={i === 0 ? src : undefined} data-src={src} alt={i === 0 ? `${card.name} design previews` : ''} loading="lazy" decoding="async" /></picture>)}
+   </div>
+   <h3>{card.name}</h3>
+  </a>)}
+ </div>
+</section>
+
+<style>
+header{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:30px}header h2{margin:0}.project-controls{display:flex;gap:10px}.project-controls button{display:grid;place-items:center;width:42px;height:42px;border:1px solid #e7e7e7;border-radius:50%;background:white;color:#666;font-size:21px;cursor:pointer}.project-controls button:hover{background:#f5f4f2}.project-controls button:disabled{opacity:.3;cursor:default}.project-controls button:focus-visible{outline:2px solid #fe4116;outline-offset:4px}
+
+.more-projects{max-width:var(--portfolio-max,1456px);margin:0 auto;padding:48px var(--portfolio-gutter,max(28px,5vw)) 80px;color:#3f3f41}
+h2{font-family:var(--serif);font-size:clamp(28px,3vw,40px);font-weight:400;line-height:1.15;letter-spacing:-.025em;margin:0 0 30px}
+.more-projects-grid{--card-gap:24px;display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 2 * var(--card-gap))/2.25);gap:var(--card-gap);overflow-x:auto;overscroll-behavior-x:contain}
+.more-projects-grid:focus-visible{outline:2px solid #777;outline-offset:6px;border-radius:12px}
+.small-project{min-width:0;display:block;color:inherit;text-decoration:none;cursor:pointer}.small-project:focus-visible{outline:2px solid #fe4116;outline-offset:-2px;border-radius:12px}
+h3{margin:14px 0 0;font-family:var(--sans,inherit);font-size:18px;font-weight:500;line-height:1.3;letter-spacing:-.02em}
+.small-preview{position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:12px;background:#f5f5f5;isolation:isolate}
+.small-preview img,.small-preview video{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.preview-slide{position:absolute;inset:0;opacity:0;transition:opacity .65s ease}
+.preview-slide.is-current{opacity:1}
+.travello-preview{background:#f7f7f7}
+.travello-preview .preview-slide{object-fit:contain;padding:clamp(10px,2vw,28px);box-sizing:border-box}
+.more-projects-grid.has-more{mask-image:linear-gradient(to right,#000 calc(100% - 40px),transparent);-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 40px),transparent)}
+@media(max-width:809.98px){.more-projects{padding-top:28px;padding-bottom:56px}.more-projects-grid{--card-gap:20px;grid-auto-columns:100%;scroll-snap-type:x mandatory}.small-project{scroll-snap-align:start}h3{font-size:21px}.small-preview{aspect-ratio:5/3;border-radius:16px}}
+@media(max-width:700px){.small-preview{aspect-ratio:2/1}}
+@media(prefers-reduced-motion:reduce){.preview-slide{transition:none}}
+</style>
+
+<script>
+document.querySelectorAll<HTMLElement>('.more-projects').forEach(section => {
+ const track = section.querySelector<HTMLElement>('.more-projects-grid')!;
+ const prev=section.querySelector<HTMLButtonElement>('[data-project-prev]')!;
+ const next=section.querySelector<HTMLButtonElement>('[data-project-next]')!;
+ const move=(direction:number)=>track.scrollBy({left:direction*(track.querySelector<HTMLElement>('[data-small-project]')!.offsetWidth+parseFloat(getComputedStyle(track).gap)),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
+ prev.addEventListener('click',()=>move(-1));next.addEventListener('click',()=>move(1));
+ track.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();move(event.key==='ArrowLeft'?-1:1);}});
+ const sync = () => { const more=track.scrollLeft < track.scrollWidth - track.clientWidth - 2;track.classList.toggle('has-more',more);prev.disabled=track.scrollLeft<2;next.disabled=!more; };
+ track.addEventListener('scroll', sync, { passive: true });
+ sync();
+ new ResizeObserver(sync).observe(track);
+});
+document.querySelectorAll<HTMLVideoElement>('.more-projects video').forEach(video=>{video.poster=matchMedia('(max-width:700px)').matches?video.dataset.mobilePoster||video.dataset.desktopPoster!:video.dataset.desktopPoster!;});
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const galleries = [...document.querySelectorAll<HTMLElement>('[data-small-project]')].map(card => ({
+ card, video: card.querySelector<HTMLVideoElement>('video'),
+ slides: [...card.querySelectorAll<HTMLImageElement>('.preview-slide')],
+ visible: false, hovered: false, index: 0, timer: 0,
+}));
+const update = (gallery: typeof galleries[number]) => {
+ window.clearInterval(gallery.timer);
+ const playing = gallery.visible && !document.hidden && !reducedMotion.matches && !(gallery.video && gallery.hovered);
+ if (gallery.video) {
+  gallery.video.muted = true;
+  if (playing) void gallery.video.play().catch(() => {});
+  else gallery.video.pause();
+ }
+ if (!playing || gallery.slides.length < 2) return;
+ const prepare=(slide:HTMLImageElement)=>{if(!slide.getAttribute('src')&&slide.dataset.src){const source=slide.parentElement?.querySelector('source');if(source?.dataset.mobileSrcset)source.srcset=source.dataset.mobileSrcset;slide.src=slide.dataset.src;}slide.loading='eager';};
+ prepare(gallery.slides[(gallery.index+1)%gallery.slides.length]);
+ gallery.timer = window.setInterval(() => {
+  const nextIndex = (gallery.index + 1) % gallery.slides.length;
+  const next = gallery.slides[nextIndex];
+  if (!next.complete || next.naturalWidth === 0) return;
+  gallery.slides[gallery.index].classList.remove('is-current');
+  next.classList.add('is-current');
+  gallery.index = nextIndex;
+  prepare(gallery.slides[(nextIndex+1)%gallery.slides.length]);
+ }, 3000);
+};
+const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+ const gallery = galleries.find(item => item.card === entry.target);
+ if (gallery) { gallery.visible = entry.isIntersecting; update(gallery); }
+}), { threshold: .2 });
+galleries.forEach(gallery => {
+ observer.observe(gallery.card);
+ gallery.card.addEventListener('mouseenter', () => { if (gallery.video) { gallery.hovered = true; update(gallery); } });
+ gallery.card.addEventListener('mouseleave', () => { if (gallery.video) { gallery.hovered = false; update(gallery); } });
+});
+document.addEventListener('visibilitychange', () => galleries.forEach(update));
+reducedMotion.addEventListener('change', () => galleries.forEach(update));
+</script>
+
+<style>@media(max-width:650px){.project-controls button{width:38px;height:38px}}</style>

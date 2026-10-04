@@ -1,0 +1,182 @@
+---
+const { servicesOnly = false } = Astro.props;
+const services = [
+ {title:'Product design', description:'From first idea to daily use.', colors:['#d4c3ff','#af94ff','#633bf1'], shape:'flower'},
+ {title:'Websites', description:'Distinctive sites that convert.', colors:['#ffdda5','#ffb477','#ec5b25'], shape:'star'},
+ {title:'Branding', description:'Identity with a point of view.', colors:['#acdfcf','#71c6b1','#10806c'], shape:'heart'},
+ {title:'Design systems', description:'A visual language built to grow.', colors:['#f7bce4','#ed84c7','#d03398'], shape:'clover'},
+];
+// Equal lobes and shared optical centers give the four cutouts a consistent die-cut finish.
+const petalContour = Array.from({length:241}, (_,i) => {
+ const angle = i / 240 * Math.PI * 2;
+ const radius = 91 + 17 * Math.cos(6 * angle);
+ return `${i ? 'L' : 'M'}${(140 + Math.cos(angle)*radius).toFixed(3)},${(124 + Math.sin(angle)*radius).toFixed(3)}`;
+}).join(' ') + 'Z';
+const cutouts: Record<string,string> = {
+ flower: 'M140 68 A56 56 0 1 0 84 124 A56 56 0 1 0 140 180 A56 56 0 1 0 196 124 A56 56 0 1 0 140 68 Z',
+ star: 'M140 18 C154 94 170 110 246 124 C170 138 154 154 140 230 C126 154 110 138 34 124 C110 110 126 94 140 18 Z',
+ heart: 'M140 224 C116 201 30 146 30 84 C30 26 104 11 140 68 C176 11 250 26 250 84 C250 146 164 201 140 224 Z',
+ clover: petalContour,
+};
+const cardMask = (shape: string) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 400'><defs><mask id='m'><rect width='280' height='400' fill='white'/><path d='${cutouts[shape]}' fill='black'/></mask></defs><rect x='1' y='1' width='278' height='398' rx='12' fill='white' mask='url(#m)'/></svg>`)}")`;
+// A gently irregular five-petal contour, shared by every nested color band.
+const points = Array.from({length:241}, (_,i) => {
+ const a = i / 240 * Math.PI * 2;
+ const r = 145 + 29 * Math.cos(5*a - .5) + 5 * Math.sin(3*a);
+ return `${i ? 'L' : 'M'}${(Math.cos(a)*r).toFixed(2)},${(Math.sin(a)*r).toFixed(2)}`;
+}).join(' ') + 'Z';
+---
+<section class="bloom-reveal" id={servicesOnly ? "services-section" : "bloom-reveal"} aria-labelledby="reveal-heading">
+ {!servicesOnly && <div class="bloom-story" aria-labelledby="about-story-title">
+ <div class="reveal-stage">
+  <div class="flower-mist" aria-hidden="true">
+   <svg viewBox="-260 -260 520 520" fill="none">
+    <defs>
+     <path id="mist-petal" d={points}/>
+     <filter id="petal-softness" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+     <radialGradient id="petal-warmth"><stop stop-color="#ff4a28"/><stop offset="1" stop-color="#fa879b"/></radialGradient>
+    </defs>
+    <g filter="url(#petal-softness)">
+     <use href="#mist-petal" fill="#d1b6ec" opacity=".48" transform="scale(1.16)"/>
+     <use href="#mist-petal" fill="#85c8e3" transform="scale(1.02)"/>
+     <use href="#mist-petal" fill="#eea0c1" transform="scale(.83)"/>
+     <use href="#mist-petal" fill="#fff1ce" transform="scale(.65)"/>
+     <use href="#mist-petal" fill="url(#petal-warmth)" transform="scale(.49)"/>
+     <use href="#mist-petal" fill="#f7c1eb" transform="scale(.25)"/>
+    </g>
+   </svg>
+  </div>
+  <div class="about-story" id="about-story-title">
+   <p class="story-line">I turn ideas <span class="story-token token-product" aria-hidden="true">0→1</span> into thoughtful products.</p>
+   <p class="story-line">Led by curiosity. <span class="story-token token-spark" aria-hidden="true">✦</span> Grounded in clarity.</p>
+   <p class="story-line">With a little play <span class="story-token token-play" aria-hidden="true">↗</span> in every detail.</p>
+  </div>
+ </div>
+ </div>
+ }
+ <div class="reveal-content" id="services">
+
+   <h2 id="reveal-heading">What I do</h2>
+   <div class="service-cards">
+    {services.map((service, i) => <article class="service-card" tabindex="0" aria-label={`${service.title}. ${service.description}`} style={`--tag-color:${service.colors[2]};--surface-mask:${cardMask(service.shape)}`}>
+     <svg class="tag-paper" viewBox="0 0 280 400" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+       <linearGradient id={`tag-gradient-${i}`} x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+        <stop stop-color={service.colors[0]}/><stop offset=".36" stop-color={service.colors[0]}/><stop offset=".53" stop-color={service.colors[1]}/><stop offset=".76" stop-color={service.colors[2]}/><stop offset="1" stop-color={service.colors[2]}/>
+       </linearGradient>
+       <linearGradient id={`tag-edge-${i}`} x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".95"/><stop offset=".4" stop-color="#fff" stop-opacity=".08"/><stop offset=".72" stop-color="#251145" stop-opacity=".2"/><stop offset="1" stop-color="#fff" stop-opacity=".75"/></linearGradient>
+       <pattern id={`paper-relief-${i}`} width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 2H9M0 7H9" stroke="#fff" stroke-opacity=".07" stroke-width=".65"/><path d="M0 3H9M0 8H9" stroke="#2c1438" stroke-opacity=".045" stroke-width=".65"/><path d="M3 0V9M8 0V9" stroke="#fff" stroke-opacity=".035" stroke-width=".6"/></pattern>
+       <mask id={`tag-cutout-${i}`}><rect width="280" height="400" fill="white"/><path d={cutouts[service.shape]} fill="black"/></mask>
+      </defs>
+      <g mask={`url(#tag-cutout-${i})`}>
+       <rect x="1" y="1" width="278" height="398" rx="12" fill={`url(#tag-gradient-${i})`}/>
+       <rect x="1" y="1" width="278" height="398" rx="12" class="paper-relief" fill={`url(#paper-relief-${i})`}/>
+       <rect x="1.7" y="1.7" width="276.6" height="396.6" rx="11.3" fill="none" stroke={`url(#tag-edge-${i})`} stroke-width="1.4"/>
+       <path d={cutouts[service.shape]} fill="none" stroke="#342146" stroke-opacity=".14" stroke-width="2.4" transform="translate(0 1.2)"/>
+       <path d={cutouts[service.shape]} fill="none" stroke={`url(#tag-edge-${i})`} stroke-width="1.1"/>
+      </g>
+     </svg>
+     <div class="tag-finish" aria-hidden="true"><div class="tag-sheen"></div></div>
+     <div class="tag-copy"><p>{service.description}</p><h3>{service.title}</h3></div>
+    </article>)}
+   </div>
+ </div>
+</section>
+<script>
+ const reveal = document.querySelector<HTMLElement>('.bloom-reveal');
+ if (reveal) {
+  const story = reveal.querySelector<HTMLElement>('.bloom-story')!;
+  const stage = reveal.querySelector<HTMLElement>('.reveal-stage')!;
+  const flower = reveal.querySelector<HTMLElement>('.flower-mist')!;
+  const lines = [...reveal.querySelectorAll<HTMLElement>('.story-line')];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const ease = (a:number,b:number,v:number) => {const t=Math.max(0,Math.min(1,(v-a)/(b-a)));return t*t*(3-2*t);};
+  if(story){
+  let pending=false, inView=true;
+  function update() {
+   pending=false;
+   reveal!.classList.toggle('scroll-reveal',!reduced.matches);
+   if(reduced.matches){for(const el of [flower,...lines])el.removeAttribute('style');return;}
+   const available=Math.max(1,story.offsetHeight-stage.offsetHeight);
+   const p=Math.max(0,Math.min(1,-story.getBoundingClientRect().top/available));
+   const grow=ease(0,.88,p);
+   flower.style.opacity=String(.72-ease(.06,.65,p)*.54-ease(.84,1,p)*.12);
+   flower.style.transform=`translate3d(-50%,-50%,0) scale(${.5+grow*1.7}) rotate(${-8+grow*13}deg)`;
+   lines.forEach((line,i)=>{
+    const progress=ease(.1+i*.2,.3+i*.2,p);
+    line.style.opacity=String(progress);
+    line.style.transform=`translate3d(0,${(1-progress)*18}px,0)`;
+   });
+  }
+  function schedule(){if(!pending&&inView){pending=true;requestAnimationFrame(update);}}
+  new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;if(inView)schedule();},{rootMargin:'100px'}).observe(story);
+  addEventListener('scroll',schedule,{passive:true});
+  addEventListener('resize',schedule,{passive:true});
+  reduced.addEventListener('change',update);update();
+  }
+
+  // One eased compositor update per frame. No competing CSS transform transitions.
+  reveal.querySelectorAll<HTMLElement>('.service-card').forEach((tag,index)=>{
+   const sheen=tag.querySelector<HTMLElement>('.tag-sheen')!;
+   const rest=[-1,.7,-.7,1][index];
+   let frame=0,last=0,x=.5,y=.5,cx=.5,cy=.5,light=0,active=false;
+   let box:DOMRect|undefined;
+   function paint(now:number){
+    const dt=last?Math.min(now-last,32):16;last=now;
+    const blend=1-Math.exp(-dt/65);
+    cx+=(x-cx)*blend;cy+=(y-cy)*blend;light+=((active?1:0)-light)*blend;
+    tag.style.transform=`perspective(1000px) translate3d(0,${-light*3}px,0) rotateX(${(.5-cy)*light*4}deg) rotateY(${(cx-.5)*light*5}deg) rotateZ(${rest}deg)`;
+    sheen.style.transform=`translate3d(${(cx-.5)*35}%,0,0) rotate(-20deg)`;
+    sheen.style.opacity=String(light*.65);
+    if(Math.abs(x-cx)+Math.abs(y-cy)+Math.abs((active?1:0)-light)>.002)frame=requestAnimationFrame(paint);
+    else{frame=0;last=0;}
+   }
+   function schedule(){if(!frame&&!reduced.matches)frame=requestAnimationFrame(paint);}
+   function activate(){if(reduced.matches)return;active=true;tag.classList.add('is-lit');schedule();}
+   function reset(){active=false;x=y=.5;tag.classList.remove('is-lit');box=undefined;schedule();}
+   tag.addEventListener('pointerenter',event=>{if(event.pointerType!=='mouse')return;box=tag.getBoundingClientRect();activate();});
+   tag.addEventListener('pointermove',event=>{if(event.pointerType!=='mouse'||!box)return;x=Math.max(0,Math.min(1,(event.clientX-box.left)/box.width));y=Math.max(0,Math.min(1,(event.clientY-box.top)/box.height));schedule();},{passive:true});
+   tag.addEventListener('pointerleave',reset);tag.addEventListener('pointercancel',reset);
+   tag.addEventListener('focus',activate);tag.addEventListener('blur',reset);
+   addEventListener('resize',reset,{passive:true});
+   addEventListener('scroll',()=>{if(active)reset();},{passive:true});
+   reduced.addEventListener('change',()=>{reset();if(reduced.matches){cancelAnimationFrame(frame);frame=0;tag.style.removeProperty('transform');sheen.removeAttribute('style');}});
+  });
+ }
+</script>
+<style>
+.bloom-reveal{position:relative;margin-top:80px;overflow:clip}
+.bloom-story{position:relative}.reveal-stage{position:relative;display:grid;place-items:center;min-height:100svh;padding:100px max(28px,5vw)}
+.flower-mist{display:none;position:absolute;width:min(660px,85vw);aspect-ratio:1;left:50%;top:50%;pointer-events:none;transform-origin:center;will-change:transform,opacity}
+.flower-mist svg{display:block;width:100%;height:100%;overflow:visible}
+.reveal-content{position:relative;z-index:1;max-width:var(--portfolio-max,1456px);margin:auto;padding:72px var(--portfolio-gutter,max(28px,5vw)) 100px;scroll-margin-top:80px}
+.about-story{position:relative;z-index:1;text-align:center;max-width:1180px;margin:auto}
+.story-line{font-size:clamp(25px,3.4vw,49px);line-height:1.45;letter-spacing:-.045em;font-weight:400;margin:0 0 10px;text-wrap:balance;will-change:transform,opacity}
+.story-token{display:inline-grid;place-items:center;vertical-align:middle;width:1.1em;height:1.1em;margin:0 .22em .1em;border-radius:25%;font-size:.85em;letter-spacing:-.04em;box-shadow:inset 0 2px 3px #fff9,inset 0 -2px 3px #0001,0 2px 3px #39204312}
+.token-product{width:1.6em;color:#5636a2;background:linear-gradient(150deg,#f2e8ff,#bba5e7);font-size:.65em;transform:rotate(-5deg)}
+.token-spark{color:#993c66;background:linear-gradient(145deg,#ffe7f3,#e9a9c5);transform:rotate(5deg)}
+.token-play{color:#fff7e7;background:linear-gradient(145deg,#ffc68d,#f07d52);transform:rotate(-6deg)}
+h2{font-family:var(--serif);font-size:clamp(40px,4vw,58px);font-weight:400;line-height:1.1;letter-spacing:-.025em;margin:0 0 30px}
+.service-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;padding:8px 3px 24px}
+.service-card{--rest:-1deg;position:relative;aspect-ratio:280/400;min-width:0;transform:perspective(900px) rotateZ(var(--rest));transform-origin:50% 55%;will-change:transform;outline:none;-webkit-tap-highlight-color:transparent}
+.service-card:nth-child(2){--rest:.7deg}.service-card:nth-child(3){--rest:-.7deg}.service-card:nth-child(4){--rest:1deg}
+.service-card.is-lit{z-index:2}
+.service-card:focus-visible{outline:2px solid var(--tag-color);outline-offset:8px;border-radius:12px}
+.tag-paper{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 4px 5px #3920431c)}
+.tag-finish{position:absolute;inset:0;mask-image:var(--surface-mask);mask-size:100% 100%;mask-repeat:no-repeat;overflow:hidden;pointer-events:none}
+
+.tag-sheen{position:absolute;inset:-25% -40%;background:linear-gradient(90deg,transparent 27%,#ffffff04 32%,#f0f8ff24 38%,#ffffff75 45%,#ffffffb3 50%,#fff7ed75 55%,#ffffff24 62%,#ffffff04 68%,transparent 73%);opacity:0;transform:translate3d(-32%,0,0) rotate(-24deg);will-change:transform,opacity}
+
+.tag-copy{position:absolute;inset:62% 6% 4%;display:flex;flex-direction:column;justify-content:flex-end;gap:clamp(8px,1.2vw,16px);color:white;text-shadow:0 -1px 1px #38205738,0 1px 1px #ffffff40}
+.tag-copy p{flex-shrink:0;font-size:clamp(11px,.95vw,14px);line-height:1.35;max-width:210px;margin:0 4px;text-wrap:pretty}
+.tag-copy h3{flex-shrink:0;position:relative;overflow:hidden;font-family:inherit;font-weight:500;font-size:clamp(14px,1.55vw,22px);line-height:1.2;letter-spacing:-.035em;margin:0;padding:clamp(9px,1vw,13px) 8px;border-radius:13px;background:linear-gradient(175deg,#ffffff3d,#ffffff09 42%,#ffffff12 65%,#ffffff45);border:1px solid #ffffff55;box-shadow:inset 0 1px 2px #ffffffb0,inset 0 -1px 5px #ffffff55,0 2px 4px #38205710,0 0 10px #ffffff12;text-align:center;white-space:nowrap}
+.tag-copy h3::after{content:"";position:absolute;inset:-100% -60%;pointer-events:none;background:linear-gradient(110deg,transparent 20%,#ffffff08 32%,#ffffff26 45%,#ffffff30 50%,#ffffff26 55%,#ffffff08 68%,transparent 80%);transform:translateX(-55%);transition:transform 1s cubic-bezier(.18,.65,.25,1)}
+
+.is-lit .tag-copy h3::after{transform:translateX(35%)}
+.scroll-reveal .bloom-story{height:230svh}
+.scroll-reveal .reveal-stage{position:sticky;top:0;min-height:100svh;height:100svh;overflow:clip}
+.scroll-reveal .flower-mist{display:block}
+@media(max-width:809.98px){.bloom-reveal{margin-top:40px}.reveal-stage{padding:100px 24px}.flower-mist{left:50%;top:50%;width:110vw}.story-line{font-size:clamp(25px,4.4vw,35px);margin-bottom:18px}.reveal-content{padding-top:48px}h2{margin-bottom:24px}.service-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 18px}.tag-copy{gap:10px}.tag-copy p{flex-shrink:0;font-size:11px;line-height:1.45}.tag-copy h3{font-size:14px;padding:10px 4px}.scroll-reveal .bloom-story{height:230svh}}
+@media(prefers-reduced-motion:reduce){.flower-mist{display:none}.bloom-reveal,.bloom-story{height:auto!important}.reveal-stage{height:auto;min-height:60svh}.story-line{will-change:auto}.service-cards{will-change:auto}.service-card,.service-card.is-lit,.tag-sheen,.is-lit .tag-sheen,.tag-copy h3,.tag-copy h3::after{transition:none}.tag-copy h3::after{display:none}}
+@media(max-width:809px){.paper-relief,.tag-finish,.tag-copy h3::after{display:none}.service-card{transform:rotate(var(--rest));will-change:auto}.tag-paper{backface-visibility:hidden}}
+</style>

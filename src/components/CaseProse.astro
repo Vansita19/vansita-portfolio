@@ -1,0 +1,26 @@
+---
+import CaseMedia from './CaseMedia.astro';
+import type { CaseParagraph } from '../data/project-types';
+interface Props { paragraphs: CaseParagraph[]; }
+const { paragraphs } = Astro.props;
+const content = paragraphs.filter(paragraph => paragraph.type !== 'spacer' && paragraph.text?.trim());
+const emphasizedParts = (paragraph: CaseParagraph) => {
+  const phrases = paragraph.highlights?.filter(Boolean) ?? [];
+  if (!phrases.length) return [paragraph.text];
+  const pattern = phrases.map(text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  return paragraph.text.split(new RegExp(`(${pattern})`, 'g'));
+};
+---
+<div class="case-prose">
+  {content.map((paragraph) => {
+    const Tag = paragraph.type === 'label' || paragraph.type === 'subtitle' ? 'h2' : 'p';
+    return <>{paragraph.mediaBefore && <div class="case-inline-media"><CaseMedia media={paragraph.mediaBefore} label={paragraph.mediaBefore.alt || paragraph.text} /></div>}<Tag class:list={['case-paragraph', { 'case-label': paragraph.type === 'label', 'case-note': paragraph.type === 'note' }]}>
+      {paragraph.type === 'label' || paragraph.type === 'subtitle' ? paragraph.text : paragraph.strongPrefix ? <><strong>{paragraph.strongPrefix}</strong>{paragraph.text.slice(paragraph.strongPrefix.length)}</> : emphasizedParts(paragraph).map(part => paragraph.highlights?.includes(part) ? <strong class="case-emphasis">{part}</strong> : part)}
+    {paragraph.source && <> <a href={paragraph.source.href} target="_blank" rel="noopener noreferrer">{paragraph.source.label} ↗</a></>}
+    </Tag></>;
+  })}
+</div>
+
+<style>
+.case-inline-media{margin-block:40px 28px;width:100%}
+</style>

@@ -1,0 +1,282 @@
+---
+import BloomEmailCTA from './BloomEmailCTA.astro';
+const printShapes=[8,4,6,5].map(petals=>Array.from({length:241},(_,i)=>{const a=i/240*Math.PI*2;const r=94+(petals===4?28:18)*Math.cos(petals*a);return `${i?'L':'M'}${(Math.cos(a)*r).toFixed(2)} ${(Math.sin(a)*r).toFixed(2)}`;}).join(' ')+'Z');
+---
+<footer class="punch-footer" id="paper-footer">
+ <div class="footer-top"><h2>Let’s make it happen</h2><div class="footer-actions"><BloomEmailCTA /><a class="footer-social" href="https://x.com/Vansita19" target="_blank" rel="noopener noreferrer" aria-label="Vansita on X"><img src="/assets/design-twitter.svg" width="24" height="24" alt="" /></a><a class="footer-social" href="https://www.linkedin.com/in/vansita/" target="_blank" rel="noopener noreferrer" aria-label="Vansita on LinkedIn"><img src="/assets/design-linkedin.svg" width="24" height="24" alt="" /></a></div></div>
+ <div class="paper-table">
+  <div class="paper-shadow"><div class="paper-sheet">
+   <svg class="paper-print" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="print-soft"><feGaussianBlur stdDeviation="5"/></filter>{printShapes.map((d,i)=><path id={`paper-bloom-${i}`} d={d}/>)}</defs><g filter="url(#print-soft)">{[0,1].map(i=><g class="printed-flower" transform={i?'translate(220 60) rotate(-20) scale(1.2)':'translate(790 230) rotate(12) scale(2)'}><use href={`#paper-bloom-${i?0:2}`} fill={i?'#f9db56':'#ffe466'}/><use href={`#paper-bloom-${i?0:2}`} transform="scale(.65)" fill={i?'#ffea82':'#ffec87'}/><use href={`#paper-bloom-${i?0:2}`} transform="scale(.24)" fill={i?'#efbd3c':'#efc444'}/></g>)}</g></svg>
+   <span class="paper-signature">Vansita</span>
+   <div class="paper-caption"><p class="paper-quote">A small act of<br/>creative rebellion.</p></div>
+  </div></div>
+  <div class="paper-target" role="button" tabindex="0" aria-label="Vansita paper. Click to punch a shape. With keyboard, use arrow keys to position and Enter or Space to punch."></div>
+  <div class="paper-scraps" aria-hidden="true"></div>
+  <div class="punch-cursor" aria-hidden="true"><div class="punch-machine"><img src="/assets/bloom-paper-punch.png" alt="" width="1280" height="1280"/><svg class="punch-symbol" viewBox="-35 -35 70 70"><path fill-rule="evenodd" /></svg></div></div>
+ </div>
+ <div class="paper-bottom">
+  <div class="tool-buttons" role="group" aria-label="Paper punch tools">
+   <button data-shape="flower" aria-pressed="true" aria-label="Flower" title="Flower"><svg viewBox="-35 -35 70 70" aria-hidden="true"><path/></svg></button>
+   <button data-shape="heart" aria-pressed="false" aria-label="Heart" title="Heart"><svg viewBox="-35 -35 70 70" aria-hidden="true"><path/></svg></button>
+   <button data-shape="star" aria-pressed="false" aria-label="Star" title="Star"><svg viewBox="-35 -35 70 70" aria-hidden="true"><path/></svg></button>
+   <button data-shape="smiley" aria-pressed="false" aria-label="Smiley" title="Smiley"><svg viewBox="-35 -35 70 70" aria-hidden="true"><path fill-rule="evenodd"/></svg></button>
+   <button class="reset-paper" aria-label="Refresh paper" title="Refresh paper"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 10a8 8 0 1 0-1.8 7M20 4v6h-6"/></svg></button>
+  </div>
+  <p class="paper-score"><span>Your total: <strong class="total-count" aria-label="0"><span class="t-digit">0</span></strong></span><span class="score-prompt">How far can you go?</span><span>Highest score: <strong class="highest-count">77</strong></span></p>
+ </div>
+ <p class="punch-status" aria-live="polite">A little room to play.</p>
+</footer>
+<script>
+ const footer=document.querySelector<HTMLElement>('.punch-footer');
+ if(footer){
+  const table=footer.querySelector<HTMLElement>('.paper-table')!;
+  const sheet=footer.querySelector<HTMLElement>('.paper-sheet')!;
+  const target=footer.querySelector<HTMLElement>('.paper-target')!;
+  const cursor=footer.querySelector<HTMLElement>('.punch-cursor')!;
+  const machine=footer.querySelector<HTMLElement>('.punch-machine')!;
+  const symbol=machine.querySelector('.punch-symbol path')!;
+  const scraps=footer.querySelector<HTMLElement>('.paper-scraps')!;
+  const status=footer.querySelector<HTMLElement>('.punch-status')!;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  let shape='flower',x=.5,y=.5,busy=false;
+  let stampScale=1;
+  let pressAnimation:Animation|undefined;
+  let hideTimer:ReturnType<typeof setTimeout>|undefined;
+  let pendingCuts=0;
+  let soundEnabled=true;
+  let audio:AudioContext|undefined;
+  function prepareSound(){
+   if(!soundEnabled)return;
+   try{audio??=new AudioContext();if(audio.state==='suspended')void audio.resume();}catch{}
+  }
+  function cutSound(){
+   if(!soundEnabled||!audio)return;
+   // A single dry 24ms contact click, with an explicit stop and no release tail.
+   const context=audio,duration=.024;
+   const buffer=context.createBuffer(1,Math.ceil(context.sampleRate*duration),context.sampleRate);
+   const samples=buffer.getChannelData(0);
+   for(let i=0;i<samples.length;i++)samples[i]=(Math.random()*2-1)*Math.pow(1-i/samples.length,4);
+   const noise=context.createBufferSource();noise.buffer=buffer;
+   const filter=context.createBiquadFilter();filter.type='highpass';filter.frequency.value=1400;
+   const gain=context.createGain();gain.gain.value=.18;
+   noise.connect(filter).connect(gain).connect(context.destination);
+   noise.start();noise.stop(context.currentTime+duration);
+   noise.onended=()=>{noise.disconnect();filter.disconnect();gain.disconnect();};
+  }
+  const holes:{x:number,y:number,shape:string,angle:number}[]=[];
+  // The outer union of five round lobes, rather than pointed radial petals.
+  const flower=Array.from({length:181},(_,i)=>{
+   const a=i/180*Math.PI*2;
+   const r=Math.max(...Array.from({length:5},(_,j)=>{
+    const delta=a-(j*Math.PI*2/5-Math.PI/2);
+    return 13*Math.cos(delta)+Math.sqrt(15*15-13*13*Math.sin(delta)**2);
+   }));
+   return `${i?'L':'M'}${(Math.cos(a)*r).toFixed(2)} ${(Math.sin(a)*r).toFixed(2)}`;
+  }).join(' ')+'Z';
+  const heart='M0 26C-8 18-32 1-29-13C-26-29-7-31 0-16C7-31 26-29 29-13C32 1 8 18 0 26Z';
+  const star=Array.from({length:10},(_,i)=>{const a=i*Math.PI/5-Math.PI/2,r=i%2?13:29;return `${i?'L':'M'}${Math.cos(a)*r} ${Math.sin(a)*r}`;}).join(' ')+'Z';
+  const smiley='M28 0A28 28 0 1 0-28 0A28 28 0 1 0 28 0Z M-7-8A3.5 3.5 0 1 0-14-8A3.5 3.5 0 1 0-7-8Z M14-8A3.5 3.5 0 1 0 7-8A3.5 3.5 0 1 0 14-8Z M-16 5Q0 17 16 5Q12 23 0 23Q-12 23-16 5Z';
+  const path=(kind:string)=>kind==='heart'?heart:kind==='star'?star:kind==='smiley'?smiley:flower;
+  symbol.setAttribute('d',flower);
+  let paperVersion=1;
+  const lettering=sheet.querySelector<HTMLElement>('.paper-quote')!;
+  const totalLabel=footer.querySelector<HTMLElement>('.total-count')!;
+  const highestLabel=footer.querySelector<HTMLElement>('.highest-count')!;
+  const previewConfetti=['localhost','127.0.0.1'].includes(location.hostname)&&new URLSearchParams(location.search).has('confetti-preview');
+  const recordKey='bloom-stamps-highest-v2';
+  // New challenge starts at 77; subsequent personal records persist in this browser.
+  const startingRecord=77;
+  const validRecord=(value:string|null)=>{
+   const number=Number(value);
+   return Number.isSafeInteger(number)&&number>=0?number:0;
+  };
+  let highestScore=startingRecord;
+  function saveRecord(){
+   if(previewConfetti){highestLabel.textContent=String(highestScore);return;}
+   try{
+    highestScore=Math.max(highestScore,validRecord(localStorage.getItem(recordKey)));
+    localStorage.setItem(recordKey,String(highestScore));
+   }catch{ /* Keep the live counter working when storage is unavailable. */ }
+   highestLabel.textContent=String(highestScore);
+  }
+  saveRecord();
+  window.addEventListener('storage',event=>{
+   if(previewConfetti||event.key!==recordKey)return;
+   highestScore=Math.max(highestScore,validRecord(event.newValue));
+   highestLabel.textContent=String(highestScore);
+  });
+  let totalCuts=previewConfetti?77:0;
+  let displayedTotal=0;
+  let celebrated=false;
+  function celebrateRecord(){
+   if(celebrated)return;celebrated=true;
+   status.textContent='New high score! You beat the record.';
+   const notice=document.createElement('span');notice.className='record-celebration';notice.textContent='New high score! ✨';table.append(notice);
+   setTimeout(()=>notice.remove(),3500);
+   if(reduced.matches)return;
+   const confetti=document.createElement('canvas');confetti.className='record-confetti';confetti.setAttribute('aria-hidden','true');table.append(confetti);
+   const ctx=confetti.getContext('2d');if(!ctx){confetti.remove();return;}
+   const w=table.clientWidth,h=table.clientHeight,dpr=Math.min(devicePixelRatio,2);confetti.width=w*dpr;confetti.height=h*dpr;ctx.scale(dpr,dpr);
+   const colors=['#ff6a4d','#f5bd3f','#8d77df','#74be9e','#f18eb9','#6aaedf'];
+   const pieces=Array.from({length:w<500?80:120},()=>({x:Math.random()*w,y:-15-Math.random()*50,vx:(Math.random()-.5)*48,vy:40+Math.random()*80,size:4+Math.random()*3,angle:Math.random()*6.28,spin:(Math.random()-.5)*6,phase:Math.random()*6.28,tumble:4+Math.random()*5,delay:Math.random()*.45,bounces:0,resting:false,color:colors[Math.floor(Math.random()*colors.length)]}));
+   let last=performance.now(),elapsed=0;
+   function drawConfetti(now:number){
+    const dt=Math.min((now-last)/1000,.035);last=now;elapsed+=dt;
+    ctx!.clearRect(0,0,w,h);ctx!.globalAlpha=Math.min(1,(3.5-elapsed)/.7);
+    pieces.forEach(p=>{
+     if(elapsed<p.delay)return;
+     if(!p.resting){
+      p.vy=Math.min(p.vy+1000*dt,440);p.phase+=p.tumble*dt;
+      p.x+=(p.vx+Math.sin(p.phase)*14)*dt;p.y+=p.vy*dt;p.angle+=p.spin*dt;
+      if(p.y>=h-p.size){p.y=h-p.size;if(p.bounces<2&&p.vy>120){p.vy*=-.27;p.vx*=.65;p.bounces++;}else p.resting=true;}
+     }
+     ctx!.save();ctx!.translate(p.x,p.y);ctx!.rotate(p.angle);ctx!.scale(1,.25+.75*Math.abs(Math.cos(p.phase)));ctx!.fillStyle=p.color;ctx!.fillRect(-p.size/2,-p.size*.35,p.size,p.size*.7);ctx!.restore();
+    });
+    if(elapsed<3.5&&confetti.isConnected)requestAnimationFrame(drawConfetti);else confetti.remove();
+   }
+   requestAnimationFrame(drawConfetti);
+  }
+  function updateScore(){
+   if(totalCuts>highestScore){highestScore=totalCuts;saveRecord();celebrateRecord();}
+   if(displayedTotal===totalCuts)return;
+   displayedTotal=totalCuts;
+   totalLabel.setAttribute('aria-label',String(totalCuts));
+   totalLabel.replaceChildren(...String(totalCuts).split('').map((digit,i)=>{
+    const span=document.createElement('span');span.className='t-digit';span.textContent=digit;span.setAttribute('aria-hidden','true');
+    if(!reduced.matches)span.animate([{transform:'translateY(8px)',opacity:0,filter:'blur(2px)'},{transform:'translateY(0)',opacity:1,filter:'blur(0)'}],{duration:500,delay:i*70,easing:'cubic-bezier(.34,1.45,.64,1)',fill:'both'});
+    return span;
+   }));
+  }
+  footer.querySelectorAll<HTMLButtonElement>('[data-shape]').forEach(button=>button.querySelector('path')!.setAttribute('d',path(button.dataset.shape!)));
+  const paperPhrases=[
+   'Life’s too short\nfor a blank paper.',
+   'A small act of\ncreative rebellion.',
+   'Play is part\nof the process.',
+   'Curiosity looks\ngood on you.',
+   'This is what a little\njoy looks like.',
+   'Take a break.\nLeave a mark.'
+  ];
+  function setPaperMessage(){
+   const index=paperVersion%paperPhrases.length;
+   lettering.textContent=paperPhrases[index];
+   const themes=[
+    {shapes:[0,1],poses:['540 210 -15 1.65','970 510 18 1.65'],colors:[['#b6a1e4','#c6b3ef','#f5d86b'],['#b6a1e4','#c6b3ef','#f5d86b']]},
+    {shapes:[2,0],poses:['790 230 12 2','220 60 -20 1.2'],colors:[['#ffe466','#ffec87','#efc444'],['#f9db56','#ffea82','#efbd3c']]},
+    {shapes:[1,2],poses:['400 150 28 1.8','1000 480 -10 2'],colors:[['#a0cdf0','#b7dafa','#9dafe5'],['#9bcce9','#c0e3f6','#aabbe9']]},
+    {shapes:[0,3],poses:['740 280 -8 2.2','70 50 20 1.3'],colors:[['#d3ec7a','#e3f3a5','#b8d34f'],['#d6ee85','#e5f5ae','#b8d34f']]},
+    {shapes:[2,1],poses:['480 190 5 1.5','930 460 25 1.7'],colors:[['#e4a6c4','#f1bfd6','#ce86aa'],['#ddb0d9','#ebc9e9','#bb8dc4']]},
+    {shapes:[3,0],poses:['860 230 -18 2.1','290 10 7 1.4'],colors:[['#eba99b','#f3c0b0','#e98a7e'],['#e5afa4','#f6d1bf','#d9868e']]}
+   ];
+   const theme=themes[index];
+   sheet.querySelectorAll('.printed-flower').forEach((group,i)=>{const [px,py,angle,scale]=theme.poses[i].split(' ');group.setAttribute('transform',`translate(${px} ${py}) rotate(${angle}) scale(${scale})`);group.querySelectorAll('use').forEach((layer,j)=>{layer.setAttribute('href',`#paper-bloom-${theme.shapes[i]}`);layer.setAttribute('fill',theme.colors[i][j]);});});
+   const text=paperPhrases[index].replace('\n',' ');
+   target.setAttribute('aria-label',`${text} Click to punch a shape. With keyboard, use arrow keys to position and Enter or Space to punch.`);
+  }
+  const paperColors=['#fbefee','#c1b5e3','#fcfcff','#adcbbb','#faf2d9','#e9f2f6'];
+  let paperColor=paperColors[1];
+  function mask(){
+   const w=table.clientWidth,h=table.clientHeight;
+   stampScale=Math.max(1,Math.min(1.35,w/1000));
+   table.style.setProperty('--stamp-scale',String(stampScale));
+   const cuts=holes.map(p=>`<path fill-rule="evenodd" d="${path(p.shape)}" transform="translate(${p.x*w} ${p.y*h}) rotate(${p.angle}) scale(${stampScale})" fill="black"/>`).join('');
+   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><defs><mask id="m"><rect width="100%" height="100%" fill="white"/>${cuts}</mask></defs><rect width="100%" height="100%" fill="white" mask="url(#m)"/></svg>`;
+   sheet.style.maskImage=`url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+  }
+  function position(){cursor.style.left=`${x*100}%`;cursor.style.top=`${y*100}%`;}
+  function punch(){
+   if(busy)return;
+   if(holes.length+pendingCuts>=300){status.textContent='A well-loved sheet! Choose Fresh paper to start again.';return;}
+   prepareSound();cursor.classList.add('visible');position();
+   pendingCuts++;
+   pressAnimation?.cancel();
+   if(hideTimer)clearTimeout(hideTimer);
+   const px=x,py=y,kind=shape,angle=Math.random()*24-12,cutScale=stampScale;
+   if(!reduced.matches)pressAnimation=machine.animate([{transform:'translateY(0) scale(1)'},{transform:'translateY(9px) scale(.88)',offset:.4},{transform:'translateY(9px) scale(.88)',offset:.55},{transform:'translateY(0) scale(1)'}],{duration:160,easing:'cubic-bezier(.2,.8,.3,1)'});
+   setTimeout(()=>{
+    pendingCuts--;
+    holes.push({x:px,y:py,shape:kind,angle});totalCuts++;mask();updateScore();cutSound();
+    if(!reduced.matches){
+     for(let i=0;i<8;i++){
+     const spark=document.createElementNS('http://www.w3.org/2000/svg','svg');spark.setAttribute('viewBox','-35 -35 70 70');
+     spark.innerHTML=`<path d="${i%3===0?star:path(kind)}" fill="${['#fff5d7','#ffbc57','#f87e77','#e7cff8'][i%4]}"/>`;
+     spark.style.cssText=`position:absolute;display:block;pointer-events:none;width:${14*cutScale}px;height:${14*cutScale}px;left:calc(${px*100}% - ${7*cutScale}px);top:calc(${py*100}% - ${7*cutScale}px)`;scraps.append(spark);
+     const a=i/8*Math.PI*2,reach=(50+Math.random()*40)*cutScale;
+     spark.animate([{transform:'scale(.2)',opacity:0},{opacity:1,offset:.12},{transform:`translate(${Math.cos(a)*reach}px,${Math.sin(a)*reach+24}px) scale(.3)`,opacity:0}],{duration:580+Math.random()*180,easing:'cubic-bezier(.1,.7,.3,1)',fill:'forwards'}).finished.then(()=>spark.remove());
+    }
+     const scrap=document.createElementNS('http://www.w3.org/2000/svg','svg');scrap.setAttribute('viewBox','-35 -35 70 70');scrap.innerHTML=`<path fill-rule="evenodd" d="${path(kind)}" fill="${paperColor}"/>`;scrap.style.cssText=`position:absolute;display:block;pointer-events:none;width:${70*cutScale}px;height:${70*cutScale}px;left:calc(${px*100}% - ${35*cutScale}px);top:calc(${py*100}% - ${35*cutScale}px)`;scraps.append(scrap);
+     scrap.animate([{transform:`translateY(0) rotate(${angle}deg)`,filter:'drop-shadow(0 2px 1px #43314544)',offset:0,easing:'cubic-bezier(0,.65,.3,1)'},{transform:`translateY(-24px) rotate(${angle}deg)`,filter:'drop-shadow(0 14px 7px #43314555)',offset:.25,easing:'cubic-bezier(.55,0,1,.6)'},{transform:`translateY(${table.clientHeight*(1-py)+85}px) rotate(${angle}deg)`,filter:'drop-shadow(0 18px 9px #43314533)',offset:1}],{duration:1000,fill:'forwards'}).finished.then(()=>scrap.remove());
+    }
+    if(!celebrated)status.textContent=`${holes.length} ${holes.length===1?'little cutout':'little cutouts'}. Make another?`;
+   },reduced.matches?0:40);
+   hideTimer=setTimeout(()=>{if(matchMedia('(hover: none)').matches||!target.matches(':hover'))cursor.classList.remove('visible');},180);
+  }
+  target.addEventListener('pointermove',e=>{if(busy)return;const r=table.getBoundingClientRect();x=(e.clientX-r.left)/r.width;y=(e.clientY-r.top)/r.height;position();if(e.pointerType==='mouse')cursor.classList.add('visible');});
+  target.addEventListener('pointerleave',()=>{if(!busy)cursor.classList.remove('visible');});
+  target.addEventListener('click',e=>{const r=table.getBoundingClientRect();if(e.detail){x=(e.clientX-r.left)/r.width;y=(e.clientY-r.top)/r.height;}punch();});
+  target.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();x=Math.max(.04,Math.min(.96,x+(e.key==='ArrowRight'?.03:e.key==='ArrowLeft'?-.03:0)));y=Math.max(.07,Math.min(.93,y+(e.key==='ArrowDown'?.05:e.key==='ArrowUp'?-.05:0)));position();cursor.classList.add('visible');}if(e.key==='Enter'||e.key===' '){e.preventDefault();punch();}if(e.key==='Escape')target.blur();});
+  target.addEventListener('blur',()=>cursor.classList.remove('visible'));
+  footer.querySelectorAll<HTMLButtonElement>('[data-shape]').forEach(button=>button.addEventListener('click',()=>{shape=button.dataset.shape!;symbol.setAttribute('d',path(shape));machine.dataset.shape=shape;footer.querySelectorAll('[data-shape]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));}));
+  footer.querySelector('.reset-paper')!.addEventListener('click',async()=>{
+   if(busy||pendingCuts)return;busy=true;pressAnimation?.cancel();cursor.classList.remove('visible');
+   const shadow=footer.querySelector<HTMLElement>('.paper-shadow')!;
+   const old=shadow.cloneNode(true) as HTMLElement;
+   old.setAttribute('aria-hidden','true');old.classList.add('old-paper');
+   if(!reduced.matches){table.append(old);table.classList.add('refreshing');}
+   holes.length=0;paperVersion++;paperColor=paperColors[paperVersion%paperColors.length];sheet.style.backgroundColor=paperColor;setPaperMessage();updateScore();mask();scraps.replaceChildren();
+   if(!reduced.matches){
+    const outgoing=old.animate([{transform:'translateY(0) rotate(0)',opacity:1},{transform:'translateY(-18%) rotate(-3deg)',opacity:.9,offset:.3},{transform:'translateY(110%) rotate(6deg)',opacity:0}],{duration:780,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'});
+    const incoming=shadow.animate([{transform:'translateY(110%) rotate(-4deg)'},{transform:'translateY(-1%) rotate(.3deg)',offset:.85},{transform:'translateY(0) rotate(0)'}],{duration:850,delay:160,easing:'cubic-bezier(.2,.8,.2,1)',fill:'backwards'});
+    await Promise.all([outgoing.finished,incoming.finished]);old.remove();table.classList.remove('refreshing');
+   }
+   busy=false;status.textContent='Fresh paper. Go on, make your mark.';
+  });
+  new ResizeObserver(mask).observe(table);setPaperMessage();updateScore();mask();
+  if(previewConfetti){
+   const preview=document.createElement('button');preview.type='button';preview.className='confetti-preview';preview.textContent='Preview: 77 / 77 — stamp once to win · Reset';
+   preview.addEventListener('click',()=>{totalCuts=77;highestScore=77;celebrated=false;holes.length=0;table.querySelectorAll('.record-confetti,.record-celebration').forEach(el=>el.remove());updateScore();highestLabel.textContent='77';mask();});
+   footer.querySelector('.paper-bottom')!.before(preview);
+  }
+ }
+</script>
+<style>
+.punch-footer{width:100%;max-width:var(--portfolio-max,1456px);margin:60px auto 0;background:#fff;padding:72px var(--portfolio-gutter,max(28px,5vw)) 22px;color:#302c30}
+.footer-top{display:flex;align-items:center;justify-content:space-between;gap:28px;margin-bottom:38px}
+.footer-top h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,50px);font-weight:400;letter-spacing:-.035em;margin:0}
+.paper-bottom{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:24px}
+.tool-buttons{display:flex;gap:6px;flex-shrink:0}
+.tool-buttons button{--tint:#e5b0ff;--glow:#f9ddff;--ink:#a44ee0;position:relative;display:grid;place-items:center;width:56px;height:56px;box-sizing:border-box;padding:15px;border-radius:12px;border:1px solid #e7e7e7;font:inherit;cursor:pointer;color:#969696;background:#f4f4f4;box-shadow:inset 0 1px 0 #fff,0 1px 1px #24313b0d;transition:transform .2s ease,box-shadow .2s ease,background .2s ease,color .2s ease}
+.tool-buttons button:first-child{border-radius:19px 12px 12px 19px}
+.tool-buttons button[data-shape="heart"]{--tint:#ffb5ec;--glow:#ffe0fa;--ink:#f45bbb}
+.tool-buttons button[data-shape="star"]{--tint:#ffd05a;--glow:#fff1b8;--ink:#ff9b00}
+.tool-buttons button[data-shape="smiley"]{--tint:#b5ed39;--glow:#e6ffac;--ink:#62bd32;border-radius:12px 19px 19px 12px}
+.tool-buttons button[aria-pressed=true]{color:var(--ink);background:radial-gradient(ellipse at 48% 43%,var(--glow) 12%,var(--tint) 80%);border-color:var(--tint);box-shadow:inset 0 1px 0 #ffffffb3,inset 0 -1px 0 #97661415,0 1px 1px #24313b0d}
+.tool-buttons svg{display:block;width:100%;height:100%;fill:currentColor;transition:transform .25s ease,filter .25s ease}
+.tool-buttons button[aria-pressed=true] svg{transform:scale(1.06);filter:drop-shadow(0 0 4px var(--glow))}
+.tool-buttons .reset-paper{margin-left:8px;border-radius:50%;background:#f4f4f4;color:#969696;box-shadow:inset 0 2px 3px #fff,0 1px 2px #24313b12}
+.tool-buttons .reset-paper svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tool-buttons button:hover{transform:translateY(-2px)}.tool-buttons button:active{transform:translateY(1px) scale(.96)}.tool-buttons button:focus-visible,.email-cta:focus-visible{outline:2px solid #f2693b;outline-offset:5px}
+.paper-table{position:relative;isolation:isolate;min-height:360px;height:calc(min(42vw,650px) - 60px);background:#fff;border-radius:3px}.paper-shadow{position:absolute;inset:0;filter:drop-shadow(0 2px 1px #50404b33)}.paper-sheet{position:absolute;inset:0;background:#c1b5e3;overflow:hidden;mask-size:100% 100%;mask-repeat:no-repeat}
+.paper-print{position:absolute;inset:0;width:100%;height:100%;opacity:.9;pointer-events:none}.paper-sheet::after{content:"";position:absolute;inset:0;pointer-events:none;background:url('/assets/bloom-satin-grain.png') repeat;opacity:.2;mix-blend-mode:multiply}
+.paper-signature{position:absolute;top:30px;right:34px;font-family:var(--serif);font-size:26px;letter-spacing:-.03em;color:#53444e;text-shadow:0 1px 0 #fff9,0 -1px 0 #74645722}
+.paper-caption{position:absolute;left:34px;bottom:30px;max-width:70%;z-index:1;user-select:none}.paper-quote{font-family:var(--serif);font-size:clamp(22px,2.7vw,36px);font-weight:400;line-height:1.16;letter-spacing:-.02em;white-space:pre-line;margin:0 0 16px;color:#786b61;text-shadow:0 1px 1px #ffffffcc,0 -1px 1px #6a544322}.paper-score{display:flex;align-items:baseline;justify-content:flex-end;flex-wrap:wrap;gap:8px 18px;margin:0;font-size:13px;line-height:1.7;color:#7e747b}.paper-score>span{white-space:nowrap}.paper-score strong{font-weight:500;color:#423a40;font-variant-numeric:tabular-nums}.total-count{display:inline-flex;align-items:baseline;min-width:1ch}.paper-score :global(.t-digit){display:inline-block}.score-prompt{color:#a0969d}
+
+
+.paper-target{position:absolute;inset:0;touch-action:pan-y;cursor:crosshair;-webkit-tap-highlight-color:transparent}.paper-target:focus-visible{outline:2px dashed #f2693b;outline-offset:6px}.paper-scraps{position:absolute;inset:0;pointer-events:none;overflow:hidden}.paper-scraps svg{position:absolute;width:70px;height:70px;filter:drop-shadow(0 4px 3px #43314533)}
+.punch-cursor{position:absolute;pointer-events:none;width:calc(132px * var(--stamp-scale,1));height:calc(132px * var(--stamp-scale,1));transform:translate(-48.5%,-30%);opacity:0;z-index:3;transition:opacity .15s}.punch-cursor.visible{opacity:1}.punch-machine{position:relative;width:100%;height:100%;filter:drop-shadow(3px 10px 6px #3c253440)}.punch-machine img{width:100%;height:100%;object-fit:contain;display:block}.punch-symbol{position:absolute;top:30%;left:48.5%;width:22%;height:22%;transform:translate(-50%,-50%);fill:#534254;pointer-events:none}.punch-machine img{transition:filter .2s}.punch-machine[data-shape="heart"] img{filter:hue-rotate(310deg) saturate(.85)}.punch-machine[data-shape="star"] img{filter:hue-rotate(35deg) saturate(1.2)}.punch-machine[data-shape="smiley"] img{filter:hue-rotate(135deg) saturate(.75)}.punch-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.paper-table.refreshing{overflow:hidden}.old-paper{z-index:2;pointer-events:none}.paper-table.refreshing .paper-target{pointer-events:none}
+@media(hover:hover){.paper-target{cursor:none}}
+@media(max-width:809px){.punch-footer{padding-top:48px}.footer-top{gap:20px}.email-cta{min-width:150px;padding:17px 22px;font-size:17px;border-radius:20px}.paper-bottom{align-items:flex-start;flex-direction:column;gap:20px}.paper-score{justify-content:flex-start;font-size:12px;gap:6px 14px}.paper-table{height:400px}.paper-caption{left:22px;bottom:24px;max-width:calc(100% - 44px)}.paper-signature{right:22px;top:22px;font-size:23px}.paper-print{width:145%;max-width:none;left:-32%}.punch-cursor{width:110px;height:110px}.punch-machine>span{font-size:20px}.punch-status{text-align:left}}
+
+@media(max-width:480px){.footer-top{align-items:flex-start;flex-direction:column;gap:24px}.email-cta{min-width:170px}.tool-buttons{gap:6px}.tool-buttons button{width:48px;height:48px;padding:12px}}
+@media(prefers-reduced-motion:reduce){.punch-cursor,.email-cta,.email-cta svg,.tool-buttons button,.tool-buttons svg{transition:none}.email-cta::before{animation:none}}
+.footer-actions{display:flex;align-items:stretch;gap:12px;flex-shrink:0}
+.footer-actions :global(.email-cta){height:66px;box-sizing:border-box}
+.footer-social{display:grid;place-items:center;width:66px;height:66px;box-sizing:border-box;flex:0 0 66px;background:#fff;border:1px solid #f0eff0;border-radius:14px;box-shadow:0 1px 1px #2923290a,0 3px 4px -2px #29232924,inset 0 1px 0 #fff;transition:transform .2s,filter .2s}
+.footer-social img{display:block;filter:brightness(0);opacity:.62;width:22px;height:22px}
+.footer-social:hover{transform:translateY(-1px);filter:brightness(.98)}
+.footer-social:focus-visible{outline:2px solid #fe4116;outline-offset:5px}
+@media(max-width:809px){.footer-top{align-items:flex-start;flex-direction:column}.footer-actions{gap:10px}.footer-actions :global(.email-cta){height:56px;min-width:150px}.footer-social{width:56px;height:56px;flex-basis:56px}.footer-social img{width:22px;height:22px}}
+@media(prefers-reduced-motion:reduce){.footer-social{transition:none}}
+:global(.record-celebration){position:absolute;z-index:5;top:20px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:24px;background:#fff;color:#654a96;font-size:15px;font-weight:500;box-shadow:0 3px 12px #35214b14;pointer-events:none;white-space:nowrap}
+:global(.record-confetti){position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;border-radius:inherit}:global(.confetti-preview){display:block;margin:16px auto 0;padding:10px 16px;background:#f4effa;border:1px solid #ddd0ee;border-radius:12px;color:#694c8e;cursor:pointer;font:500 13px/1.4 system-ui}
+</style>

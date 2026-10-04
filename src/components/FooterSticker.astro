@@ -1,0 +1,78 @@
+---
+const { variant = 'home' } = Astro.props;
+const pathId = `footer-sticker-outline-${variant}`;
+const sticker = { src: '/assets/design-sticker.svg', path: 'M100 18 C145 18 182 55 182 100 C182 145 145 182 100 182 C55 182 18 145 18 100 C18 55 55 18 100 18 Z' };
+---
+<div class:list={['footer-sticker', `footer-sticker-${variant}`]} data-footer-sticker data-sticker-index="0">
+ <svg class="sticker-orbit" viewBox="0 0 200 200" aria-hidden="true">
+  <defs><path id={pathId} d={sticker.path} /></defs>
+  <g data-orbit-letters>{Array.from('Let’s chat ✦ '.repeat(4)).map(letter => <text text-anchor="middle" dominant-baseline="central">{letter}</text>)}</g>
+ </svg>
+ <div class="sticker-switch" role="img" aria-label="Smiley sticker">
+  <span class="sticker-sheet">
+   <img class="sticker-art" src={sticker.src} width="152" height="152" alt="" />
+   <span class="sticker-live-eyes" aria-hidden="true">{[0,1].map(()=><span class="sticker-live-eye"><span class="sticker-live-pupil"><i /></span></span>)}</span>
+  </span>
+ </div>
+
+</div>
+<style>
+ .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+ .footer-sticker{position:relative;width:200px;height:200px;flex-shrink:0;isolation:isolate}
+ .footer-sticker-home{position:absolute;top:64px;right:72px}
+ .sticker-orbit{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+ .sticker-orbit text{font:400 10.5px var(--sans);fill:#ffffff90}
+ .sticker-switch{position:absolute;inset:24px;padding:0;border:0;background:none;cursor:default;-webkit-tap-highlight-color:transparent}
+ .sticker-switch:focus-visible{outline:2px solid #fff8;outline-offset:5px;border-radius:28px}
+ .sticker-sheet{position:absolute;inset:0;display:block;transform-origin:center;transition:filter .25s;filter:drop-shadow(0 3px 3px #0003)}
+ .sticker-art{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+ [data-sticker-index='0'] .sticker-art{width:116px;height:116px;margin:18px}
+ .sticker-live-eyes{position:absolute;left:48px;top:48px;display:flex;gap:8px;width:56px;height:36px;pointer-events:none}
+ .sticker-live-eye{position:relative;width:24px;height:36px;background:#fffefd;border-radius:40px;overflow:hidden}
+ .sticker-live-pupil{position:absolute;left:4px;top:7px;width:16px;height:22px;border-radius:50%;background:#0c0c0c}
+ .sticker-live-pupil i{position:absolute;left:7px;bottom:3px;width:3px;height:3px;border-radius:50%;background:#fff}
+ .footer-sticker:not([data-sticker-index='0']) .sticker-live-eyes{display:none}
+ @media(hover:hover){.sticker-switch:hover .sticker-sheet{filter:drop-shadow(3px 9px 5px #0004)}}
+ @media(min-width:810px) and (max-width:1199.98px){.footer-sticker-home{top:34px}}
+ @media(max-width:809.98px){.footer-sticker{width:160px;height:160px}.footer-sticker-home{top:68px;right:0}.sticker-switch{inset:19px}.sticker-art{width:100%;height:100%}[data-sticker-index='0'] .sticker-art{width:93px;height:93px;margin:14.5px}.sticker-live-eyes{left:36px;top:38px;transform:scale(.84);transform-origin:top left}}
+ @media(prefers-reduced-motion:reduce){.sticker-sheet{transition:none}}
+</style>
+<script>
+ document.querySelectorAll<HTMLElement>('[data-footer-sticker]').forEach(root=>{
+  const path=root.querySelector<SVGPathElement>('path')!;
+  const letters=Array.from(root.querySelectorAll<SVGTextElement>('[data-orbit-letters] text'));
+  // Wrap each glyph around the closed outline, avoiding textPath endpoint clipping.
+  const drawLetters=()=>{
+   const length=path.getTotalLength();
+   const point=(distance:number)=>path.getPointAtLength((distance%length+length)%length);
+   letters.forEach((letter,i)=>{
+    const distance=((i/letters.length+phase)%1)*length;
+    const p=point(distance),before=point(distance-3),after=point(distance+3);
+    const tangent=Math.atan2(after.y-before.y,after.x-before.x);
+    const angle=tangent*180/Math.PI;
+    letter.setAttribute('transform',`translate(${p.x+Math.sin(tangent)*6},${p.y-Math.cos(tangent)*6}) rotate(${angle})`);
+   });
+  };
+  const reduced=matchMedia('(prefers-reduced-motion:reduce)');
+  let visible=false,frame=0,last=0,phase=0;
+  const tick=(now:number)=>{
+   frame=0;if(!visible||document.hidden)return;
+   if(!reduced.matches)phase=(phase+Math.min(now-last,50)/18000)%1;
+   last=now;drawLetters();
+   if(!reduced.matches)frame=requestAnimationFrame(tick);
+  };
+  drawLetters();
+  const start=()=>{if(!frame){last=performance.now();frame=requestAnimationFrame(tick);}};
+  new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible)start();else{cancelAnimationFrame(frame);frame=0;}},{rootMargin:'100px'}).observe(root);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0;}else start();});
+  reduced.addEventListener('change',start);
+  window.addEventListener('pointermove',event=>{
+   if(!visible||reduced.matches)return;
+   root.querySelectorAll<HTMLElement>('.sticker-live-pupil').forEach(pupil=>{
+    const rect=pupil.parentElement!.getBoundingClientRect(),x=event.clientX-rect.left-rect.width/2,y=event.clientY-rect.top-rect.height/2;
+    const angle=Math.atan2(y,x),distance=Math.min(5,Math.hypot(x,y)/30);
+    pupil.style.transform=`translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance}px)`;
+   });
+  },{passive:true});
+ });
+</script>

@@ -1,0 +1,10 @@
+<script>
+import { inject } from '@vercel/analytics';
+// Only the public portfolio contributes analytics; local and preview visits do not.
+if(['vansita.design','www.vansita.design'].includes(location.hostname)){
+ inject({mode:'production',beforeSend:event=>{
+  const url=new URL(event.url);url.search='';url.hash='';
+  return {...event,url:url.toString()};
+ }});
+}
+</script>

@@ -1,0 +1,89 @@
+---
+import SerifFont from './SerifFont.astro';
+import PortfolioAnalytics from "../components/PortfolioAnalytics.astro";
+import '../styles/scrollbars.css';
+import '../styles/fonts.css';
+import BloomLoader from '../components/BloomLoader.astro';
+import BloomSideNav from '../components/BloomSideNav.astro';
+import BloomFeaturedWorks from '../components/BloomFeaturedWorks.astro';
+---
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="color-scheme" content="light"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Vansita Addanki — Product Designer</title><meta name="description" content="Product designer building AI-native web products and experiences, from brand and UX to scalable product design."/><link rel="canonical" href="https://vansita.design/"/><link rel="icon" href="/assets/jbcFu7dGKUIQkncvyB6IrNjC6Z8.png"/><meta property="og:title" content="Vansita Addanki — Product Designer"/><meta property="og:description" content="Building AI-native web products and experiences, from brand and UX to scalable product design."/><meta property="og:type" content="website"/><meta property="og:url" content="https://vansita.design/"/><meta property="og:image" content="https://vansita.design/assets/DeFgMtSVMRf5ZHqXxUC7z1ZDEwA.jpg"/>
+<SerifFont />
+</head>
+<body>
+<slot name="loader"><BloomLoader /></slot>
+<BloomSideNav />
+<main>
+ <slot name="hero"><section id="home" class="bloom-hero" aria-labelledby="bloom-title">
+  <div class="hero-grid" aria-hidden="true">
+   <div class="ruler ruler-left"><div class="ruler-track">{Array.from({length:40},(_,i)=><span style={`--i:${i}`}>{i*50}</span>)}</div></div>
+   <div class="ruler ruler-right"><div class="ruler-track">{Array.from({length:40},(_,i)=><span style={`--i:${i}`}>{i*50}</span>)}</div></div>
+   <div class="grid-cross grid-cross-top"></div>
+   <div class="grid-cross grid-cross-bottom"></div>
+  </div>
+
+  <div class="copy">
+   <div class="intro-tag"><img src="/assets/AoYn9942pTRomIgfyQYM2Hybcng.jpg?v=9cab754ac6" width="40" height="40" alt="Vansita" loading="eager" fetchpriority="high" decoding="async"/><span>Hi, I’m Vansita</span></div>
+   <h1 id="bloom-title"><span>I design 0→1 products that</span> <span>accelerate business growth.</span></h1>
+   <p class="description">Building AI-native and B2B products and web experiences that feel simple and human, from brand and UX to design systems that scale.</p>
+   <div class="hero-links"><a class="portfolio-cta hero-button primary-button" href="mailto:avansita2002@gmail.com">Contact Me</a><a class="portfolio-cta hero-button contact-button" href="/assets/vansita-addanki-resume.pdf" target="_blank" rel="noopener" aria-label="Resume (opens PDF in a new tab)">Resume</a></div>
+  </div>
+  <div class="garden"><canvas id="bloom-canvas" role="img" aria-label="Five flowers with continuously flowing gradients, including an eight-petal flower with a star-shaped opening. Hover to spin; tap a flower to shimmer into a new color palette."></canvas>{['yellow flower','pink flower','green flower','eight-petal flower','purple flower'].map((name,i)=><button class="flower-keyboard" data-flower={i} aria-label={`Change the ${name} colors`} style={`--fx:${[43,25,53,77,73][i]}%;--fy:${[22,45,60,36,75][i]}%`}></button>)}<div class="fallback" hidden aria-hidden="true">✿ <span>✽</span> ✿</div></div>
+ </section></slot>
+
+</main>
+<BloomFeaturedWorks />
+<script>
+if(document.querySelector('#bloom-canvas')) void import('../scripts/bloom');
+const hero=document.querySelector<HTMLElement>('.bloom-hero');
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
+let rulerFrame=0;
+function moveScales(){
+ rulerFrame=0;
+ if(!hero)return;
+ const travel=reduceMotion.matches?0:Math.min(150,Math.max(0,-hero.getBoundingClientRect().top)*.2);
+ hero.style.setProperty('--scale-shift',`${-travel}px`);
+}
+function queueScales(){if(!rulerFrame)rulerFrame=requestAnimationFrame(moveScales);}
+addEventListener('scroll',queueScales,{passive:true});reduceMotion.addEventListener('change',queueScales);moveScales();
+function landAtHome(){if(location.hash==='#home')window.scrollTo({top:0,behavior:'instant'});}
+document.fonts.ready.then(()=>requestAnimationFrame(()=>requestAnimationFrame(landAtHome)));
+addEventListener('hashchange',landAtHome);
+const legacyAnchors:Record<string,string>={'#about':'#bloom-reveal','#contact':'#paper-footer'};
+if(legacyAnchors[location.hash]){location.replace(legacyAnchors[location.hash]);}
+
+</script>
+<style>
+:global(:root){--portfolio-max:1456px;--portfolio-gutter:max(28px,5vw);--serif:'PS Times Regular',Georgia,serif;--muted:#535353;--text-description:#535353}
+:global(*){box-sizing:border-box}
+:global(html){background:#fff;color-scheme:only light}
+:global(body){margin:0;background:#fff;color:#272727;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
+:global(a){color:inherit;text-decoration:none}
+:global(a:focus-visible){outline:2px solid #fe4116;outline-offset:6px}
+main{width:100%;margin:auto}
+.bloom-hero{background:#fff;--content-inset:calc(max(0px,(100% - var(--portfolio-max))/2) + var(--portfolio-gutter));--rail:max(24px,calc(var(--content-inset) - 80px));--grid-top:64px;position:relative;isolation:isolate;overflow:hidden;scroll-margin-top:0;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);align-items:center;min-height:max(700px,100svh);padding:140px var(--content-inset) 88px;gap:clamp(32px,4vw,64px)}
+.copy{position:relative;z-index:1;text-align:left;width:100%;container-type:inline-size;display:flex;flex-direction:column;align-items:flex-start}
+.intro-tag{display:flex;align-items:center;justify-content:center;gap:10px;color:#656565;font-size:14px;margin-bottom:20px}.intro-tag img{display:block;width:32px;height:32px;border-radius:7px;transform:rotate(-5deg);border:1.25px solid #fff;box-shadow:0 2px 4px #00000014}
+h1{font-family:var(--serif);font-size:clamp(32px,min(4.6vw,10.7cqw),68px);font-weight:350;line-height:1.08;letter-spacing:-.025em;margin:0;text-wrap:balance}h1 span{display:block;white-space:nowrap}
+.description{max-width:500px;font-size:16px;line-height:1.55;color:#656565;margin:22px 0 0;text-wrap:pretty}
+.hero-links{display:flex;align-items:center;justify-content:flex-start;gap:16px;margin-top:28px}
+/* Hero content shares Selected Works' inner edges. Measurement guides sit
+   80px outside that content, with room for ruler labels on narrow screens. */
+.hero-grid{position:absolute;inset:var(--grid-top) var(--rail) 0;z-index:-1;pointer-events:none;border-inline:1px solid #e2e2e2}.hero-grid::after{content:"";position:absolute;left:-1px;right:-1px;bottom:100%;height:var(--grid-top);border-inline:1px solid #e2e2e2}
+.ruler{position:absolute;top:0;bottom:0;width:23px;overflow:hidden}.ruler-track{position:absolute;inset:0 0 -160px;transform:translateY(var(--scale-shift,0px));background:repeating-linear-gradient(to bottom,#ddd 0 1px,transparent 1px 10px);background-size:5px 100%;background-repeat:no-repeat}
+.ruler-left{left:-24px}.ruler-right{right:-24px}.ruler-left .ruler-track{background-position:right}.ruler-right .ruler-track{background-position:left}
+.ruler span{position:absolute;top:calc(var(--i)*50px);font:9px/1 var(--sans,Arial,sans-serif);color:#aaa;writing-mode:vertical-rl;translate:0 -50%}.ruler-left span{left:1px}.ruler-right span{right:1px}.ruler span:first-child{translate:0 2px}
+.grid-cross{position:absolute;left:0;right:0;height:1px}.grid-cross::before{content:"";position:absolute;left:50%;width:100vw;height:1px;background:#e2e2e2;transform:translateX(-50%)}.grid-cross-top{top:0}.grid-cross-bottom{bottom:0}
+.grid-cross i{position:absolute;top:50%;width:7px;height:7px;background:white;border:1px solid #d8d8d8;border-radius:2px;transform:translate(-50%,-50%)}.grid-cross i:first-child{left:0}.grid-cross i:last-child{left:100%}
+.hero-button{height:48px;min-width:140px;padding:0 22px;display:grid;place-items:center;font-size:18px}
+.primary-button{min-width:154px}
+.garden,.garden canvas,.hero-button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.garden{position:relative;width:100%;max-width:560px;aspect-ratio:250/216;justify-self:end;z-index:1}canvas{position:absolute;left:-12%;top:-12%;width:124%;height:124%;display:block;touch-action:pan-y}canvas[hidden]{display:none}.fallback{position:absolute;inset:20% 5%;font-size:70px;color:#d887ab;letter-spacing:-20px}.fallback span{color:#99a7b6}.fallback[hidden]{display:none}
+.flower-keyboard{position:absolute;left:var(--fx);top:var(--fy);transform:translate(-50%,-50%);width:34%;height:34%;border:0;border-radius:50%;background:none;pointer-events:none;opacity:0}.flower-keyboard:focus-visible{opacity:1;outline:2px dashed #fe4116;outline-offset:5px}
+@media(min-width:810px) and (max-height:800px){.bloom-hero{min-height:max(640px,100svh);padding-top:116px;padding-bottom:60px}.intro-tag{margin-bottom:16px}.description{margin-top:18px}.hero-links{margin-top:24px}}
+@media(max-width:809.98px){.bloom-hero{--grid-top:64px;--rail:8px;--content-inset:32px;grid-template-columns:minmax(0,1fr);min-height:max(730px,100svh);padding:112px var(--content-inset) 56px;gap:36px}.ruler span{display:none}.garden{width:min(80%,320px);max-width:320px;height:auto;justify-self:center;transform:translateX(-2%)}.copy{max-width:none;justify-self:start}.intro-tag{font-size:14px;margin-bottom:18px}h1{font-size:clamp(36px,6.8vw,52px);line-height:1.1}h1 span{display:inline;white-space:normal}.description{font-size:14px;line-height:1.6;max-width:430px;margin-top:20px}.hero-links{margin-top:26px;gap:12px}.hero-button{font-size:16px;min-width:128px;padding-inline:18px}.primary-button{min-width:140px}}
+@media(max-width:359px){.hero-links{gap:8px}.hero-button{min-width:0;padding-inline:18px;font-size:16px}.primary-button{min-width:120px}}
+@media(prefers-reduced-motion:reduce){.hero-button{transition:none}}
+</style>
+<PortfolioAnalytics /></body></html>

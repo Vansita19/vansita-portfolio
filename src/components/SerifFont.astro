@@ -1,0 +1,5 @@
+---
+import { readFileSync } from 'node:fs';
+const css = `@font-face{font-family:'PS Times Regular';src:url(data:font/woff2;base64,${readFileSync(new URL('../../public/assets/UpBm0lO22ouaq0wLadQ1WK5vMVY.woff2', import.meta.url)).toString('base64')}) format('woff2');font-weight:350;font-style:normal;font-display:block}`;
+---
+<style is:inline set:html={css} />

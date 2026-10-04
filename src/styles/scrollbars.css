@@ -1,0 +1,4 @@
+/* Hide the track without disabling wheel, touch, or keyboard scrolling.
+   No scrollbar width is removed when the notch locks page scrolling. */
+html,body,body *{scrollbar-width:none!important;scrollbar-gutter:auto!important}
+html::-webkit-scrollbar,body::-webkit-scrollbar,body *::-webkit-scrollbar{display:none;width:0;height:0}

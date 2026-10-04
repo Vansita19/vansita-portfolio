@@ -1,0 +1,147 @@
+---
+import PitchVisual from './PitchVisual.astro';
+import PitchFlowCapture from './PitchFlowCapture.astro';
+import flowCaptures from '../data/pitch-flow-captures.json';
+import sourceSections from '../data/pitch-draft.json';
+const sections=sourceSections.map(section=>({...section,
+ id:section.id==='overview'?'overview-details':section.id,
+ blocks:section.blocks.map((b,index)=>({...b,source:section.id==='filters'?'exploration':section.id,sourceIndex:index})).filter((_,index)=>section.id!=='overview'||index>0)
+}));
+const rich=(s:string)=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/(?<!\*)\*([^*]+)\*(?!\*)/g,'<em>$1</em>');
+const visuals:Record<string,{label:string;note?:string;src?:string;type?:string;fitContent?:boolean}>={
+ 'Version 1 · Manual filters':{label:'Early filter explorations with manual criteria and an advanced prompt field',src:'/assets/pitch-filter-exploration-manual-v2.png',fitContent:true},
+ 'Version 2 · AI filters':{label:'Natural-language company search with AI-generated results',src:'/assets/pitch-filter-exploration-ai.png',fitContent:true},
+ 'Two ways to save companies':{label:'Static and dynamic views',src:'/assets/pitch-static-dynamic-views-v2.png',fitContent:true},
+ 'Deep research was only the starting point':{label:'Pitch decks, public sources, and founder-added materials feed deep research, producing uncategorized findings and evidence',src:'/assets/pitch-deep-research-modern.png',fitContent:true},
+ 'From company research to a clear next step':{label:'Inbox → Summary → evidence → discussion',note:'Overview recording · use design screens for interactions not yet prototyped.'},
+ 'Find companies with AI-powered filters':{label:'Find companies with AI-powered filters'},
+ 'Keep the evidence close':{label:'Evidence lineage: findings, synthesis, evidence, and sources',src:'/assets/pitch-protocol-evidence-lineage-v2.png',fitContent:true},
+ 'Understand a company at a glance':{label:'Company Summary',src:'/assets/pitch-core-company-glance.png',fitContent:true,note:'Existing Summary design · recommendation, key company information, and access to Details.'},
+ 'Ask AI questions and get structured answers':{label:'Ask AI questions and get structured answers',src:'/assets/pitch-ai-chat-core-flow.mp4',type:'video',note:'Interactive prototype with sample data and predefined responses.'},
+ 'Making team collaboration easier':{label:'Attributed company notes',note:'Place the Notes design with the “Save as a note” variation here.'},
+ 'Move from interest to a conversation':{label:'Interested → enter scheduling URL → confirm',note:'Repeat URL entry for each company. A sent link is not a confirmed meeting.'},
+ '1. Organizing the research still left too much to read':{label:'Iteration 1 · Organized research',note:'Place the original categorized company snapshot here, showing the long research report.'},
+ '2. Everything fit, but the company’s story got lost':{label:'Iteration 2 · Compact dashboard',src:'/assets/pitch-iteration-2-dashboard.png'},
+ '4. Simpler layouts restored context, but still felt hard to read':{label:'Iteration 4 · Written explanations',src:'/assets/pitch-iteration-4-text.png',fitContent:true},
+ '3. More charts didn’t always make the answer clearer':{label:'Iteration 3 · Chart exploration',src:'/assets/pitch-iteration-3-charts.png',fitContent:true},
+ 'AI needed to show what it understood':{label:'AI filter · Request, applied criteria, and visible results',note:'Show the optional prompt dock beside the table, with suggestions and editable filters.'},
+ 'The same saving rules had to work beyond the filter screen':{label:'Save selected companies / save matching criteria',note:'Show Inbox and AI chat selections leading to static lists, and a reusable AI search leading to a dynamic view.'},
+ 'The breakthrough was choosing what mattered':{label:'Final snapshot · Priorities, findings, and radar chart',src:'/assets/pitch-solutions-company-summary-v2.png',fitContent:true},
+ 'Let investors set the priorities':{label:'Individual rankings → shared priorities → Summary',note:'Original workshop rankings · no inferred vote counts.'},
+ 'One company, different questions':{label:'Two investor perspectives, with overlap',note:'Original workshop selections showing different starting points.'},
+ 'Building trust in AI recommendations':{label:'Claim → source preview → supporting evidence',note:'Lineage design exploration · unresolved behavior should remain labeled.'},
+ 'I separated creating a search from changing its criteria':{label:'Create a View / edit existing criteria',note:'Design exploration · show how the two actions stay distinct.'},
+ 'Follow the conversation past the first answer':{label:'AI chat and follow-up research',src:'/assets/pitch-protocol-chat-short-silent.mp4',type:'video',note:'Interactive prototype with sample data · predefined responses, not live AI or a user-testing result.'},
+ 'Different questions, one consistent experience':{label:'Shared components across product flows',src:'/assets/pitch-protocol-chat-short-silent.mp4',type:'video',note:'Typography, spacing, and interaction patterns reused across features.'},
+ 'Recommendations helped investors choose whom to meet':{label:'Recommendation + attributed feedback',note:'Add source-approved excerpts. Label paraphrases; Greg’s feedback was recapped by Alexandra.'}
+};
+---
+<div class="pitch-content">
+ {sections.map((section,sectionIndex)=><section class={`chapter chapter-${section.id}`} id={section.id} data-chapter data-case-section>
+ {section.id==='core-flows'?<div class="story-copy core-flow-intro"><h2>Highlights</h2></div>:<div class="chapter-label">{section.title}</div>}
+ <div class="chapter-grid">{section.blocks.map((block,index)=>{
+ const key=('visualKey' in block&&block.visualKey)||block.title||section.title;
+ const capture=flowCaptures[key as keyof typeof flowCaptures];
+ const visual=(block.source==='research'&&block.sourceIndex>0)||block.source==='impact'?undefined:block.source==='exploration'&&block.visual?(visuals[key]||{label:block.title,note:block.visual}):visuals[key];
+ const iteration=block.source==='iterations'&&block.sourceIndex>0&&block.sourceIndex<5;
+ const subheading=iteration||!block.mainHeading||section.id==='core-flows';
+ const filterCard=block.source==='exploration'&&(block.sourceIndex===1||block.sourceIndex===2);
+ const support=false;
+ const insight=false;
+ const reflect=block.source==='reflection';
+ const flow=block.source==='core-flows'&&!support;
+ const triples=false;
+ const generative=false;
+ const impact=key==='Growing with VC funds and their teams';
+ const itemsAfterParagraph='itemsAfterParagraph' in block?block.itemsAfterParagraph:undefined;
+ return <div class:list={['story-block',{'flow-row':flow,'reverse':false,'wide-block':!flow,'iteration-card':iteration||filterCard,'snapshot-iteration':iteration,'snapshot-with-image':iteration&&!!visual?.src,'filter-exploration-card':filterCard,'support-card':support,'insight-card':insight,'reflection-card':reflect,'closing-copy':block.source==='closing','breakthrough-block':key==='The breakthrough was choosing what mattered'}]}>
+
+ <div class="story-copy">{iteration&&<span class="version-label">Version {block.sourceIndex}</span>}{block.title&&(subheading?<h3 class="story-subheading">{block.title}</h3>:<h2>{block.title}</h2>)}<div class="paragraphs">{block.paragraphs.map((p,paragraphIndex)=><>
+ {key==='The breakthrough was choosing what mattered'&&paragraphIndex===0?<div class="summary-goal-row"><p set:html={rich(p)}/><div class="metrics summary-goal" aria-label="Design goal: 80% of the information with 20% of the content"><div><strong>80%</strong><span>of the information</span></div><div><strong>20%</strong><span>of the content</span></div><small>A design goal for the Summary.</small></div></div>:<p set:html={rich(p)}/>}
+ {itemsAfterParagraph===paragraphIndex&&block.items.length>0&&(impact?<div class="metrics impact-metrics">{[['15+','VC funds'],['1,500+','Founder applications'],['79.3%','Reported pitch-to-meeting rate'],['<30 min','Time to a decision']].map(([value,label])=><div><strong>{value}</strong><span>{label}</span></div>)}</div>:<ul role="list">{block.items.map(item=><li set:html={rich(item)}/>)}</ul>)}
+ </>)}</div>
+ {key==='The opportunity'&&<div class="three-up opportunity">{[{title:'A relevant company',text:'Start with the fund’s priorities.'},{title:'A recommendation, with reasons',text:'Understand why it deserves attention.'},{title:'The investor’s next step',text:'Explore the research and ask a question.'}].map(item=><div><h3>{item.title}</h3><p>{item.text}</p></div>)}</div>}
+ {block.items.length>0&&itemsAfterParagraph===undefined&&!triples&&!generative&&!impact&&<ul role="list">{block.items.map(p=><li set:html={rich(p)}/>)}</ul>}
+ </div>
+ {triples&&<div class="three-up exploration">{block.items.map((item,i)=><div><h3>{['Direct filters','AI-assisted filters','Conversation'][i]}</h3><PitchVisual label={['Criteria controls','Prompt → editable filters','Follow-up → refined results'][i]} note="Design exploration"/><p>{item.replace(/^\*\*.*?\*\*:?\s*/,'')}</p></div>)}</div>}
+ {section.id==='breakthrough'&&index===section.blocks.length-1&&<div class="details-gallery">{[
+ {name:'briefing',label:'Company Details — Briefing'},
+ {name:'scorecard',label:'Company Details — Scorecard'},
+ {name:'application',label:'Company Details — Application'},
+ {name:'team',label:'Company Details — Team'},
+ {name:'market',label:'Company Details — Market'}
+ ].map(shot=><div class="details-floral-frame"><PitchVisual src={`/assets/pitch-details-${shot.name}.png`} label={shot.label} fitContent/></div>)}</div>}
+ {section.id==='evidence'&&<div class="company-research-images"><PitchVisual label="Detailed company research with scoring, verified signals, strengths, and risks" src="/assets/pitch-company-research-details-v2.png" fitContent/><PitchVisual label="Company tools for AI research, growth analysis, files, trace, and notes" src="/assets/pitch-company-research-tools-v2.png" fitContent/></div>}
+ {block.source==='research'&&block.sourceIndex===0&&<div class="chapter-grid research-visuals"><PitchVisual label="Research priorities across company stages" src="/assets/pitch-research-priority-matrix.png" fitContent/><PitchVisual label="Investor workshop: ranking company information and identifying gaps" src="/assets/pitch-research-investor-workshop.png" fitContent/></div>}
+ {capture?(key==='Making saved views work across the whole product'?<div class="chapter-grid research-visuals saved-view-visuals">{capture.map(shot=><PitchVisual src={shot.src} label={shot.label} fitContent/>)}</div>:<PitchFlowCapture shots={capture}/>):visual?.src&&<PitchVisual {...visual}/>}
+ </div>;
+ })}</div>
+ </section>)}
+</div>
+<style>
+.chapter-details>.chapter-label{display:none}
+.details-gallery{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+.details-floral-frame{min-width:0;padding:clamp(8px,1.2vw,14px);border-radius:14px;background:#a8d8f7 url('/assets/pitch-floral-reference-sheet.png') 0 100%/204% 310% no-repeat}
+@media(max-width:760px){.details-gallery{grid-template-columns:1fr;gap:16px}}
+.details-floral-frame:nth-child(even){background-position:0 50%}
+.details-floral-frame :global(.visual-frame){border:0;border-radius:10px;box-shadow:0 8px 28px #23395416}
+
+.company-research-images{display:grid;gap:28px}
+.company-research-images :global(.pitch-visual .visual-frame){border:0;background:transparent}
+@media(min-width:761px){
+ .chapter-filters .chapter-grid>.filter-exploration-card{grid-column:auto;display:flex;flex-direction:column}
+ .chapter-grid>.filter-exploration-card>.story-copy{flex:1}
+}
+.filter-exploration-card :global(.pitch-visual .visual-frame){aspect-ratio:2950/1938;display:grid;background:#e2e2e2}
+.filter-exploration-card :global(.pitch-visual .enlarge-image){min-height:0;height:100%}
+.filter-exploration-card :global(.pitch-visual .visual-frame img){width:100%;height:100%;object-fit:contain}
+
+.prototype-examples>div+div{border-left:0;padding-left:0}
+
+.chapter-core-flows :global(.pitch-visual .visual-frame),.breakthrough-block :global(.pitch-visual .visual-frame){border:0;background:transparent}
+
+.story-copy .story-subheading{font:500 18px/1.35 var(--sans);letter-spacing:-.012em;color:var(--case-title-color,#343b46);margin:0 0 var(--case-copy-gap,16px)}
+.iteration-card .story-copy .story-subheading{margin:0}
+@media(max-width:760px){.story-copy .story-subheading{font-size:18px}}
+.core-flow-intro{margin-bottom:40px}
+
+.breakthrough-block>.story-copy{max-width:none;width:100%}.breakthrough-block .goal{width:100%;box-sizing:border-box}
+
+.prototype-demo{width:100%;min-width:0}.prototype-examples>div+div{border:0;padding:0}
+
+.chapter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px 28px}.chapter-grid>.story-block{grid-column:1/-1;margin-bottom:0}.chapter-grid>.support-card,.chapter-grid>.insight-card{grid-column:auto}.iteration-card .story-copy,.support-card .story-copy{display:flex;flex-direction:column;max-width:none;margin:0;gap:18px}.iteration-card .story-copy h2,.support-card .story-copy h2{font-size:25px;margin:0}.iteration-card .paragraphs p,.support-card .paragraphs p{font-size:var(--story-body,16px)}.version-label{font-size:11px;color:#959ba5}.insight-card .story-copy h2,.reflection-card .story-copy h2{font-size:var(--story-primary,36px)}.closing-copy .story-copy{max-width:none}.chapter-overview-details .chapter-label,.chapter-overview-problem .chapter-label{display:none}.chapter-overview-details{padding-top:40px}.chapter-grid .flow-row{display:block}.chapter-grid .flow-row .story-copy{max-width:none;margin-bottom:26px}.chapter-grid .metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.chapter-grid .metrics strong{font-size:32px}.chapter-grid .exploration>div+div{border:0;padding:0}.chapter-grid .exploration p{margin-top:16px}.iteration-card :global(.pitch-visual:not(.fit-content) .visual-frame){aspect-ratio:16/10}.iteration-card :global(.placeholder-content){padding:18px;gap:10px}.iteration-card :global(.visual-note){font-size:11px}
+.research-visuals{grid-template-columns:minmax(0,1.010045fr) minmax(0,1.338684fr);align-items:start}
+.saved-view-visuals{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:760px){.chapter-grid{grid-template-columns:1fr;gap:36px}.chapter-grid .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.iteration-card .story-copy h2,.support-card .story-copy h2{font-size:24px}}
+
+.pitch-content{width:100%;min-width:0;--ink:#2e3440;--muted:#6f7783;color:var(--ink)}.pitch-draft *{box-sizing:border-box}.contents{position:sticky;top:100px;align-self:start}.back{font-size:13px;color:#4a5260}.contents>p{font-size:9px;letter-spacing:.13em;color:#a0a5ad;margin:42px 0 16px}.contents nav{display:flex;flex-direction:column;gap:4px}.contents nav a{font-size:12px;color:#9398a1;padding:8px 0 8px 13px;border-left:2px solid #eceef1;line-height:1.2}.contents nav a[aria-current],.contents nav a:hover{color:#363e4e;border-color:#fd633e}.mobile-jump{display:none}article{min-width:0}.chapter-label{font:400 14px/1.6 var(--sans);letter-spacing:-.012em;color:var(--text-secondary)}.project-header h1{font:350 clamp(38px,4.1vw,58px)/1.08 var(--serif);letter-spacing:normal;margin:23px 0;color:#303642}.deck{font-size:17px;line-height:1.6;color:#7b818b;max-width:610px}.meta{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:24px;margin:38px 0}.meta div{display:flex;flex-direction:column;gap:9px}.meta span{font-size:9px;letter-spacing:.1em;color:#9197a0}.meta strong{font-size:12px;line-height:1.5;font-weight:400}.hero-cover{width:100%;height:auto;border-radius:16px;margin-top:12px}.chapter{padding-top:72px;scroll-margin-top:152px}.chapter-label{display:flex;align-items:center;gap:12px;padding-top:22px;border-top:1px solid #e6e8ec;margin-bottom:40px}.chapter-label span{color:#c2c6cc;font-size:10px}.story-block{margin-bottom:64px}.story-block:last-child{margin-bottom:0}.story-copy{width:100%;min-width:0;max-width:none}.story-copy h2{font:350 clamp(28px,2.4vw,36px)/1.2 var(--serif);letter-spacing:normal;margin:0 0 var(--case-copy-gap,16px);color:var(--case-title-color,#343b46)}.story-copy p,.story-copy li,.impact-details li,.answer-row p,.three-up p{font-size:15px;line-height:1.7;color:var(--case-copy-color,#717985);margin:0 0 16px}.story-copy :global(strong),.impact-details :global(strong){font-weight:500;color:#3c4552}.wide-block>.story-copy{margin-bottom:32px}.flow-row{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.5fr);align-items:center;gap:38px;margin-bottom:80px}.flow-row.reverse{grid-template-columns:minmax(0,1.5fr) minmax(0,.75fr)}.flow-row.reverse .story-copy{order:2}.flow-row h2{font-size:24px}.flow-row p{font-size:14px}.three-up{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:32px}.opportunity{width:100%;max-width:none}.three-up>div+div{border-left:1px solid #e4e7eb;padding-left:28px}.item-number{font-size:10px;color:#b1b6bf;display:block;margin-bottom:16px}.three-up h3,.answer-row h3{font:500 18px/1.35 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#3e4653;margin:0 0 12px;letter-spacing:normal}.three-up p{font-size:13px}.exploration{gap:20px}.exploration>div+div{padding-left:20px}.exploration :global(.placeholder-content){padding:14px}.exploration :global(.placeholder-content strong){font-size:12px}.exploration :global(.placeholder-content span){font-size:8px}.goal{display:flex;gap:32px;align-items:center;background:#f5f7fa;border-radius:12px;padding:28px;margin:28px 0}.goal b{font-size:34px;font-weight:500;line-height:1.2;color:#404c60}.goal b span{display:block;font-size:13px;font-weight:400;margin-top:8px}.goal small{font-size:9px;letter-spacing:.12em;color:#9299a4;margin-left:auto}.answer-patterns{margin-top:36px}.answer-row{display:grid;grid-template-columns:1fr 1.7fr;gap:40px;align-items:center;margin-bottom:44px}.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:34px 0}.metrics>div{border-top:1px solid #dfe4eb;padding:22px 0}.metrics strong{display:block;font-size:38px;font-weight:500;letter-spacing:-.04em;color:#465670}.metrics span{display:block;font-size:12px;color:#7a8392;margin-top:8px}.impact-details{padding-left:20px;max-width:none}.scope-note{font-size:12px;line-height:1.6;color:#8b919b;border-left:2px solid #e0e4ea;padding-left:16px;max-width:none}.chapter-reflection .story-block{max-width:none}.end-link{display:inline-block;margin-top:70px;font-size:14px;color:#5e6672}a:focus-visible,select:focus-visible{outline:2px solid #fe4116;outline-offset:4px}@media(min-width:1500px){.pitch-draft{gap:80px}}@media(max-width:1100px){.pitch-draft{padding-inline:30px;grid-template-columns:140px minmax(0,1fr);gap:30px}.flow-row,.flow-row.reverse{grid-template-columns:1fr}.flow-row.reverse .story-copy{order:0}.opportunity{width:100%;max-width:none}.three-up{gap:18px}.three-up>div+div{padding-left:18px}.answer-row{grid-template-columns:1fr}.meta{gap:14px}}@media(max-width:760px){.pitch-draft{display:block;padding:96px 24px 64px}.contents{position:relative;top:auto;margin-bottom:40px}.contents>p,.contents nav{display:none}.mobile-jump{display:flex;align-items:center;justify-content:space-between;margin-top:24px;font-size:11px;color:#8b9199;gap:14px}.mobile-jump select{max-width:65%;font:inherit;font-size:13px;padding:10px;border:1px solid #e3e6eb;border-radius:8px;background:#fff;color:#485363}.project-header h1{font-size:39px}.deck{font-size:15px}.meta{grid-template-columns:1fr 1fr;row-gap:20px}.meta>div:last-child{grid-column:1/-1}.chapter{padding-top:65px;scroll-margin-top:80px}.chapter-label{margin-bottom:28px}.story-block{margin-bottom:44px}.three-up{grid-template-columns:1fr;gap:24px}.three-up>div+div{border-left:0;padding-left:0;border-top:1px solid #e4e7eb;padding-top:24px}.goal{flex-wrap:wrap;gap:20px}.goal small{margin-left:0;width:100%}.metrics{grid-template-columns:1fr 1fr}.metrics strong{font-size:32px}.story-copy h2{font-size:24px}.flow-row{gap:22px;margin-bottom:54px}.hero-cover{border-radius:10px}}
+.opportunity>div+div{border:0;padding:0}
+
+.chapter-grid>.snapshot-iteration{grid-column:1/-1;display:block}
+.chapter-grid>.snapshot-iteration>.story-copy{margin:0;gap:18px}
+.chapter-grid>.snapshot-with-image{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:36px;align-items:center}
+@media(max-width:760px){
+ .chapter-grid>.snapshot-with-image{grid-template-columns:minmax(0,1fr);gap:24px}
+}
+</style>
+
+<style>
+.three-up.prototype-examples>div+div{border:0;padding-left:0;padding-top:0}
+</style>
+
+
+
+
+<style>
+.summary-goal-row{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;margin-bottom:28px}
+.summary-goal-row>.metrics{margin:0}.summary-goal small{grid-column:1/-1;font-size:12px;color:var(--case-copy-color,#717985)}
+.chapter-grid .impact-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+.snapshot-with-image>.story-copy{order:2}.snapshot-with-image>.pitch-visual{order:1}
+@media(max-width:760px){.summary-goal-row{grid-template-columns:1fr}.chapter-grid .impact-metrics{grid-template-columns:1fr}.snapshot-with-image>.story-copy{order:0}}
+</style>
+
+<style>
+.chapter-reflection>.chapter-grid>.reflection-card{grid-column:auto;min-width:0}
+.chapter-reflection .reflection-card>.story-copy{margin-bottom:0}
+@media(max-width:760px){.chapter-reflection>.chapter-grid{grid-template-columns:minmax(0,1fr)}}
+</style>

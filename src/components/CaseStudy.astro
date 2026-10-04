@@ -1,0 +1,199 @@
+---
+import Page from '../layouts/Page.astro';
+import ProjectLink from './ProjectLink.astro';
+import BloomSideNav from './BloomSideNav.astro';
+import Footer from './Footer.astro';
+import CaseSectionNav from './CaseSectionNav.astro';
+import CaseProse from './CaseProse.astro';
+import PitchDraft from './PitchDraft.astro';
+import pitchSections from '../data/pitch-draft.json';
+import CaseMedia from './CaseMedia.astro';
+import DocusInteractions from './DocusInteractions.astro';
+import '../styles/case-study.css';
+import '../styles/case-navigation.css';
+import '../styles/case-night.css';
+import '../styles/case-light.css';
+import home from '../data/home.json';
+import projects from '../data/projects.json';
+import type { Project } from '../data/project-types';
+
+interface Props { project: Project; portfolio?: 'bloom' | 'chrome'; }
+const { project, portfolio = 'bloom' } = Astro.props;
+const creativePortfolio = portfolio === 'chrome';
+// Follow the homepage sequence, with one previous project and two following.
+// At either end, fill the remaining slots with the nearest available projects.
+const projectOrder = ['pitch-protocol', 'venture-os', 'turboml', 'shapeshifter', 'gfvc', 'docus'];
+const currentIndex = projectOrder.indexOf(project.slug);
+const windowStart = Math.max(0, Math.min(currentIndex - 1, projectOrder.length - 4));
+const relatedProjects = projectOrder.slice(windowStart, windowStart + 4)
+  .filter(slug => slug !== project.slug)
+  .slice(0, 3)
+  .map(slug => {
+    const target = projects.find(item => item.slug === slug)!;
+    const preview = projects.flatMap(item => item.related).find(item => item.slug === slug);
+    const homeItem = [...home.featured, ...home.more].find(item => item.href === `/${slug}`);
+    return { slug, title: target.title, image: preview?.image ?? homeItem!.media[0].src };
+  });
+
+// The reviewed Pitch Protocol story is the production version too.
+const localPitchDraft=project.slug==='pitch-protocol';
+const pitchScope = 'Product design, research, website, prototyping, systems thinking';
+const companyLogo = home.featured.find(item => item.href === `/${project.slug}`)?.media[0].src;
+const intro = project.intro.flat().filter(paragraph => paragraph.type !== 'subtitle' && paragraph.type !== 'spacer' && !(paragraph.type === 'label' && paragraph.text?.trim().toLowerCase() === 'about'));
+const openingHeadline = intro[0]?.type === 'label' ? intro.shift()?.text : undefined;
+const detailLabels = { scope: 'Scope', timeline: 'Timeline', team: 'Team', role: 'Role' };
+const details = Object.entries(project.details ?? {}).filter(([, value]) => value?.trim());
+const cover = !localPitchDraft && details.length > 0 && project.galleries[0]?.[0]?.type === 'image' ? project.galleries[0][0] : undefined;
+const galleryLabels: Record<string, string> = { turboml: 'TurboML', ether: 'Dark mode', gfvc: 'Brand identity', shapeshifter: 'Visual identity', docus: 'Product design' };
+const navigation = [{ id: 'intro', label: 'Intro' }];
+if (project.slug === 'docus') navigation.push({ id: 'interactions', label: 'Interactions' });
+project.galleries.forEach((gallery, index) => {
+  if (project.slug !== 'pitch-protocol' && project.slug !== 'venture-os' && project.slug !== 'gfvc' && project.slug !== 'turboml' && project.slug !== 'shapeshifter' && gallery[0]?.type !== 'section' && gallery[0]?.type !== 'heading') navigation.push({ id: `design-${index}`, label: galleryLabels[project.slug] || 'Design' });
+  gallery.forEach((block, blockIndex) => {
+    if ((block.type === 'section' || block.type === 'heading') && block.navLabel !== 'Intro') navigation.push({ id: `section-${index}-${blockIndex}`, label: block.navLabel || (block.outcome ? 'Outcome' : block.title || 'Design') });
+  });
+});
+if(localPitchDraft){navigation.splice(0,navigation.length,...pitchSections.map(({id,title})=>({id,label:title})));}
+const ornamentPath = 'M8 0C9.37147 3.70633 12.2937 6.62854 16 8C12.2937 9.37146 9.37146 12.2937 8 16C6.62854 12.2937 3.70633 9.37147 0 8C3.70633 6.62854 6.62854 3.70633 8 0Z';
+---
+<Page title={`${project.title} — Vansita's Portfolio`} description={project.description} bodyClass={creativePortfolio ? "case-night" : "case-light"} themeColor={creativePortfolio ? "#010206" : "#ffffff"}>
+  <BloomSideNav portfolio={portfolio} />
+  <main id="main-content" class:list={['case-study', `case-${project.slug}`, {'local-pitch-draft':localPitchDraft}]}>
+    <div class="case-frame-header" aria-hidden="true">
+        <span class="case-crossline" aria-hidden="true"></span>
+        <svg class="case-star case-star-left" viewBox="0 0 16 16" aria-hidden="true"><path d={ornamentPath} /></svg>
+        <svg class="case-star case-star-right" viewBox="0 0 16 16" aria-hidden="true"><path d={ornamentPath} /></svg>
+    </div>
+    <div class="case-reading-layout">
+    <div class="case-nav-track"><CaseSectionNav sections={navigation} homeHref={creativePortfolio ? "/liquid-metal.html#top" : "/#home"} /></div>
+    <article class="case-article" aria-labelledby="project-title">
+      <header class="case-intro" id={localPitchDraft ? "overview" : "intro"} data-case-section>
+        <div class="case-intro-content">
+          <p class="case-section-label">{localPitchDraft ? "Overview" : "Intro"}</p>
+          {project.slug === 'pitch-protocol' ? <>
+            <svg class="case-company-logo" width="64" height="64" viewBox="238 210 780 800" preserveAspectRatio="none" role="img" aria-label="Pitch Protocol logo"><image href="/assets/pitch-protocol-royal-glass-logo.png" width="1254" height="1254" /></svg>
+            <div class="case-intro-grid pitch-intro-grid">
+              <div class="pitch-opening">
+                <h1 id="project-title">Pitch Protocol<ProjectLink href={project.productUrl} name={project.title}/></h1>
+                <h2 class="case-project-one-liner">{pitchSections[0].blocks[0].title}</h2>
+                <CaseProse paragraphs={localPitchDraft ? pitchSections[0].blocks[0].paragraphs.map(text=>({type:"paragraph",text:text.replace(/\*\*/g,""),highlights:Array.from(text.matchAll(/\*\*(.*?)\*\*/g),match=>match[1])})) : intro} />
+              </div>
+            {localPitchDraft && <img loading="eager" fetchpriority="high" decoding="async" class="pitch-draft-hero" src="/assets/pitch-protocol-cover-419c2caf6e.png" width="1928" height="1157" alt="Pitch Protocol company assessment with scores, research signals, strengths, and risks" />}
+              <dl class="case-details" aria-label="Project details">
+                {(['scope', 'team', 'timeline'] as const).map(key => <div><dt class:list={{ 'case-detail-label-hidden': key === 'timeline' && !localPitchDraft }}>{detailLabels[key]}</dt><dd>{localPitchDraft && key === 'scope' ? pitchScope : project.details?.[key]}</dd></div>)}
+              </dl>
+            </div>
+          </> : <>
+          {project.slug === 'pitch-protocol' ? <svg class="case-company-logo" width="64" height="64" viewBox="238 210 780 800" preserveAspectRatio="none" role="img" aria-label="Pitch Protocol logo"><image href="/assets/pitch-protocol-royal-glass-logo.png" width="1254" height="1254" /></svg> : companyLogo ? <img class="case-company-logo" src={companyLogo} width="64" height="64" alt={`${project.title} logo`} /> : <span class:list={['case-company-logo', 'case-company-logo-crop', `case-logo-${project.slug}`]} role="img" aria-label={`${project.title} logo`} />}
+          <div class="case-intro-grid case-intro-solo case-stacked-intro">
+            <div class="case-intro-summary">
+              <h1 id="project-title">{project.title}<ProjectLink href={project.productUrl} name={project.title}/></h1>
+              {openingHeadline && <h2 class="case-project-one-liner">{openingHeadline}</h2>}
+              <CaseProse paragraphs={intro} />
+            </div>
+            {cover && <CaseMedia media={cover} eager label={`${project.title} — cover`} />}
+            {details.length > 0 && <dl class="case-details case-details-below-cover" aria-label="Project details">
+              {details.map(([key, value]) => <div><dt class:list={{ 'case-detail-label-hidden': project.slug === 'pitch-protocol' && key === 'timeline' }}>{detailLabels[key as keyof typeof detailLabels]}</dt><dd>{value || '—'}</dd></div>)}
+            </dl>}
+          </div>
+          </> }
+        </div>
+      </header>
+      {project.slug === 'docus' && <div id="interactions" data-case-section class="case-interactions-section"><DocusInteractions /></div>}
+      {localPitchDraft ? <PitchDraft /> : project.galleries.map((gallery, galleryIndex) => (
+        <div class="case-gallery" id={navigation.some(item => item.id === `design-${galleryIndex}`) ? `design-${galleryIndex}` : undefined} data-case-section={navigation.some(item => item.id === `design-${galleryIndex}`) || undefined}>
+          {gallery.map((block, blockIndex) => (
+            block === cover ? null : block.type === 'heading' ? (
+              <h2 class="case-gallery-heading" id={`section-${galleryIndex}-${blockIndex}`} data-case-section>{block.title}</h2>
+            ) : block.type === 'section' ? (
+              <section id={`section-${galleryIndex}-${blockIndex}`} data-case-section={block.navLabel !== 'Intro' || undefined} class:list={['case-section', { 'case-outcome': block.outcome, 'case-intro-story': block.navLabel === 'Intro' }]} style={{ '--wide-order': blockIndex }}>
+                {block.navLabel && block.navLabel !== 'Intro' && <p class="case-section-label">{block.navLabel}</p>}
+                {!(project.slug === 'pitch-protocol' && block.navLabel === 'Intro') && <h2>{block.title}</h2>}
+                <CaseProse paragraphs={block.paragraphs ?? []} />
+                {block.points?.length && <ul role="list" class:list={["case-points", { "case-stats": block.stats }]}>{block.points.map(point=><li><strong>{point.label}</strong> {point.text}</li>)}</ul>}
+                {block.testimonial && <blockquote class="case-testimonial"><p>“{block.testimonial.quote}”</p><footer>{block.testimonial.name}<span>{block.testimonial.company}</span></footer></blockquote>}
+              </section>
+            ) : block.type === 'pair' ? (
+              <div class="case-media-pair" style={{ '--wide-order': block.wideOrder }}>
+                {block.items?.map((media, index) => <CaseMedia media={media} label={`${project.title} — founder application detail ${index + 1}`} />)}
+              </div>
+            ) : (
+              <CaseMedia media={block} eager={galleryIndex === 0 && blockIndex === 0} label={`${project.title} — design ${blockIndex + 1}${block.type === 'video' ? ' in motion' : ''}`} />
+            )
+          ))}
+        </div>
+      ))}
+    </article>
+    </div>
+    <nav class="case-related" aria-label="More projects">
+      <h2>MORE PROJECTS</h2>
+      {relatedProjects.map((related) => (
+        <a class="case-related-link" href={`/${related.slug}`}>
+          <span>{related.title}</span>
+          <img class="case-related-preview" src={related.image} alt="" loading="lazy" width="243" height="146" />
+          <svg class="case-related-arrow" viewBox="0 0 32 40" aria-hidden="true"><path d="M16 38V2M2 16 16 2l14 14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </a>
+      ))}
+    </nav>
+  </main>
+  <Footer variant="project" />
+</Page>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const videos = document.querySelectorAll<HTMLVideoElement>('[data-case-video]');
+  const manuallyPaused = new WeakSet<HTMLVideoElement>();
+
+  function updateButton(video: HTMLVideoElement) {
+    const button = video.parentElement?.querySelector<HTMLButtonElement>('.case-video-toggle');
+    if (!button) return;
+    button.textContent = video.paused ? 'Play' : 'Pause';
+    button.setAttribute('aria-pressed', String(!video.paused));
+    button.setAttribute('aria-label', `${video.paused ? 'Play' : 'Pause'} ${video.getAttribute('aria-label')}`);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const video = entry.target as HTMLVideoElement;
+      if (entry.isIntersecting && video.dataset.autoplay !== 'false' && !reduceMotion.matches && !manuallyPaused.has(video)) {
+        video.play().catch(() => updateButton(video));
+      } else {
+        video.pause();
+      }
+    }
+  }, { threshold: 0.15 });
+
+  videos.forEach((video) => {
+    observer.observe(video);
+    video.addEventListener('play', () => updateButton(video));
+    video.addEventListener('pause', () => updateButton(video));
+    video.parentElement?.querySelector('button')?.addEventListener('click', () => {
+      if (video.paused) {
+        manuallyPaused.delete(video);
+        video.play().catch(() => updateButton(video));
+      } else {
+        manuallyPaused.add(video);
+        video.pause();
+      }
+    });
+  });
+  reduceMotion.addEventListener('change', () => {
+    if (reduceMotion.matches) videos.forEach((video) => video.pause());
+  });
+</script>
+
+<style>
+.local-pitch-draft{padding-top:84px}
+.local-pitch-draft .case-frame-header{top:84px}
+.local-pitch-draft :global(.case-intro .pitch-opening h2.case-project-one-liner){font:350 clamp(32px,3.1vw,44px)/1.15 'PS Times Regular',Georgia,serif;letter-spacing:normal;margin:18px 0 0}
+.local-pitch-draft :global(.pitch-opening h1),.local-pitch-draft :global(.pitch-opening h2){letter-spacing:normal}
+
+.local-pitch-draft :global(.pitch-intro-grid){display:flex;flex-direction:column;gap:32px}
+.local-pitch-draft :global(.pitch-opening){width:100%;max-width:none}
+.local-pitch-draft :global(.pitch-opening p.case-paragraph),.local-pitch-draft :global(.pitch-opening p.case-paragraph strong.case-emphasis){color:var(--case-copy-color);font-weight:400}
+.local-pitch-draft :global(.pitch-intro-grid .case-details){display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;width:100%;font-size:14px}
+.local-pitch-draft :global(.pitch-intro-grid .case-details>div:first-child){grid-row:auto}
+.local-pitch-draft :global(.pitch-intro-grid .case-details dt){display:block}
+.pitch-draft-hero{display:block;width:100%;height:auto;aspect-ratio:1928/1157;object-fit:contain;border-radius:16px}
+@media(max-width:479px){.local-pitch-draft :global(.pitch-intro-grid .case-details){gap:14px;font-size:12px}.pitch-draft-hero{border-radius:10px}}
+</style>

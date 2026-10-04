@@ -1,0 +1,26 @@
+{
+  "/pitch-protocol": {
+    "src": "/assets/featured/pitch-protocol.webp",
+    "poster": "/assets/featured/pitch-protocol.webp"
+  },
+  "/venture-os": {
+    "src": "/assets/featured/venture-os.webp",
+    "poster": "/assets/featured/venture-os.webp"
+  },
+  "/gfvc": {
+    "src": "/assets/featured/gfvc.mp4",
+    "poster": "/assets/featured/gfvc.webp"
+  },
+  "/turboml": {
+    "src": "/assets/featured/turboml.mp4",
+    "poster": "/assets/featured/turboml.webp"
+  },
+  "/docus": {
+    "src": "/assets/featured/docus.mp4",
+    "poster": "/assets/featured/docus.webp"
+  },
+  "/ether": {
+    "src": "/assets/featured/ether.mp4",
+    "poster": "/assets/featured/ether.webp"
+  }
+}

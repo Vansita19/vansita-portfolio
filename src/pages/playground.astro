@@ -1,0 +1,349 @@
+---
+import Page from '../layouts/Page.astro';
+import BloomSideNav from '../components/BloomSideNav.astro';
+import previews from '../data/gallery-previews.json';
+const previewFor=(src:string)=>(previews as Record<string,string>)[src] || src;
+import playground from '../data/playground.json';
+import '../styles/playground.css';
+
+const initialTiles = Array.from({ length: 49 }, (_, i) => {
+  const column = i % 7 - 3;
+  const row = Math.floor(i / 7) - 3;
+  const index = playground.layout.desktop[row + playground.layoutRadius][column + playground.layoutRadius];
+  const work = playground.works[index];
+  const factor = Math.min(396 / work.width, 308 / work.height);
+  const width = Math.round(work.width * factor);
+  const height = Math.round(work.height * factor);
+  return { column, row, index, work, width, height };
+});
+---
+<Page title="Playground — Vansita" description="A collection of product interfaces, brand identities, and design experiments by Vansita.">
+  <BloomSideNav />
+  <main class="playground" id="main-content">
+    <h1 class="playground-sr-only">Playground</h1>
+    <p id="canvas-instructions" class="playground-sr-only">Drag or scroll to explore the gallery. Use the arrow keys to move around, and Enter to enlarge an image. Press Escape to close the preview.</p>
+    <section class="playground-stage" aria-label="Infinite draggable work canvas" aria-describedby="canvas-instructions" tabindex="0">
+      <div class="playground-dots" aria-hidden="true"></div>
+      {initialTiles.map(({ column, row, index, work, width, height }) => (
+        <button class="playground-tile" type="button" data-cell={`${column}:${row}`} data-work={index} aria-label={`View ${work.title}`} style={`--tile-width:${width}px;--tile-height:${height}px;left:calc(50% + ${column * 440 - width / 2}px);top:calc(50% + ${row * 407 - height / 2}px)`}>
+          <span class="playground-image"><img src={previewFor(work.src)} width={work.width} height={work.height} alt={`${work.title} preview`} loading={Math.abs(column) <= 1 && Math.abs(row) <= 1 ? 'eager' : 'lazy'} decoding="async" draggable="false" /></span>
+          <span class="playground-caption">{work.title}</span>
+        </button>
+      ))}
+    </section>
+    <section class="playground-list" aria-label="Work list">
+      {playground.works.map((work, index) => ({work,index})).filter(({index})=>index!==29).map(({work,index}) => (
+        <button class="playground-list-item" type="button" data-work={index} aria-label={`View ${work.title}`}>
+          <span class="playground-image" style={`aspect-ratio:${work.width} / ${work.height}`}>{work.video ? <video src={work.video} autoplay muted loop playsinline preload="metadata" /> : <img src={previewFor(work.src)} width={work.width} height={work.height} alt={`${work.title} preview`} loading={index < 2 ? 'eager' : 'lazy'} decoding="async" draggable="false" />}</span>
+          <span class="playground-caption">{work.title}</span>
+        </button>
+      ))}
+    </section>
+    <dialog class="playground-preview" aria-labelledby="preview-caption">
+      <button class="playground-close" type="button" aria-label="Close image preview"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg></button>
+      <figure class="playground-preview-content">
+        <img class="playground-preview-image" alt="" />
+        <figcaption id="preview-caption" class="playground-caption"></figcaption>
+      </figure>
+    </dialog>
+    <noscript><style>.playground-stage{display:none!important}.playground-list{display:grid!important;padding-top:120px}</style></noscript>
+  </main>
+</Page>
+
+<script>
+  import gallery from '../data/playground.json';
+  import previews from '../data/gallery-previews.json';
+  const previewFor=(src:string)=>(previews as Record<string,string>)[src] || src;
+
+  type Collection = keyof typeof gallery.layout;
+  type Tile = { button: HTMLButtonElement; column: number; row: number };
+  const stage = document.querySelector<HTMLElement>('.playground-stage');
+  const dots = document.querySelector<HTMLElement>('.playground-dots');
+  const dialog = document.querySelector<HTMLDialogElement>('.playground-preview');
+  let previewImage = document.querySelector<HTMLImageElement>('.playground-preview-image');
+  const previewCaption = document.querySelector<HTMLElement>('#preview-caption');
+  const closeButton = document.querySelector<HTMLButtonElement>('.playground-close');
+
+  if (stage && dots && dialog && previewImage && previewCaption && closeButton) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const tiles = new Map<string, Tile>();
+    stage.querySelectorAll<HTMLButtonElement>('[data-cell]').forEach(button => {
+      const [column, row] = button.dataset.cell!.split(':').map(Number);
+      tiles.set(button.dataset.cell!, { button, column, row });
+    });
+    let pan = { x: 0, y: 0 };
+    let viewport = { width: 0, height: 0 };
+    let collection: Collection = 'desktop';
+    let metrics = { maxWidth: 396, maxHeight: 308, stepX: 440, stepY: 352, gap: 8.8 };
+    let frame = 0;
+    let inertia = 0;
+    let closing = false;
+    let selection = 0;
+    let previousFocus: HTMLElement | null = null;
+    let hoverAfter = 0;
+    let audio: AudioContext | null = null;
+    let drag: { id: number; startX: number; startY: number; panX: number; panY: number; lastX: number; lastY: number; time: number; vx: number; vy: number; distance: number; button: HTMLButtonElement | null } | null = null;
+
+    const wrapped = (value: number, length: number) => ((value % length) + length) % length;
+    const workAt = (column: number, row: number) => {
+      const layout = gallery.layout[collection];
+      const index=layout[wrapped(row + gallery.layoutRadius, layout.length)][wrapped(column + gallery.layoutRadius, layout[0].length)];
+      return index === 29 ? 10 : index;
+    };
+    const stopInertia = () => { cancelAnimationFrame(inertia); inertia = 0; };
+
+    function tick(volume = 1, duration = 0.02) {
+      if (reducedMotion.matches) return;
+      try {
+        audio ??= new AudioContext();
+        if (audio.state === 'suspended') void audio.resume();
+        const now = audio.currentTime;
+        const buffer = audio.createBuffer(1, Math.ceil(audio.sampleRate * duration), audio.sampleRate);
+        const samples = buffer.getChannelData(0);
+        for (let i = 0; i < samples.length; i++) samples[i] = (Math.random() * 2 - 1) * (1 - i / samples.length) ** 3;
+        const source = audio.createBufferSource();
+        source.buffer = buffer;
+        const filter = audio.createBiquadFilter();
+        filter.type = 'highpass';
+        filter.frequency.value = 900;
+        const gain = audio.createGain();
+        gain.gain.setValueAtTime(0.065 * volume, now);
+        source.connect(filter).connect(gain).connect(audio.destination);
+        source.start(now);
+        source.onended = () => { source.disconnect(); filter.disconnect(); gain.disconnect(); };
+      } catch { /* The gallery remains usable when browser audio is unavailable. */ }
+    }
+
+    function draw() {
+      frame = 0;
+      if (!stage || !dots || viewport.width < 700) return;
+      const firstColumn = Math.floor((-viewport.width / 2 - pan.x) / metrics.stepX) - 1;
+      const lastColumn = Math.ceil((viewport.width / 2 - pan.x) / metrics.stepX) + 1;
+      const firstRow = Math.floor((-viewport.height / 2 - pan.y) / metrics.stepY) - 1;
+      const lastRow = Math.ceil((viewport.height / 2 - pan.y) / metrics.stepY) + 1;
+      const activeCells = new Set<string>();
+      for (let row = firstRow; row <= lastRow; row++) {
+        for (let column = firstColumn; column <= lastColumn; column++) {
+          const key = `${column}:${row}`;
+          activeCells.add(key);
+          const workIndex = workAt(column, row);
+          const work = gallery.works[workIndex];
+          let tile = tiles.get(key);
+          if (!tile) {
+            const button = document.createElement('button');
+            button.className = 'playground-tile';
+            button.type = 'button';
+            button.dataset.cell = key;
+            const imageFrame = document.createElement('span');
+            imageFrame.className = 'playground-image';
+            const image = document.createElement('img');
+            image.draggable = false;
+            image.decoding = 'async';
+            imageFrame.append(image);
+            const caption = document.createElement('span');
+            caption.className = 'playground-caption';
+            button.append(imageFrame, caption);
+            stage.append(button);
+            tile = { button, column, row };
+            tiles.set(key, tile);
+          }
+          const { button } = tile;
+          if (button.dataset.work !== String(workIndex) || !button.dataset.ready) {
+            button.dataset.ready="true";
+            button.dataset.work = String(workIndex);
+            button.setAttribute('aria-label', `View ${work.title}`);
+            const media = document.createElement(work.video ? 'video' : 'img');
+            media.src = work.video || previewFor(work.src);
+            if(media instanceof HTMLVideoElement){media.autoplay=true;media.muted=true;media.loop=true;media.playsInline=true;}
+            else {media.alt=`${work.title} preview`;media.width=work.width;media.height=work.height;media.draggable=false;media.decoding='async';}
+            button.querySelector('.playground-image')!.replaceChildren(media);
+            button.querySelector('.playground-caption')!.textContent = work.title;
+          }
+          const ratio = Math.min(metrics.maxWidth / work.width, metrics.maxHeight / work.height);
+          const width = Math.round(work.width * ratio);
+          const height = Math.round(work.height * ratio);
+          const x = viewport.width / 2 + column * metrics.stepX + pan.x - width / 2;
+          const y = viewport.height / 2 + row * metrics.stepY + pan.y - height / 2;
+          button.style.setProperty('--tile-width', `${width}px`);
+          button.style.setProperty('--tile-height', `${height}px`);
+          button.style.left = `${x}px`;
+          button.style.top = `${y}px`;
+          button.tabIndex = x + width > 0 && x < viewport.width && y + height > 105 && y < viewport.height ? 0 : -1;
+        }
+      }
+      for (const [key, tile] of tiles) {
+        if (!activeCells.has(key) && tile.button !== document.activeElement) {
+          tile.button.remove();
+          tiles.delete(key);
+        }
+      }
+      dots.style.backgroundPosition = `${pan.x}px ${pan.y}px`;
+    }
+    function scheduleDraw() { if (!frame) frame = requestAnimationFrame(draw); }
+
+    function resize() {
+      if (!stage || !dots) return;
+      stopInertia();
+      viewport = { width: stage.clientWidth, height: stage.clientHeight };
+      const width = window.innerWidth;
+      collection = width >= 2000 ? 'wide' : width >= 810 && width < 1200 ? 'tablet' : 'desktop';
+      const scale = width < 700 ? 0.98 : width < 1024 ? 1.05 : 1.1;
+      const maxWidth = width >= 2000 ? 420 : width >= 1200 ? 360 : width >= 810 ? 320 : 260;
+      const maxHeight = width >= 2000 ? 273 : width >= 1200 ? 280 : width >= 810 ? 208 : 170;
+      metrics = { maxWidth: maxWidth * scale, maxHeight: maxHeight * scale, stepX: (maxWidth + 40) * scale, stepY: (maxHeight + 40) * scale, gap: 8 * scale };
+      dots.style.backgroundSize = `${Math.max(16, Math.round(28 * scale))}px ${Math.max(16, Math.round(28 * scale))}px`;
+      stage.style.setProperty('--caption-gap', `${metrics.gap}px`);
+      scheduleDraw();
+    }
+
+    function openPreview(button: HTMLButtonElement) {
+      if (!dialog || !previewImage || !previewCaption || dialog.open) return;
+      const work = gallery.works[Number(button.dataset.work)];
+      if (!work) return;
+      stopInertia();
+      previousFocus = button;
+      const current=++selection;
+      const fresh = document.createElement(work.video ? 'video' : 'img');
+      fresh.className='playground-preview-image';
+      if(fresh instanceof HTMLVideoElement){
+        fresh.src=work.video!;fresh.controls=true;fresh.loop=true;fresh.playsInline=true;fresh.muted=true;
+      }else{
+        fresh.alt=work.title;fresh.width=work.width;fresh.height=work.height;
+        fresh.src=previewFor(work.src);
+        const original=new Image(); original.src=work.src;
+        void original.decode().then(()=>{if(dialog.open && selection===current && fresh.isConnected)fresh.src=work.src;}).catch(()=>{});
+      }
+      dialog.querySelector('.playground-preview-image')?.replaceWith(fresh);
+      if(fresh instanceof HTMLVideoElement)void fresh.play().catch(()=>{});
+      previewCaption.textContent = work.title;
+      dialog.classList.remove('is-closing');
+      closing = false;
+      dialog.showModal();
+      document.documentElement.classList.add('playground-preview-open');
+      tick(1.6, 0.045);
+    }
+
+    function closePreview() {
+      if (!dialog?.open || closing) return;
+      closing = true;
+      selection++;
+      dialog.querySelector("video")?.pause();
+      dialog.classList.add('is-closing');
+      tick(1.1, 0.05);
+      window.setTimeout(() => {
+        dialog.close();
+        const empty=document.createElement("img");empty.className="playground-preview-image";
+        dialog.querySelector(".playground-preview-image")?.replaceWith(empty);
+        document.documentElement.classList.remove('playground-preview-open');
+        previousFocus?.focus({ preventScroll: true });
+        closing = false;
+      }, reducedMotion.matches ? 0 : 170);
+    }
+
+    stage.addEventListener('pointerdown', event => {
+      if (event.button !== 0 || viewport.width < 700) return;
+      stopInertia();
+      const target = event.target as Element;
+      drag = { id: event.pointerId, startX: event.clientX, startY: event.clientY, panX: pan.x, panY: pan.y, lastX: event.clientX, lastY: event.clientY, time: performance.now(), vx: 0, vy: 0, distance: 0, button: target.closest<HTMLButtonElement>('.playground-tile') };
+      hoverAfter = performance.now() + 400;
+      stage.setPointerCapture(event.pointerId);
+      stage.classList.add('is-dragging');
+    });
+    stage.addEventListener('pointermove', event => {
+      if (!drag || drag.id !== event.pointerId) return;
+      const now = performance.now();
+      const elapsed = Math.max(1, now - drag.time);
+      const dx = event.clientX - drag.startX;
+      const dy = event.clientY - drag.startY;
+      drag.distance = Math.max(drag.distance, Math.hypot(dx, dy));
+      drag.vx = drag.vx * 0.7 + (event.clientX - drag.lastX) / elapsed * 0.3;
+      drag.vy = drag.vy * 0.7 + (event.clientY - drag.lastY) / elapsed * 0.3;
+      Object.assign(drag, { lastX: event.clientX, lastY: event.clientY, time: now });
+      pan = { x: drag.panX + dx, y: drag.panY + dy };
+      scheduleDraw();
+    });
+    function finishDrag(event: PointerEvent) {
+      if (!drag || drag.id !== event.pointerId || !stage) return;
+      const finished = drag;
+      drag = null;
+      stage.classList.remove('is-dragging');
+      if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+      if (event.type === 'pointercancel') return;
+      if (finished.distance <= 6 && finished.button) { openPreview(finished.button); return; }
+      if (reducedMotion.matches || performance.now() - finished.time > 80) return;
+      let vx = finished.vx;
+      let vy = finished.vy;
+      const speed = Math.hypot(vx, vy);
+      if (speed > 4) { vx *= 4 / speed; vy *= 4 / speed; }
+      let lastTime = performance.now();
+      function glide(time: number) {
+        const elapsed = Math.min(time - lastTime, 40);
+        lastTime = time;
+        pan.x += vx * elapsed;
+        pan.y += vy * elapsed;
+        const friction = Math.pow(0.94, elapsed / 16.67);
+        vx *= friction;
+        vy *= friction;
+        scheduleDraw();
+        if (Math.hypot(vx, vy) > 0.015) inertia = requestAnimationFrame(glide);
+        else inertia = 0;
+      }
+      if (speed > 0.02) inertia = requestAnimationFrame(glide);
+    }
+    stage.addEventListener('pointerup', finishDrag);
+    stage.addEventListener('pointercancel', finishDrag);
+    stage.addEventListener('click', event => {
+      if (event.detail === 0) {
+        const button = (event.target as Element).closest<HTMLButtonElement>('.playground-tile');
+        if (button) openPreview(button);
+      }
+    });
+    stage.addEventListener('wheel', event => {
+      if (event.ctrlKey || viewport.width < 700) return;
+      event.preventDefault();
+      stopInertia();
+      const multiplier = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewport.height : 1;
+      pan.x -= (event.shiftKey && !event.deltaX ? event.deltaY : event.deltaX) * multiplier;
+      pan.y -= (event.shiftKey && !event.deltaX ? 0 : event.deltaY) * multiplier;
+      scheduleDraw();
+    }, { passive: false });
+    stage.addEventListener('keydown', event => {
+      const directions: Record<string, [number, number]> = { ArrowLeft: [1, 0], ArrowRight: [-1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] };
+      if (event.key === 'Home') {
+        event.preventDefault(); stopInertia(); stage.focus({ preventScroll: true }); pan = { x: 0, y: 0 }; scheduleDraw();
+      } else if (directions[event.key]) {
+        event.preventDefault(); stopInertia();
+        stage.focus({ preventScroll: true });
+        const [x, y] = directions[event.key];
+        pan.x += x * metrics.stepX;
+        pan.y += y * metrics.stepY;
+        scheduleDraw();
+      }
+    });
+    document.querySelectorAll<HTMLButtonElement>('.playground-list-item').forEach(button => button.addEventListener('click', () => openPreview(button)));
+    closeButton.addEventListener('click', closePreview);
+    dialog.addEventListener('click', event => {if(!(event.target instanceof HTMLVideoElement))closePreview();});
+    dialog.addEventListener('cancel', event => { event.preventDefault(); closePreview(); });
+    const observer = new ResizeObserver(resize);
+    observer.observe(stage);
+    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('pagehide', () => {
+      stopInertia();
+      cancelAnimationFrame(frame);
+      frame = 0;
+      if (drag && stage.hasPointerCapture(drag.id)) stage.releasePointerCapture(drag.id);
+      drag = null;
+      stage.classList.remove('is-dragging');
+      observer.disconnect();
+      const previousAudio = audio;
+      audio = null;
+      void previousAudio?.close().catch(() => {});
+    });
+    window.addEventListener('pageshow', event => {
+      if (!event.persisted) return;
+      observer.observe(stage);
+      resize();
+    });
+    resize();
+  }
+</script>

@@ -1,0 +1,450 @@
+{
+  "featured": [
+    {
+      "href": "/pitch-protocol",
+      "title": "Pitch Protocol",
+      "description": "Turning complex startup signals into clear investment decisions.",
+      "media": [
+        {
+          "src": "/assets/pitch-protocol-royal-glass-logo.png",
+          "kind": "img",
+          "width": 160,
+          "height": 160
+        },
+        {
+          "src": "/assets/e5dlW4glmy1a1m4Vs9J4IhVDZ2U.png?v=d5cf4228c9",
+          "kind": "img",
+          "width": 96,
+          "height": 96
+        },
+        {
+          "src": "/assets/pitch-protocol-cover-419c2caf6e.png",
+          "kind": "img",
+          "width": 1928,
+          "height": 1157
+        }
+      ]
+    },
+    {
+      "href": "/venture-os",
+      "title": "VentureOS",
+      "description": "A clearer path from a founder’s company profile to the right investors.",
+      "media": [
+        {
+          "src": "/assets/venture-os-brand-logo-v2.png",
+          "kind": "img",
+          "width": 1254,
+          "height": 1254
+        },
+        {
+          "src": "/assets/e5dlW4glmy1a1m4Vs9J4IhVDZ2U.png?v=d5cf4228c9",
+          "kind": "img",
+          "width": 96,
+          "height": 96
+        },
+        {
+          "src": "/assets/venture-os-founder-original-colors.png",
+          "kind": "img",
+          "width": 3024,
+          "height": 1964
+        }
+      ]
+    },
+    {
+      "href": "/gfvc",
+      "title": "Growth Factory Ventures",
+      "description": "A distinctive brand for a venture capital fund.",
+      "media": [
+        {
+          "src": "/assets/w5rdoXQmJCioynjJ5jLAKqFV54.png?v=fb08cf9acf",
+          "kind": "img",
+          "width": 1200,
+          "height": 1200
+        },
+        {
+          "src": "/assets/e5dlW4glmy1a1m4Vs9J4IhVDZ2U.png?v=d5cf4228c9",
+          "kind": "img",
+          "width": 96,
+          "height": 96
+        },
+        {
+          "src": "/assets/KkaN7HtZMj6Fi0OC2huJXaGWdvg.png?v=3fa4de9536",
+          "kind": "img",
+          "width": 2000,
+          "height": 1200
+        }
+      ]
+    },
+    {
+      "href": "/turboml",
+      "title": "TurboML",
+      "description": "Two technical products, designed for clearer machine learning workflows.",
+      "media": [
+        {
+          "src": "/assets/5B6BcPAs5rZ0oHqlWpQB2ShUs.png?v=296808c5d9",
+          "kind": "img",
+          "width": 241,
+          "height": 240
+        },
+        {
+          "src": "/assets/e5dlW4glmy1a1m4Vs9J4IhVDZ2U.png?v=d5cf4228c9",
+          "kind": "img",
+          "width": 96,
+          "height": 96
+        },
+        {
+          "src": "/assets/ZfiD1LpdAo1C3047T0BswcjtlTM.mov",
+          "kind": "video",
+          "width": 0,
+          "height": 0
+        },
+        {
+          "src": "/assets/1ESU0ZL17XTDEthmPc9j7q3JJig.png?v=3aec703567",
+          "kind": "img",
+          "width": 489,
+          "height": 468
+        }
+      ]
+    },
+    {
+      "href": "/docus",
+      "title": "Docus AI",
+      "description": "AI platform that automates document creation, collaboration, and signing.",
+      "media": [
+        {
+          "src": "/assets/3wfCfGDQ5aOg2FaQCsTuT9MxILk.png?v=d39cb4a8ce",
+          "kind": "img",
+          "width": 97,
+          "height": 96
+        },
+        {
+          "src": "/assets/e5dlW4glmy1a1m4Vs9J4IhVDZ2U.png?v=d5cf4228c9",
+          "kind": "img",
+          "width": 96,
+          "height": 96
+        },
+        {
+          "src": "/assets/Z5zonZ6yl98qx0PFTgBM5tUnBYQ.mov",
+          "kind": "video",
+          "width": 0,
+          "height": 0
+        },
+        {
+          "src": "/assets/IPlytOo3R4b59O2q9lz6EwSZZI.png?v=683d425dcd",
+          "kind": "img",
+          "width": 490,
+          "height": 468
+        }
+      ]
+    },
+    {
+      "href": "/ether",
+      "title": "Ether",
+      "description": "No-code site builder that turns ideas into polished websites in minutes.",
+      "media": [
+        {
+          "src": "/assets/vhEI4NUqazGX2pA8VN3ysfQYvI.png?v=ccb9775de6",
+          "kind": "img",
+          "width": 96,
+          "height": 96
+        },
+        {
+          "src": "/assets/e5dlW4glmy1a1m4Vs9J4IhVDZ2U.png?v=d5cf4228c9",
+          "kind": "img",
+          "width": 96,
+          "height": 96
+        },
+        {
+          "src": "/assets/isq4im5peBnizn2iBj3uFnuL5oI.mov",
+          "kind": "video",
+          "width": 0,
+          "height": 0
+        },
+        {
+          "src": "/assets/gVdCZ7DK6LZZjsb2xWMEv4HQ.mov",
+          "kind": "video",
+          "width": 0,
+          "height": 0
+        },
+        {
+          "src": "/assets/oQZb3a1dWl1nLJxUrO8uMSy80.png?v=ced13f708d",
+          "kind": "img",
+          "width": 489,
+          "height": 468
+        }
+      ]
+    }
+  ],
+  "more": [
+    {
+      "href": "/travello",
+      "title": "Travello",
+      "description": "AI-powered travel planner personalized to you.",
+      "media": [
+        {
+          "src": "/assets/4pMQwY4Z5PPOaHFtocmZVTSp4.jpg?v=b1038ead73",
+          "kind": "img",
+          "width": 944,
+          "height": 784
+        }
+      ]
+    },
+    {
+      "href": "/shapeshifter",
+      "title": "Shapeshifter",
+      "description": "Designed an AI-powered B2C job portal and pivoted it for the B2B market.",
+      "media": [
+        {
+          "src": "/assets/shapeshifter-client-dashboard-cover.png",
+          "kind": "img",
+          "width": 2680,
+          "height": 1866
+        },
+        {
+          "src": "/assets/JpWFvR6Usd8rEsFp3gqyrYuOTE.png?v=fd9ff9891c",
+          "kind": "img",
+          "width": 489,
+          "height": 468
+        }
+      ]
+    },
+    {
+      "href": "/puch",
+      "title": "Puch AI",
+      "description": "Built brand and marketing, driving early user growth in Indic AI.",
+      "media": [
+        {
+          "src": "/assets/1m3F4NdhvGWCrHJQF7JarCOB2s.jpg?v=b2201593ac",
+          "kind": "img",
+          "width": 944,
+          "height": 785
+        }
+      ]
+    },
+    {
+      "href": "/my-drip",
+      "title": "My Drip",
+      "description": "Delivered an AI fashion ecommerce MVP in under one month.",
+      "media": [
+        {
+          "src": "/assets/QyWRxPpol9C8YN0xPsnSsgHyWU.jpg?v=597c9e7e51",
+          "kind": "img",
+          "width": 944,
+          "height": 784
+        }
+      ]
+    }
+  ],
+  "ticker": [
+    {
+      "src": "/assets/1WDgAYygFbuSxVwjOb4iTUbnPA.jpg?v=356c543bc8",
+      "kind": "img",
+      "width": 756,
+      "height": 737,
+      "number": 1
+    },
+    {
+      "src": "/assets/BjWz9db2Y0s80V1PRXTgTHg.mp4",
+      "kind": "video",
+      "width": 0,
+      "height": 0,
+      "number": 3
+    },
+    {
+      "src": "/assets/M6z5Au6jqnMFzm80b3kc3O0A.png?v=a2573f7996",
+      "kind": "img",
+      "width": 2814,
+      "height": 2244,
+      "number": 4
+    },
+    {
+      "src": "/assets/BXuXrIcou9s4Ri4YjylnqQeRM8.png?v=cc960bfdb3",
+      "title": "Agent chat",
+      "width": 2200,
+      "height": 2160,
+      "kind": "img",
+      "number": 11
+    },
+    {
+      "src": "/assets/p4na8mJXRO3h5qD4i3kC8dMju3k.png?v=ba77659882",
+      "title": "Storylane dashboard",
+      "width": 3490,
+      "height": 2396,
+      "kind": "img",
+      "number": 12
+    },
+    {
+      "src": "/assets/kLoogAcaeKZ8JKyaEeGFQBOD554.png?v=d74139257f",
+      "kind": "img",
+      "width": 2950,
+      "height": 2420,
+      "number": 10
+    },
+    {
+      "src": "/assets/F0SYglwcNpn8rHjJ2dvcduVWZ8.jpg?v=de71f5f193",
+      "kind": "img",
+      "width": 1000,
+      "height": 945,
+      "number": 7
+    },
+    {
+      "src": "/assets/nUbpqH4XirqO3p9WBfqxMOHLVh0.png?v=4e5e5a037f",
+      "kind": "img",
+      "width": 1560,
+      "height": 1144,
+      "number": 9
+    },
+    {
+      "src": "/assets/xwI0xjRRR2Q1TmoezmERDY3IPOM.png?v=9290aad48a",
+      "title": "About section",
+      "width": 2950,
+      "height": 1690,
+      "kind": "img",
+      "number": 13
+    }
+  ],
+  "services": [
+    {
+      "title": "Web & mobile apps",
+      "media": [
+        {
+          "src": "/assets/qXfUrwu7hxkH0UEkAc0GcPGmC2U.jpg?v=da449b9bd4",
+          "kind": "img",
+          "width": 438,
+          "height": 438
+        },
+        {
+          "src": "/assets/neHbfRtryw0YDdYMgWKQlQbsCI.jpg?v=d353ab365a",
+          "kind": "img",
+          "width": 1159,
+          "height": 1159
+        },
+        {
+          "src": "/assets/W5BbV850SqluZsNei0oXGNkw.png?v=5c8e025a69",
+          "kind": "img",
+          "width": 512,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "title": "Framer websites",
+      "media": [
+        {
+          "src": "/assets/s7e7XEe5HBmj59Cwe7RCt0iLpUM.png?v=161fa7cf46",
+          "kind": "img",
+          "width": 1785,
+          "height": 1786
+        },
+        {
+          "src": "/assets/uhnn3vCrjQXXyUyMaYtFrAr4p8.webp?v=77d185a9c5",
+          "kind": "img",
+          "width": 1440,
+          "height": 1440
+        },
+        {
+          "src": "/assets/tBistF30iVVAfgMSLYZmE0oxGM.png?v=c0446afb20",
+          "kind": "img",
+          "width": 512,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "title": "Branding",
+      "media": [
+        {
+          "src": "/assets/X3WamWJxgxFP3ds2nNPtUJ0JioE.webp?v=bd3a54f191",
+          "kind": "img",
+          "width": 1950,
+          "height": 1950
+        },
+        {
+          "src": "/assets/eQIGbZxlqBNsZaaxdKi8hNwCwtI.webp?v=e63ff129a5",
+          "kind": "img",
+          "width": 1150,
+          "height": 1150
+        },
+        {
+          "src": "/assets/W5BbV850SqluZsNei0oXGNkw.png?v=5c8e025a69",
+          "kind": "img",
+          "width": 512,
+          "height": 512
+        }
+      ]
+    },
+    {
+      "title": "Animations",
+      "media": [
+        {
+          "src": "/assets/GlIHyU15RPrscF8VPIhokGcp28.png?v=67ccd120e2",
+          "kind": "img",
+          "width": 340,
+          "height": 340
+        },
+        {
+          "src": "/assets/DTKGNxBvWuIhbahVUTClFoiQ.png?v=0b0c85bb28",
+          "kind": "img",
+          "width": 3456,
+          "height": 2954
+        },
+        {
+          "src": "/assets/xmlXS45NpbBlmt0ttESNEiVApY.png?v=7b71f31d74",
+          "kind": "img",
+          "width": 512,
+          "height": 512
+        }
+      ]
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Sedat Akkus",
+      "role": "CEO, Shapeshifter, ex-Adobe",
+      "quote": "I’ve worked with Vansita on multiple projects now. She gets what’s needed quickly and delivers practical, well-considered work without a lot of back-and-forth. Someone I’m happy to keep working with.",
+      "image": "/assets/7HoeBXdyIwivsNVUHvG5bTX6qMc.jpg?v=81df4467d6"
+    },
+    {
+      "name": "Ali Mackani",
+      "role": "General Partner, GFV",
+      "quote": "Vansita built the Growth Factory Ventures brand from scratch. She understood what we wanted the company to stand for and gave it a bold identity that felt like us. We’re proud of how it turned out.",
+      "image": "/assets/lZHHlT0zm2iDK2MFRq7BoyU4s.png?v=bf37238344"
+    },
+    {
+      "name": "Siddharth Bhatia",
+      "role": "CEO, TurboML, Puch AI",
+      "quote": "Vansita took the lead on design with very little guidance from us. She did her research, spotted problems we hadn’t considered, and came back with ideas backed by clear reasoning. We could trust her to figure things out and take them forward. One of the best designers we’ve worked with.",
+      "image": "/assets/O9xqHPfocJnjwp51aDwnDKwVH6U.jpg?v=5660b457f1"
+    },
+    {
+      "name": "Sanket",
+      "role": "Product Manager, Shapeshifter",
+      "quote": "Our direction changed along the way, and Vansita handled the pivot really well. She helped us work out what needed to change and kept the design moving. Having her involved from the start made that transition much easier.",
+      "image": "/assets/n2VD96406JwXxRWgxTiuWXr3Qg.jpg?v=8f485ee7dc"
+    },
+    {
+      "name": "Arjit Jain",
+      "role": "CTO, TurboML",
+      "quote": "Vansita took care of the platform design and freed us up to focus on building. That saved our team a lot of time. She did a great job.",
+      "image": "/assets/Qv7E0jl3UQkECDngXcONc4icf0.jpg?v=5ef5a2957b"
+    },
+    {
+      "name": "Adarsh Maradiya",
+      "role": "Head of Design, Drool",
+      "quote": "We had a short window to get our MVP together, and Vansita came through. Really happy with what she delivered in that time. Would definitely recommend her.",
+      "image": "/assets/75PheC06peM1ocquh8mrErPlsfE.png?v=0d0a691f7a"
+    },
+    {
+      "name": "Farzad Nazifi",
+      "role": "CTO, Pitch Protocol",
+      "quote": "What I appreciated about Vansita was that she didn’t stop at the first solution. We looked at different directions, talked through what worked and what didn’t, and refined from there. That process helped us make decisions we felt confident about.",
+      "image": "/assets/Zr7MuwPvUpTXGKD4tLoFWEgHQ.png?v=ea6ec2432e"
+    }
+  ],
+  "about": [
+    "Hey there ,",
+    "I’m a product designer focused on web applications and AI-native products. I’ve spent the last 3+ years working with early-stage teams, getting involved from the very beginning from shaping the brand and product direction to designing the UX, building systems, and products ready to ship.",
+    "Working closely with small teams has taught me to adapt quickly , question the idea itself, and move between strategy, design, and prototyping as needed.  My focus is always the same: help teams ship faster and build products that last.",
+    "Outside of work, I cook, hunt for good food, fall into random AI rabbit holes, and rewatch The Big Bang Theory more than I’d like to admit."
+  ]
+}

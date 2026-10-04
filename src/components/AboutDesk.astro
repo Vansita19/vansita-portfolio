@@ -1,0 +1,96 @@
+---
+import AboutPostcard from './AboutPostcard.astro';
+import AboutSignature from './AboutSignature.astro';
+import DeskBooks from './DeskBooks.astro';
+import DeskDrink from './DeskDrink.astro';
+import PersonalDeskLaptop from './PersonalDeskLaptop.astro';
+const { sectionId = 'bloom-reveal' } = Astro.props;
+---
+<section class="about-desk" id={sectionId} aria-label="About Vansita">
+ <div class="desk-window"><div class="desk-scene">
+  <img class="desk-backdrop" src="/assets/about-entry/window-background.webp" alt="" width="1920" height="1110" loading="lazy" decoding="async"/>
+  <video class="desk-backdrop mobile-day-video" muted playsinline preload="auto" poster="/assets/about-entry/window-background.webp" aria-hidden="true" data-src="/assets/about-entry/day-to-night-5s.mp4"></video>
+  <img class="mobile-desk-foreground" src="/assets/about-entry/mobile-desk-foreground.webp" width="1200" height="864" alt="Vansita seated at her open laptop, with a lamp, book, tumbler and matcha on her desk" loading="lazy" decoding="async"/>
+  <div class="live-desk-layer">
+  <img class="desk-surface" src="/assets/arrange-desk/desk-extended.webp" width="1077" height="418" alt="Wooden desk" loading="lazy" draggable="false"/>
+  <div class="desk-object lamp"><div class="object-art"><button class="lamp-switch" type="button" aria-label="Turn lamp on" aria-pressed="false"><span class="lamp-hint" aria-hidden="true"></span><span class="lamp-glow" aria-hidden="true"></span><span class="lamp-art"><img src="/assets/arrange-desk/cream-table-lamp-unlit.png" alt="Cream ceramic table lamp" loading="lazy" draggable="false"/></span></button></div></div>
+  <div class="desk-object laptop-object"><div class="object-art"><PersonalDeskLaptop experiment/></div></div>
+  <div class="desk-object bottle"><div class="object-art"><img src="/assets/arrange-desk/gradient-tumbler.png" alt="Pink and blue tumbler" loading="lazy" draggable="false"/></div></div>
+  <div class="desk-object journal"><DeskBooks/></div>
+  <div class="desk-object cup"><DeskDrink/></div>
+  <img class="seated-girl" src="/assets/about-entry/seated-girl-wheeled.webp" alt="Girl seated at her laptop" loading="lazy"/>
+ </div></div></div>
+ <div class="about-copy"><div class="about-intro"><h2>A little <br/>about me</h2><AboutPostcard/></div><div><p>I’m a product designer focused on web applications and AI-native products. For 3+ years, I’ve helped early-stage teams go from brand and product direction to UX, design systems, and launch.</p><p>Small teams taught me to adapt quickly, question ideas, and move between strategy, design, and prototyping—helping teams ship faster and build products that last.</p><p>I care about how the whole product fits together: what brings someone in, what helps them find value, and what makes them return. I work closely with engineers to carry that thinking through to the final experience, so the details we design hold up in everyday use.</p><AboutSignature/></div></div>
+
+</section>
+<script>import '../scripts/about-desk';</script>
+<style>
+.about-desk{max-width:var(--portfolio-max,1456px);padding:64px var(--portfolio-gutter) 90px;margin:auto;scroll-margin-top:75px}
+.desk-scene{position:relative;isolation:isolate;aspect-ratio:1000/590;max-width:1080px;margin:auto;overflow:hidden;container-type:inline-size}
+.desk-surface{position:absolute;top:52%;left:3%;width:94%;height:auto;pointer-events:none;user-select:none}
+.desk-object{position:absolute;user-select:none}.object-art{width:100%;height:100%;transform-origin:50% 85%}.object-art>img,.lamp-switch>img{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(2px 7px 4px #63452115)}
+.lamp{left:13.764%;top:29.08%;width:10.472%;height:29.92%;z-index:2}.pens{left:28%;top:48%;width:6.8%;height:15.5%;z-index:3}.laptop-object{left:33.5%;top:23%;width:33%;height:50%;z-index:4}.bottle{left:81%;top:33.5%;width:8%;height:31.5%;z-index:5}.phone{left:70%;top:55%;width:6.5%;height:25%;z-index:6}.journal{left:5%;top:61%;width:17%;height:21%;z-index:6}.cup{left:79%;top:65%;width:10%;height:13.8%;z-index:7}
+/* Frame the transparent cutouts around their visible silhouettes, so every base
+   meets its contact shadow instead of the original image's empty padding. */
+.pens .object-art,.bottle .object-art,.cup .object-art{position:relative;overflow:hidden}
+.pens .object-art>img,.bottle .object-art>img,.cup .object-art>img{position:absolute;max-width:none;object-fit:fill;filter:none}
+.pens .object-art>img{width:217%;height:165%;left:-66%;top:-49%}
+.bottle .object-art>img{width:183.8%;height:105.4%;left:-54.1%;top:-1.5%}
+.cup .object-art>img{width:112.2%;height:137.7%;left:-9.1%;top:-18.8%}
+.lamp::before,.pens::before,.bottle::before,.cup::before{content:"";position:absolute;bottom:0;left:22%;width:56%;height:4%;border-radius:50%;background:#62421e40;filter:blur(3px)}
+.pens::before,.bottle::before,.cup::before{bottom:-1.4%;height:5%;left:8%;width:84%;background:#55341638;filter:blur(3px)}
+.cup::before{left:4%;width:72%;height:9%;bottom:-2%;filter:blur(4px)}
+.lamp-switch{position:relative;display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer}.lamp-glow{position:absolute;inset:-20% -65% 0%;background:radial-gradient(ellipse at 50% 32%,#fff5bfe6 0%,#ffe48aa6 29%,#ffdc6940 51%,transparent 75%);filter:blur(12px);opacity:0;transition:opacity .35s;pointer-events:none}.lamp-art{position:absolute;inset:0;overflow:hidden;transition:filter .35s}.lamp-art img{position:absolute;width:183%;height:107%;max-width:none;left:-41.5%;top:-3.8%;pointer-events:none}.lamp-art::after{content:"";position:absolute;inset:2% 1% 48%;border-radius:5%;background:linear-gradient(180deg,#ffe5a1,#ffda79 60%,#ffe39a);opacity:0;transition:opacity .35s;pointer-events:none}.lamp-switch[aria-pressed=true] .lamp-art img{filter:brightness(1.08)}.lamp-switch[aria-pressed=true] .lamp-art::after{opacity:.32}.lamp-switch[aria-pressed=true] .lamp-glow{opacity:1}.lamp-switch:focus-visible,.personal-phone:focus-visible{outline:2px solid #ff522e;outline-offset:5px;border-radius:10px}
+.personal-phone{display:block;width:100%;height:100%;border:2px solid #eb8141;background:#242129;border-radius:15px;padding:2px;box-shadow:0 5px 0 #b45129,3px 10px 10px #362d3230;transform:perspective(700px) rotateX(58deg) rotateZ(0deg);cursor:pointer;transform-style:preserve-3d}.phone-screen{position:relative;display:block;height:100%;overflow:hidden;border-radius:11px;background:#181720;color:#ede6f6}.phone-island{position:absolute;left:30%;top:4px;width:40%;height:7px;border-radius:10px;background:#0c0c10;z-index:3}.phone-date{position:relative;display:block;font-size:4px;margin-top:23px;z-index:2;opacity:.3}.phone-clock{position:relative;display:block;font-size:19px;font-weight:500;letter-spacing:-1px;z-index:2;opacity:.3}.phone-wallpaper{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 95%,#e897a8,transparent 63%),radial-gradient(ellipse at 110% 30%,#b7a6eb,#50416c 90%);opacity:0;transition:opacity .3s}.personal-phone[aria-pressed=true] .phone-wallpaper,.personal-phone[aria-pressed=true] .phone-date,.personal-phone[aria-pressed=true] .phone-clock{opacity:1}.phone-bottom{position:absolute;bottom:5px;left:30%;width:40%;height:2px;border-radius:3px;background:#d8cedd;z-index:3}
+.journal .object-art>img{object-fit:contain;filter:none;transform:scaleY(1.28);transform-origin:50% 78%}
+.about-copy{display:grid;align-items:center;grid-template-columns:1fr 1.7fr;gap:72px;margin:48px 0 0}.about-copy h2{font:350 clamp(54px,6.7vw,96px)/1.02 var(--serif);color:#353539;margin:0;letter-spacing:-.025em}.about-copy p{font-size:16px;line-height:1.7;margin:0 0 18px;color:#74706b}
+
+@media(max-width:700px){.about-desk{padding-top:40px;padding-bottom:48px}.desk-scene{margin-inline:-12px;aspect-ratio:1000/590}.about-copy{grid-template-columns:1fr;gap:24px;margin-top:32px}.about-copy p{font-size:14px;line-height:1.7}.personal-phone{border-width:1px;border-radius:6px;padding:1px}.phone-screen{border-radius:4px}.phone-island{top:2px;height:3px}.phone-date{display:none}.phone-clock{font-size:8px;margin-top:9px;letter-spacing:-.4px}}
+@media(prefers-reduced-motion:reduce){.object-art{animation:none}.phone-wallpaper,.lamp-glow,.lamp-art,.lamp-art::after{transition:none}}
+@media(max-width:700px){
+ .about-copy{grid-template-columns:minmax(0,1fr) 80px;gap:18px 16px}
+ .about-intro,.about-copy>div:last-child{display:contents}
+ .about-copy h2{grid-column:1/-1;font-size:40px;line-height:1.1;white-space:nowrap;margin-bottom:6px}
+ .about-copy h2 br{display:none}
+ .about-copy h2 br::after{content:' '}
+ .about-copy p{grid-column:1/-1;margin:0}
+ .about-copy :global(.about-signature){grid-column:1;grid-row:5;margin-top:8px;align-self:center}
+ .about-intro :global(.about-postcard){grid-column:2;grid-row:5;width:76px;margin:8px 4px 0 0;justify-self:end;align-self:center}
+ .laptop-object{pointer-events:none}
+}
+</style>
+
+<style>
+.lamp-hint{position:absolute;z-index:3;left:32%;top:14%;width:36%;height:22%;border-radius:50%;background:radial-gradient(ellipse,#fff7ceaa,#ffe79d44 42%,transparent 72%);pointer-events:none;opacity:.55}
+.lamp-switch[data-discovered] .lamp-hint{display:none}
+.lamp-hint::before,.lamp-hint::after{content:"";position:absolute;left:50%;top:50%;width:115%;aspect-ratio:1;border:1px solid #d6b57b;border-radius:50%;animation:lamp-invitation 2s ease-out infinite}
+.lamp-hint::after{animation-delay:-.4s}
+@keyframes lamp-invitation{0%{opacity:0;transform:translate(-50%,-50%) scale(.8)}18%{opacity:.5}80%,100%{opacity:0;transform:translate(-50%,-50%) scale(1.8)}}
+@media(prefers-reduced-motion:reduce){.lamp-hint::before,.lamp-hint::after{animation:none;display:none}}
+</style>
+
+<style>.desk-scene>.desk-backdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;pointer-events:none}</style>
+
+<style>
+/* Match the desktop composition without its scroll-driven transforms. */
+.desk-window{padding:5px;border:1px solid #e2e2e2;border-radius:18px;box-shadow:0 2px 5px #00000008;background:#fff}
+.about-desk .desk-scene{aspect-ratio:1000/720;margin:0;border-radius:12px;overflow:hidden}
+.desk-surface{top:42.61%}
+.lamp{top:26.35%;height:22%}
+.laptop-object{left:35.15%;top:21.31%;width:29.7%;height:36.875%;pointer-events:none}
+.bottle{top:30.26%;height:23%}
+.journal{top:47%;height:17.21%}
+.cup{top:53.26%;height:11.31%}
+.seated-girl{position:absolute;left:30%;top:51%;width:40%;height:auto;z-index:8;pointer-events:none}
+.cup :global(.drink-switch){min-width:0;min-height:0}
+.cup :global(.drink-switch)::after{content:"";position:absolute;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%)}
+</style>
+
+<style>
+.live-desk-layer{position:absolute;inset:0}.mobile-desk-foreground{display:none}
+@media(max-width:700px){
+ .desk-window{margin-inline:-6px}
+ .live-desk-layer{display:none}
+ .mobile-desk-foreground{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;transform:translateY(7%)}
+}
+</style>

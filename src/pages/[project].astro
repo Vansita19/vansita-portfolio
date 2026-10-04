@@ -1,0 +1,11 @@
+---
+import '../styles/scrollbars.css';
+import CaseStudy from '../components/CaseStudy.astro';
+import projects from '../data/projects.json';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { project: project.slug }, props: { project } }));
+}
+const { project } = Astro.props;
+---
+<CaseStudy project={project} portfolio={import.meta.env.PORTFOLIO_VARIANT === 'creative' ? 'chrome' : 'bloom'} />

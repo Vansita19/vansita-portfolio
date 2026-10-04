@@ -1,0 +1,40 @@
+---
+interface Crop {x:number;y:number;width:number;height:number;viewportWidth:number;viewportHeight:number}
+interface Shot {src:string;label:string;type?:string;background?:string;crop?:Crop}
+interface Props {shots:Shot[]}
+const {shots}=Astro.props;
+---
+<figure class="flow-capture">
+ <div class:list={["capture-background", {"video-background": shots.some(shot => shot.type === "video"), "reference-tulip-background": shots.some(shot => shot.background === "reference-tulip"), "reference-daisy-background": shots.some(shot => shot.background === "reference-daisy"), "reference-yellow-background": shots.some(shot => shot.background === "reference-yellow"), "yellow-background": shots.some(shot => shot.background === "yellow")}]}>
+ {shots.map(shot=><div class="capture-step">
+ {shots.length>1&&<div class="capture-label">{shot.label}</div>}
+ {shot.type==='video'?<video src={shot.src} aria-label={shot.label} autoplay loop muted playsinline preload="metadata" />:<button class:list={['enlarge-image',{'capture-crop':!!shot.crop}]} type="button" data-image-src={shot.src} data-image-label={shot.label} aria-label={`Enlarge ${shot.label}`} style={shot.crop?`--crop-ratio:${shot.crop.width}/${shot.crop.height};--image-width:${shot.crop.viewportWidth/shot.crop.width*100}%;--image-left:${-shot.crop.x/shot.crop.width*100}%;--image-top:${-shot.crop.y/shot.crop.height*100}%;max-width:${Math.max(shot.crop.width,600)}px`:undefined}>
+ <img src={shot.src} alt={shot.label} loading="lazy" />
+ </button>}
+ </div>)}
+ </div>
+</figure>
+<style>
+.flow-capture{margin:0;min-width:0;width:100%}
+.capture-background{padding:clamp(10px,1.5vw,16px);border-radius:14px;background:#8ad0fa url('/assets/pitch-flow-floral-background.png') 100% 0/200% 300%;overflow:hidden}
+.capture-background.video-background{background-size:210% 330%;background-position:2% 99%;background-repeat:no-repeat}
+.capture-background.yellow-background{background-position:98% 50%}
+.capture-background.reference-tulip-background{background:#8ad0fa url('/assets/pitch-floral-reference-sheet.png') 99% 1%/208% 318% no-repeat}
+.capture-background.reference-daisy-background{background:#8ad0fa url('/assets/pitch-floral-reference-sheet.png') 0 0/202% 306% no-repeat}
+.capture-background.reference-yellow-background{background:#8ad0fa url('/assets/pitch-floral-reference-sheet.png') 100% 50%/202% 306% no-repeat}
+.capture-step video{display:block;width:100%;height:auto;border-radius:10px;box-shadow:0 8px 28px #23395416}
+.capture-step+.capture-step{margin-top:28px}
+.capture-label{font:500 13px/1.4 var(--sans);color:#263643;margin-bottom:12px}
+.enlarge-image{display:block;position:relative;width:100%;height:auto;margin:0 auto;padding:0;border:0;border-radius:10px;background:white;overflow:hidden;cursor:zoom-in;box-shadow:0 8px 28px #23395416}
+.enlarge-image img{display:block;width:100%;height:auto}
+.enlarge-image.capture-crop{aspect-ratio:var(--crop-ratio)}
+.enlarge-image.capture-crop img{position:absolute;width:var(--image-width);max-width:none;height:auto;left:var(--image-left);top:var(--image-top)}
+.enlarge-image:focus-visible{outline:2px solid #fe4116;outline-offset:3px}
+</style>
+
+<style>
+@media(max-width:760px){
+ .flow-capture .capture-background{background:none;padding:0;border-radius:0;overflow:visible}
+ .capture-step .enlarge-image,.capture-step video{box-shadow:none;border-radius:8px}
+}
+</style>

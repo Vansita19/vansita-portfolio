@@ -1,0 +1,222 @@
+/* The portfolio's reading surface. Artwork and embedded product UI retain their own colors. */
+html:has(body.case-night) {
+  background: #010206;
+  color-scheme: dark;
+}
+
+body.case-night {
+  --paper: #010206;
+  --ink: #d4dbe7;
+  --muted: #a6b1c1;
+  --text-primary: #d4dbe7;
+  --text-description: #a6b1c1;
+  --text-secondary: #8d9aac;
+  --text-on-dark: #d4dbe7;
+  --text-description-on-dark: #a6b1c1;
+  --orange: #91b9ef;
+  --case-line: rgb(188 209 235 / 13%);
+  background: var(--paper);
+  color: var(--text-primary);
+}
+
+body.case-night .case-study {
+  /* The original reader resets these roles on main, so body inheritance is not enough. */
+  --case-gray-900: #d4dbe7;
+  --case-gray-600: #a6b1c1;
+  --case-gray-500: #8d9aac;
+  --text-primary: #d4dbe7;
+  --text-description: #a6b1c1;
+  --text-secondary: #8d9aac;
+  --case-copy-color: #a6b1c1;
+  --case-title-color: #d4dbe7;
+  --paragraph-color: #a6b1c1;
+  background: #010206;
+}
+
+body.case-night .case-study::before,
+body.case-night .case-study::after,
+body.case-night .case-crossline {
+  background: var(--case-line);
+  box-shadow: none;
+}
+
+body.case-night .case-star {
+  background: #010206;
+  fill: #66758a;
+  filter: none;
+}
+
+body.case-night .case-media-bordered::after,
+body.case-night .case-media-pair,
+body.case-night .case-related-link {
+  border-color: var(--case-line);
+}
+
+body.case-night .case-media-pair {
+  background: #10151d;
+}
+
+body.case-night .case-related-link {
+  box-shadow: none;
+}
+
+body.case-night .case-section-nav {
+  background: #010206;
+  border-color: var(--case-line);
+}
+
+body.case-night .case-section-nav a:hover,
+body.case-night .case-section-nav a[aria-current],
+body.case-night .project-product-link:hover {
+  color: #b6d5ff;
+}
+
+body.case-night .case-active-dot {
+  background: #91b9ef;
+}
+
+body.case-night .case-study :focus-visible,
+body.case-night .pitch-image-viewer :focus-visible {
+  outline-color: #91b9ef;
+}
+
+body.case-night ::selection {
+  color: #e2edff;
+  background: #244a79;
+}
+
+body.case-night .skip-link {
+  background: #192333;
+  color: #d4dbe7;
+}
+
+body.case-night .creative-menu::backdrop {
+  background: rgb(1 2 6 / 72%);
+}
+
+body.case-night .creative-menu .menu-card {
+  background: #121a26;
+  color: #d4dbe7;
+  border-color: rgb(188 209 235 / 18%);
+}
+
+body.case-night .creative-menu .portrait-glow {
+  opacity: .22;
+}
+
+body.case-night .creative-menu .portfolio-cta.portfolio-cta.portfolio-cta {
+  background: linear-gradient(180deg, #e2e7ed, #969faa);
+  color: #222b36;
+  text-shadow: none;
+  border-color: #c1ccd9;
+  box-shadow: inset 0 1px 2px #fff9, 0 5px 12px #0004;
+}
+
+body.case-night .creative-menu .portfolio-cta.portfolio-cta.resume-cta {
+  background: #202b3b;
+  color: #d4dbe7;
+  border-color: #536174;
+  box-shadow: inset 0 1px 0 #e3edff1a;
+}
+
+/* Pitch Protocol has additional editorial content outside the shared prose component. */
+body.case-night .pitch-content {
+  --ink: #d4dbe7;
+  --muted: #a6b1c1;
+}
+
+body.case-night .pitch-content .story-copy strong,
+body.case-night .pitch-content .impact-details strong,
+body.case-night .pitch-content .metrics strong,
+body.case-night .pitch-content .goal b {
+  color: #d4dbe7;
+}
+
+body.case-night .pitch-content .metrics span,
+body.case-night .pitch-content .goal small,
+body.case-night .pitch-content .visual-note {
+  color: #a6b1c1;
+}
+
+body.case-night .pitch-content .chapter-label,
+body.case-night .pitch-content .metrics > div,
+body.case-night .pitch-content .three-up > div + div,
+body.case-night .pitch-content .scope-note {
+  border-color: var(--case-line);
+}
+
+body.case-night .pitch-content .goal {
+  background: #10151d;
+}
+
+body.case-night .case-image-slot,
+body.case-night .pitch-visual.is-placeholder .visual-frame {
+  background: #10151d;
+  border-color: #374354;
+  color: #a6b1c1;
+}
+
+body.case-night .case-image-slot span,
+body.case-night .pitch-visual.is-placeholder .placeholder-content,
+body.case-night .pitch-visual.is-placeholder .placeholder-content strong {
+  color: #a6b1c1;
+}
+
+body.case-night .pitch-image-viewer {
+  background: #10151d;
+  border: 1px solid var(--case-line);
+}
+
+body.case-night .pitch-image-viewer button {
+  background: #202b3b;
+  color: #d4dbe7;
+}
+
+body.case-night .project-footer {
+  background: #010206;
+}
+
+body.case-night .project-footer .contact-card {
+  background: #0b0f16;
+  border: 1px solid var(--case-line);
+  box-shadow: inset 0 1px 0 rgb(220 234 255 / 5%);
+}
+
+body.case-night .project-footer .project-contact-title {
+  color: #d4dbe7;
+}
+
+body.case-night .project-footer .project-contact-title span,
+body.case-night .project-footer .social-links a {
+  color: #a6b1c1;
+}
+
+body.case-night .project-footer .social-links a {
+  border-color: var(--case-line);
+}
+
+body.case-night .project-footer .social-links a:hover {
+  color: #b6d5ff;
+}
+
+body.case-night .project-footer .portfolio-cta.portfolio-cta.portfolio-cta {
+  background: linear-gradient(180deg, #e2e7ed, #969faa);
+  color: #222b36;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 22%);
+  border-color: #c1ccd9;
+  border-radius: 999px;
+  box-shadow: inset 0 2px 2px #fff9, inset 0 -2px 2px #62718580, 0 8px 26px #0006;
+}
+
+/* The image captions sit over original light artwork on desktop and over the page on phones. */
+@media (max-width: 760px) {
+  body.case-night .flow-capture .capture-label {
+    color: #a6b1c1;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.case-night { cursor: auto; }
+  body.case-night a, body.case-night button { cursor: pointer; }
+  body.case-night .enlarge-image { cursor: zoom-in; }
+}

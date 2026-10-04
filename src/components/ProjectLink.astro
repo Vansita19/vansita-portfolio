@@ -1,0 +1,14 @@
+---
+interface Props { href?: string; name: string; }
+const { href, name } = Astro.props;
+---
+{href && <a class="project-product-link" href={href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${name} website (opens in a new tab)`} title="Visit product website (opens in a new tab)">
+  <span class="link-icon" aria-hidden="true"></span>
+</a>}
+<style>
+/* Link icon from Lucide, ISC license; see public/assets/lucide-LICENSE. */
+.link-icon{width:14px;height:14px;background:currentColor;mask:url('/assets/lucide-link.svg') center/contain no-repeat;-webkit-mask:url('/assets/lucide-link.svg') center/contain no-repeat}
+.project-product-link{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-left:6px;vertical-align:middle;border:0;color:#a0a5ad;text-decoration:none;background:transparent}
+.project-product-link:hover{color:#626b78}
+.project-product-link:focus-visible{outline:2px solid #fe4116;outline-offset:3px}
+</style>

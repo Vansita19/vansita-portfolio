@@ -1,0 +1,13 @@
+<svg class="about-signature" viewBox="0 0 400 200" role="img" aria-label="Vansita’s handwritten signature, with A and V forming a star">
+ <g fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round">
+  <path pathLength="1" style="--delay:0ms;--duration:2300ms" d="M18 183 C50 150 123 104 160 29 Q164 21 166 16 C158 64 153 130 141 174 C119 137 81 98 24 76 C81 91 158 93 219 78 C205 76 183 94 188 108 C194 124 216 102 223 82 C218 96 214 110 220 113 C230 118 239 98 246 83 L238 113 C249 94 259 80 266 84 C274 91 258 111 267 114 C278 117 287 99 295 89 C302 80 309 77 313 80 C304 81 294 87 295 94 C296 101 310 102 306 109 C301 117 290 119 285 113 C297 120 317 109 327 98 L336 81 C332 94 326 108 332 113 C340 120 356 108 378 100"/>
+  <path pathLength="1" style="--delay:2300ms;--duration:120ms;stroke-width:5.2" d="M340 62 L341 60"/>
+ </g>
+</svg>
+<style>
+.about-signature{display:block;width:125px;height:auto;margin:24px 0 0;color:#85808f;overflow:visible}
+:global(html.about-motion-ready) .about-signature path{stroke-dasharray:1;stroke-dashoffset:1}
+:global(html.about-motion-ready) .about-signature.is-drawn path{animation:signature-write var(--duration) ease-out var(--delay) both}
+@keyframes signature-write{to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.about-signature path{stroke-dashoffset:0!important;animation:none!important}}
+</style>

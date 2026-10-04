@@ -1,0 +1,38 @@
+---
+import WindowChime from './WindowChime.astro';
+import AboutPostcard from './AboutPostcard.astro';
+import AboutSignature from './AboutSignature.astro';
+import ExperimentDesk from './ExperimentDesk.astro';
+import AboutDesk from './AboutDesk.astro';
+---
+<section id="bloom-reveal" class="portfolio-about" aria-label="About Vansita">
+ <div class="about-desktop journey">
+  <div class="stage">
+   <video class="desk-backdrop" muted playsinline preload="auto" poster="/assets/about-entry/window-background.webp" aria-hidden="true"><source data-src="/assets/about-entry/day-to-night-scroll.mp4" type="video/mp4"/></video>
+   <WindowChime/>
+   <div class="desk-frame"><ExperimentDesk/></div>
+   <div class="screen-preview"><div class="screen-page"><article class="about typing-content"><div class="about-inner"><div class="about-intro"><h2>A little<br/>about me</h2><AboutPostcard/></div><div class="copy"><p>I’m a product designer focused on web applications and AI-native products. For 3+ years, I’ve helped early-stage teams go from brand and product direction to UX, design systems, and launch.</p><p>Small teams taught me to adapt quickly, question ideas, and move between strategy, design, and prototyping—helping teams ship faster and build products that last.</p><p>I care about how the whole product fits together: what brings someone in, what helps them find value, and what makes them return. I work closely with engineers to carry that thinking through to the final experience, so the details we design hold up in everyday use.</p><AboutSignature/></div></div></article></div></div>
+  </div>
+ </div>
+ <div class="about-static"><AboutDesk sectionId="about-static"/></div>
+</section>
+<script>import '../scripts/portfolio-about-zoom';</script>
+<style>
+:global(.portfolio-about #experiment-desk .lamp-switch){pointer-events:auto}
+:global(.portfolio-about #experiment-desk .wallpaper){display:block}
+:global(.portfolio-about #experiment-desk .dock){display:flex}
+.portfolio-about{position:relative;background:#fff;scroll-margin-top:75px}
+.about-desktop{display:none}.about-static{display:block}
+:global(html.about-motion-ready) .about-desktop{display:block;height:500svh}
+:global(html.about-motion-ready) .about-static{display:none}
+.stage{position:sticky;top:0;width:100%;height:100svh;overflow:hidden;background:#fff}
+.desk-backdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;pointer-events:none}
+.desk-frame{position:absolute;width:min(1150px,96vw,135svh);aspect-ratio:1000/720;left:50%;bottom:-8svh;margin-left:calc(min(1150px,96vw,135svh) / -2);will-change:transform}
+.screen-preview{position:absolute;background:transparent;overflow:hidden;border-radius:1px;transform-origin:center;will-change:transform}
+.screen-page{position:absolute;inset:0;overflow:hidden;background:#fff;transform:scale(var(--page-open,0));transform-origin:center}
+.typing-content{position:absolute;left:50%;top:50%;transform-origin:center;display:grid;align-items:safe center;overflow:auto;padding:100px 0 60px;background:transparent}
+.about-inner{width:min(100%,var(--portfolio-max,1456px));padding-inline:var(--portfolio-gutter,max(28px,5vw));margin:auto;display:grid;grid-template-columns:1fr 1.7fr;gap:72px;align-items:center}
+h2{font:350 clamp(54px,6.7vw,96px)/1.02 var(--serif);color:#353539;margin:0;letter-spacing:-.025em}
+p{font-size:16px;line-height:1.7;margin:0 0 18px;color:#74706b}
+@media(max-width:700px),(prefers-reduced-motion:reduce){:global(html.about-motion-ready) .about-desktop{display:none}:global(html.about-motion-ready) .about-static{display:block}}
+</style>

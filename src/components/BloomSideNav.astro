@@ -1,0 +1,276 @@
+---
+import '../styles/scrollbars.css';
+import '../styles/portfolio-cta.css';
+interface Props { portfolio?: 'bloom' | 'chrome'; }
+const { portfolio = 'bloom' } = Astro.props;
+const chromePortfolio = portfolio === 'chrome';
+const portfolioPrefix = chromePortfolio ? '/liquid-metal.html' : ['/', '/bloom.html','/bloom.html/'].includes(Astro.url.pathname) ? '' : '/';
+const anchors = chromePortfolio ? { home: '#top', work: '#creative-work', about: '#about', contact: '#contact' } : { home: '#home', work: '#work', about: '#bloom-reveal', contact: '#paper-footer' };
+const sections = [
+ {id:anchors.home.slice(1),label:'Home',href:anchors.home},
+ {id:anchors.work.slice(1),label:'Work',href:anchors.work},
+ {id:anchors.about.slice(1),label:'About',href:anchors.about},
+ {id:anchors.contact.slice(1),label:'Contact',href:anchors.contact},
+];
+const workCovers=['gfvc','venture-os','pitch-protocol'];
+---
+<header class="bloom-rail">
+ <div class="notch-shell" aria-hidden="true"></div>
+ <button class="menu-toggle" type="button" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="creative-menu"><span>Menu</span><span class="menu-icon" aria-hidden="true"><i></i><i></i></span></button>
+ <nav class="timeline" aria-label="Page sections" inert>
+  <div class="ruler" aria-hidden="true">{Array.from({length:33},(_,i)=><i style={`left:${i / 32 * 100}%`}></i>)}</div>
+  <div class="section-scale">{sections.map((section,i)=><a href={`${portfolioPrefix}${section.href}`} data-section={section.id} aria-current={i===0?'location':undefined}>{section.label}</a>)}</div>
+ </nav>
+</header>
+<dialog class="creative-menu" id="creative-menu" aria-label="Site navigation">
+ <div class="menu-heading"><span class="menu-resting-label" aria-hidden="true">Menu</span><a class="menu-home" href={`${portfolioPrefix}${anchors.home}`} aria-label="Go to Home"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Home</span></a><button class="close-menu" aria-label="Close menu" type="button"><span></span><span></span></button></div>
+ <div class="menu-cards">
+  <a class="menu-card work-card" href={`${portfolioPrefix}${anchors.work}`} aria-label="Work — explore selected projects">
+   <div class="work-deck" aria-hidden="true">{workCovers.map((cover,i)=><span class="deck-card" style={`--i:${i}`}><img src={`/assets/featured/${cover}.webp`} alt=""/></span>)}</div>
+   <h3>Work</h3>
+  </a>
+  <button class="menu-card music-card" type="button" aria-label="Play a preview of Affection by Jinsang" aria-pressed="false">
+   <span class="music-disc" aria-hidden="true"><img class="disc-art" src="https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e027354398b7c4f92f8ae0c3138" alt=""/><i></i></span>
+   <span class="music-info"><span class="music-equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="track-title">Affection · Jinsang</span><span class="music-bottom"><span class="music-play" aria-hidden="true"><span class="play-glyph"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M7 4.8a1 1 0 0 1 1.5-.86l12 7.2a1 1 0 0 1 0 1.72l-12 7.2A1 1 0 0 1 7 19.2Z"/></svg></span><span class="pause-glyph"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span></span><span class="music-time">0:00</span></span></span>
+  </button>
+  <a class="menu-card about-card" href={`${portfolioPrefix}${anchors.about}`} aria-label="About me — meet Vansita"><img src="/assets/sD2PF3Ipl8zwAiIf6Lb4sYF60OA.png?v=11d7dc470e" alt="Vansita beneath a tree"/><span class="portrait-glow" aria-hidden="true"></span><h3>About me</h3></a>
+  <a class="menu-card play-card" href="/playground" aria-label="Playground — open the experiments page">
+   <span class="console-screen" aria-hidden="true"><svg class="pixel-dino" viewBox="0 0 28 28" fill="currentColor" shape-rendering="crispEdges"><path d="M14 3H25V5H27V11H20V13H24V15H18V19H16V21H14V25H17V27H12V22H10V24H8V27H5V25H6V21H4V19H2V16H1V10H3V13H5V15H8V13H10V11H12V5H14Z"/><path d="M16 5H18V7H16Z" fill="#a998c9"/></svg><span class="screen-caption">PRESS PLAY</span></span>
+   <span class="console-controls" aria-hidden="true"><span class="dpad">✚</span><span class="speaker-slots"><i></i><i></i><i></i></span><span class="game-buttons"><i></i><i></i><i></i><i></i></span></span>
+   <h3>Playground</h3>
+  </a>
+  <div class="menu-card contact-card"><h3>Let’s talk</h3><div class="contact-actions"><a class="contact-cta portfolio-cta contact-button resume-cta" href="/assets/vansita-addanki-resume.pdf" target="_blank" rel="noopener" aria-label="Resume (opens PDF in a new tab)">Resume</a><a class="contact-cta portfolio-cta" href={`${portfolioPrefix}${anchors.contact}`}>Contact me</a></div></div>
+  <audio id="menu-music" preload="none" src="https://p.scdn.co/mp3-preview/cd05e9f69b7854e3d0dc048ecc5ac711ad7688c1"></audio>
+ </div>
+</dialog>
+<script>
+ import { play } from 'cuelume';
+import { gsap } from 'gsap';
+ const rail=document.querySelector<HTMLElement>('.bloom-rail')!;
+ const menu=rail.querySelector<HTMLButtonElement>('.menu-toggle')!;
+ const timeline=rail.querySelector<HTMLElement>('.timeline')!;
+ const dialog=document.querySelector<HTMLDialogElement>('.creative-menu')!;
+ const closeButton=dialog.querySelector<HTMLButtonElement>('.close-menu')!;
+ const links=[...rail.querySelectorAll<HTMLAnchorElement>('[data-section]')];
+ const sections=links.map(link=>document.getElementById(link.dataset.section!));
+ const ticks=[...rail.querySelectorAll<HTMLElement>('.ruler i')];
+ const ruler=rail.querySelector<HTMLElement>('.ruler')!;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ let active=0,frame=0,waveFrame=0,scrollProgress=0;
+ document.addEventListener('keydown',event=>{if(event.key==='Tab')document.documentElement.classList.add('bloom-keyboard-nav');});
+ document.addEventListener('pointerdown',()=>document.documentElement.classList.remove('bloom-keyboard-nav'),{passive:true});
+ let scrolling=false,hovered=false,focused=false,closing=false;
+ let idleTimer:ReturnType<typeof setTimeout>;
+ let oldOverflow='';
+ function syncTimeline(){
+  const open=sections.every(Boolean)&&!dialog.open&&(scrolling||hovered||(focused&&document.documentElement.classList.contains('bloom-keyboard-nav')));
+  rail.classList.toggle('is-timeline',open);
+  timeline.inert=!open;
+  menu.inert=open;
+ }
+ function update(){
+  frame=0;active=0;
+  const max=Math.max(1,document.documentElement.scrollHeight-innerHeight);
+  const y=Math.max(0,Math.min(max,scrollY));
+  // Interpolate within real section boundaries, so long Work stays in Work.
+  const starts=sections.map((section,i)=>i===0?0:Math.max(0,Math.min(max,(section?.getBoundingClientRect().top??0)+scrollY-80)));
+  starts.forEach((start,i)=>{if(y>=start)active=i;});
+  links.forEach((link,i)=>{if(i===active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});
+  const stops=[0,.375,.625,.875,1];
+  const end=starts[active+1]??max;
+  const local=Math.max(0,Math.min(1,(y-starts[active])/Math.max(1,end-starts[active])));
+  const progress=stops[active]+local*(stops[active+1]-stops[active]);
+  scrollProgress=progress;
+  ticks.forEach((tick,i)=>tick.classList.toggle('is-passed',i/32<=progress));
+  queueWave();
+ }
+ function schedule(){if(!frame)frame=requestAnimationFrame(update);}
+ function drawWave(){
+  waveFrame=0;const center=Math.round(scrollProgress*32);
+  ticks.forEach((tick,i)=>{
+   // Exponential falloff gives one pointed apex instead of a rounded hill.
+   const distance=Math.abs(i-center);
+   const strength=Math.exp(-distance*.9);
+   const lift=strength*13;
+   tick.style.transform=`translateX(-50%) scaleY(${(5+lift)/5})`;
+   tick.style.backgroundColor=distance===0?'#fe4116':`rgb(${Math.round(100+155*strength)} ${Math.round(100+155*strength)} ${Math.round(100+155*strength)})`;
+
+  });
+ }
+ function queueWave(){if(!waveFrame)waveFrame=requestAnimationFrame(drawWave);}
+ rail.addEventListener('pointerenter',()=>{if(rail.classList.contains('is-timeline')){hovered=true;syncTimeline();}});
+ rail.addEventListener('pointerleave',()=>{hovered=false;syncTimeline();});
+ timeline.addEventListener('focusin',()=>{focused=true;syncTimeline();});
+ timeline.addEventListener('focusout',()=>queueMicrotask(()=>{focused=timeline.contains(document.activeElement);syncTimeline();}));
+ addEventListener('scroll',()=>{
+  if(dialog.open)return;
+  scrolling=scrollY>32;clearTimeout(idleTimer);syncTimeline();schedule();
+  idleTimer=setTimeout(()=>{scrolling=false;syncTimeline();},1600);
+ },{passive:true});
+
+ // Case studies keep the menu within reach on upward scroll, without covering the reading area.
+ if(document.querySelector('.case-study')){
+  let lastY=Math.max(0,scrollY),travel=0,direction=0;
+  const reveal=()=>rail.classList.remove('is-scroll-hidden');
+  addEventListener('scroll',()=>{
+   const y=Math.max(0,Math.min(scrollY,document.documentElement.scrollHeight-innerHeight));
+   const delta=y-lastY;lastY=y;
+   if(dialog.open||y<100){travel=0;reveal();return;}
+   if(Math.abs(delta)<1)return;
+   const nextDirection=Math.sign(delta);
+   travel=nextDirection===direction?travel+Math.abs(delta):Math.abs(delta);
+   direction=nextDirection;
+   if(travel>=10){
+    const keyboardFocus=document.documentElement.classList.contains('bloom-keyboard-nav')&&rail.contains(document.activeElement);
+    rail.classList.toggle('is-scroll-hidden',direction>0&&!keyboardFocus);
+   }
+  },{passive:true});
+  rail.addEventListener('focusin',reveal);
+  document.addEventListener('bloom-menu-state',()=>{lastY=Math.max(0,scrollY);travel=0;reveal();});
+  addEventListener('pageshow',()=>{lastY=Math.max(0,scrollY);travel=0;reveal();});
+ }
+ addEventListener('resize',schedule,{passive:true});
+ reduced.addEventListener('change',queueWave);
+ const heading=dialog.querySelector<HTMLElement>('.menu-heading')!;
+ const menuCards=[...dialog.querySelectorAll<HTMLElement>('.menu-card')];
+ let menuMotion:gsap.core.Timeline|undefined;
+ dialog.classList.add('gsap-menu');
+ function openMenu(){
+  if(dialog.open)return;
+  play('ready',{volume:.35});
+  oldOverflow=document.documentElement.style.overflow;
+  document.dispatchEvent(new CustomEvent('bloom-menu-state',{detail:true}));
+  dialog.showModal();document.documentElement.style.overflow='hidden';
+  menu.setAttribute('aria-expanded','true');rail.classList.add('menu-is-open');
+  scrolling=hovered=focused=false;clearTimeout(idleTimer);syncTimeline();
+  menuMotion?.kill();
+  const compact=matchMedia('(max-width:809px)').matches?196:166;
+  dialog.classList.add('is-visible');
+  menuMotion=gsap.timeline({defaults:{ease:'power3.out'}})
+   .fromTo(heading,{width:compact},{width:'100%',duration:reduced.matches?0:.48})
+   .fromTo(menuCards,{autoAlpha:0,y:-14,scale:.965},{autoAlpha:1,y:0,scale:1,duration:reduced.matches?0:.48,stagger:reduced.matches?0:.045},reduced.matches?0:.1);
+  closeButton.focus({preventScroll:true});
+ }
+ function closeMenu(after?:()=>void){
+  if(closing||!dialog.open)return;
+  play('error',{volume:.35});
+  closing=true;dialog.classList.remove('is-visible');
+  menuMotion?.kill();
+  const finish=()=>{
+   // Restore the resting notch in the same paint as the dialog disappears.
+   rail.classList.remove('menu-is-open');
+   dialog.close();document.dispatchEvent(new CustomEvent('bloom-menu-state',{detail:false}));document.documentElement.style.overflow=oldOverflow;
+   menu.setAttribute('aria-expanded','false');closing=false;
+   syncTimeline();menu.focus({preventScroll:true});after?.();
+  };
+  menuMotion=gsap.timeline({onComplete:finish,defaults:{ease:'power2.inOut'}})
+   .to(menuCards,{autoAlpha:0,y:-8,scale:.985,duration:reduced.matches?0:.16})
+   .to(heading,{width:matchMedia('(max-width:809px)').matches?196:166,duration:reduced.matches?0:.28},reduced.matches?0:.06);
+
+ }
+ menu.addEventListener('click',openMenu);
+ closeButton.addEventListener('click',()=>closeMenu());
+ dialog.addEventListener('cancel',event=>{event.preventDefault();closeMenu();});
+ dialog.addEventListener('click',event=>{
+  if(event.target===dialog||event.target===dialog.querySelector('.menu-cards'))closeMenu();
+ });
+ function destination(section:HTMLElement){
+  if(section.id==='home')return 0;
+  const start=section.getBoundingClientRect().top+scrollY;
+  if(section.id==='bloom-reveal'&&!reduced.matches&&!matchMedia('(max-width:700px)').matches)return start;
+  return Math.max(0,start-72);
+ }
+ function navigate(link:HTMLAnchorElement,event:MouseEvent,fromMenu=false){
+  if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  if(!link.hash||link.pathname!==location.pathname)return; // Playground is a normal separate-page link.
+  const target=document.getElementById(link.hash.slice(1));if(!target)return;
+  event.preventDefault();
+  const go=()=>{scrolling=hovered=focused=false;clearTimeout(idleTimer);syncTimeline();menu.focus({preventScroll:true});history.pushState(null,'',link.hash);window.scrollTo({top:destination(target),behavior:reduced.matches?'instant':'smooth'});};
+  if(fromMenu)closeMenu(go);else go();
+ }
+ links.forEach(link=>link.addEventListener('click',event=>navigate(link,event)));
+ dialog.querySelectorAll<HTMLAnchorElement>('a').forEach(link=>link.addEventListener('click',event=>navigate(link,event,true)));
+ const musicButton=dialog.querySelector<HTMLButtonElement>('.music-card')!;
+ const musicTime=musicButton.querySelector<HTMLElement>('.music-time')!;
+ const music=dialog.querySelector<HTMLAudioElement>('#menu-music')!;
+ const musicState=(playing:boolean)=>{
+  musicButton.classList.toggle('is-playing',playing);
+  musicButton.setAttribute('aria-pressed',String(playing));
+  musicButton.setAttribute('aria-label',`${playing?'Pause':'Play'} a preview of Affection by Jinsang`);
+ };
+ const showTime=()=>{const seconds=Math.floor(music.currentTime);musicTime.textContent=`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;};
+ music.addEventListener('playing',()=>musicState(true));
+ music.addEventListener('pause',()=>musicState(false));
+ music.addEventListener('timeupdate',showTime);
+ music.addEventListener('ended',()=>{musicState(false);music.currentTime=0;showTime();});
+ music.addEventListener('error',()=>{musicState(false);musicTime.textContent='Try again';});
+ musicButton.title='Play the official Spotify song preview';
+ musicButton.addEventListener('click',()=>{
+  if(!music.paused){music.pause();return;}
+  musicTime.textContent='Loading…';
+  music.play().catch(()=>{musicState(false);musicTime.textContent='Try again';});
+ });
+ dialog.addEventListener('close',()=>{music.pause();musicState(false);showTime();});
+ const restore=()=>{const reveal=document.getElementById('bloom-reveal');if(location.hash==='#bloom-reveal'&&reveal)window.scrollTo({top:destination(reveal),behavior:'instant'});schedule();};
+ addEventListener('hashchange',restore);
+ if(document.readyState==='complete')requestAnimationFrame(restore);else addEventListener('load',restore,{once:true});
+ update();syncTimeline();
+</script>
+<style>
+.bloom-rail{position:fixed;top:0;left:50%;transform:translateX(-50%);width:166px;height:50px;z-index:50;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;transition:width .5s cubic-bezier(.22,1,.36,1),height .5s cubic-bezier(.22,1,.36,1)}
+.bloom-rail.is-timeline{width:min(400px,calc(100% - 28px));height:60px}.menu-is-open{opacity:0;pointer-events:none}
+.notch-shell{position:absolute;inset:0;background:#141414;border-radius:0 0 16px 16px;filter:drop-shadow(0 5px 8px #00000018);pointer-events:none}
+.notch-shell::before,.notch-shell::after{content:"";position:absolute;top:0;width:10px;height:10px}.notch-shell::before{left:-10px;background:radial-gradient(circle at 0 100%,transparent 9.5px,#141414 10px)}.notch-shell::after{right:-10px;background:radial-gradient(circle at 100% 100%,transparent 9.5px,#141414 10px)}
+.menu-toggle{position:absolute;top:0;left:20px;right:20px;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0;background:none;border:0;color:#eee;font:inherit;font-size:14px;cursor:pointer;border-radius:12px;transition:opacity .15s}
+.menu-icon{position:relative;width:13px;height:10px}.menu-icon i{position:absolute;top:50%;left:0;width:13px;height:1px;margin-top:-.5px;background:currentColor;border-radius:1px;transform:translateY(-2.5px)}.menu-icon i:last-child{transform:translateY(2.5px)}.is-timeline .menu-toggle{opacity:0;pointer-events:none}
+.timeline{position:absolute;inset:0;opacity:0;visibility:hidden;transform:translateY(-5px);transition:opacity .15s,transform .3s}.is-timeline .timeline{opacity:1;visibility:visible;transform:none;transition:opacity .25s .08s,transform .4s}
+.ruler{position:absolute;top:11px;left:22px;right:22px;height:18px;pointer-events:none}.ruler i{position:absolute;top:0;width:1px;height:5px;background:#535353;transform-origin:50% 0;transition:transform .16s cubic-bezier(.2,.7,.3,1),background .25s;will-change:transform}.ruler i.is-passed{background:#aaa}
+.section-scale{position:absolute;left:22px;right:22px;top:29px;display:grid;grid-template-columns:repeat(4,1fr)}.section-scale a{display:grid;place-items:center;min-height:28px;font-size:11px;color:#aaa;white-space:nowrap;transition:color .2s}.section-scale a:hover,.section-scale a[aria-current]{color:#fff}
+.menu-toggle:focus-visible,.section-scale a:focus-visible,.close-menu:focus-visible{outline:1px solid #fff;outline-offset:1px;border-radius:8px}
+.bloom-rail button,.creative-menu button,.bloom-rail a,.creative-menu a{-webkit-tap-highlight-color:transparent}
+:global(html:not(.bloom-keyboard-nav)) .menu-toggle:focus,:global(html:not(.bloom-keyboard-nav)) .close-menu:focus,:global(html:not(.bloom-keyboard-nav)) .menu-card:focus,:global(html:not(.bloom-keyboard-nav)) .section-scale a:focus{outline:none}
+.creative-menu{position:fixed;inset:0 auto auto 50%;margin:0;padding:0 10px 18px;width:min(420px,calc(100vw - 8px));max-width:none;max-height:calc(100svh - 8px);overflow:auto;border:0;background:transparent;color:#f5f3ef;transform:translateX(-50%);overscroll-behavior:contain;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;outline:none}
+.creative-menu::backdrop{background:#f0ecea44;backdrop-filter:blur(14px);opacity:0;transition:opacity .3s}.creative-menu.is-visible::backdrop{backdrop-filter:blur(14px);opacity:1}
+.menu-heading{position:relative;width:166px;height:50px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;gap:20px;background:#141414;border-radius:0 0 16px 16px;filter:drop-shadow(0 5px 8px #00000018);transition:width .3s cubic-bezier(.22,1,.36,1)}
+.is-visible .menu-heading{width:100%;transition:width .5s cubic-bezier(.22,1,.36,1)}
+.menu-heading::before,.menu-heading::after{content:"";position:absolute;top:0;width:10px;height:10px}.menu-heading::before{left:-10px;background:radial-gradient(circle at 0 100%,transparent 9.5px,#141414 10px)}.menu-heading::after{right:-10px;background:radial-gradient(circle at 100% 100%,transparent 9.5px,#141414 10px)}h2{font:400 11px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:.025em;margin:0;color:#eee}.close-menu{position:absolute;top:0;right:10px;width:33px;height:38px;padding:0;background:none;border:0;color:#eee;cursor:pointer}.close-menu span{position:absolute;top:50%;left:10px;margin-top:-.5px;height:1px;width:13px;border-radius:1px;background:currentColor;transform-origin:center;transform:translateY(-2.5px) rotate(0deg);transition:transform .28s cubic-bezier(.4,0,.2,1)}.close-menu span:last-child{transform:translateY(2.5px) rotate(0deg)}.is-visible .close-menu span{transform:translateY(0) rotate(45deg)}.is-visible .close-menu span:last-child{transform:translateY(0) rotate(-45deg)}
+.menu-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.menu-card{position:relative;display:flex;flex-direction:column;justify-content:flex-end;aspect-ratio:1;min-width:0;padding:14px;overflow:hidden;border:1.5px solid #fffffff0;border-radius:23px;color:#292626;background:#f5f3ef;text-align:left;font:inherit;cursor:pointer;isolation:isolate;box-shadow:0 2px 3px #3023390b;transform:translate3d(0,-6px,0) scale(.985);opacity:0;transition:transform .28s cubic-bezier(.22,1,.36,1),opacity .2s ease;transform-origin:50% 0}
+.menu-card{--enter-delay:20ms}
+.menu-card:nth-child(2){--enter-delay:50ms}.menu-card:nth-child(3){--enter-delay:90ms}.menu-card:nth-child(4){--enter-delay:120ms}.menu-card:nth-child(5){--enter-delay:160ms}
+.is-visible .menu-card{opacity:1;transform:translate3d(0,0,0) scale(1);transition:transform .36s cubic-bezier(.16,1,.3,1),opacity .24s ease;transition-delay:var(--enter-delay)}
+.menu-card h3{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;position:relative;z-index:3;font-size:15px;line-height:1.2;font-weight:500;letter-spacing:-.025em;margin:0}.menu-card:focus-visible{outline:2px solid #544782;outline-offset:3px}
+.work-card{background:#f4d9e7}.work-deck{position:absolute;inset:13px 7px 43px}.deck-card{--x:0px;--y:0px;--angle:0deg;position:absolute;left:calc(50% - 40px);top:calc(50% - 47px);width:80px;height:94px;border-radius:12px;background:#fff;border:3px solid white;box-shadow:0 3px 6px #29273320;overflow:hidden;transform:translate3d(var(--x),var(--y),0) rotate(var(--angle));transition:transform .4s cubic-bezier(.22,1,.36,1);transition-delay:calc(var(--i)*15ms)}.deck-card:nth-child(1){--x:-24px;--y:1px;--angle:-16deg}.deck-card:nth-child(2){--x:22px;--y:-7px;--angle:12deg}.deck-card:nth-child(3){--x:0px;--y:12px;--angle:-3deg}.deck-card img{width:100%;height:100%;object-fit:cover;object-position:center}.work-card:hover .deck-card:nth-child(1),.work-card:focus-visible .deck-card:nth-child(1){--x:-34px;--y:-5px;--angle:-23deg}.work-card:hover .deck-card:nth-child(2),.work-card:focus-visible .deck-card:nth-child(2){--x:33px;--y:-12px;--angle:20deg}.work-card:hover .deck-card:nth-child(3),.work-card:focus-visible .deck-card:nth-child(3){--x:0px;--y:16px;--angle:0deg}
+
+.music-card{touch-action:manipulation;user-select:none;-webkit-user-select:none;background:linear-gradient(150deg,#eeeded,#d5d4d7);align-items:center;text-align:center;padding:12px}.music-card *{pointer-events:none}.music-disc{position:absolute;width:156px;height:156px;top:-53px;left:calc(50% - 78px);border-radius:50%;border:1px solid #59595b;background:repeating-radial-gradient(circle,transparent 0 3px,#ffffff0b 3.5px 4px),conic-gradient(from 20deg,#202024,#77767d 15%,#111115 30%,#25262a 50%,#797a7f 66%,#16161c 82%,#202024);box-shadow:0 4px 7px #0002;animation:disc-spin 9s linear infinite;animation-play-state:paused}.disc-art{background:radial-gradient(circle at 30% 20%,#f4d6a4,#946943 45%,#28242b 85%);position:absolute;inset:53px;width:calc(100% - 106px);height:calc(100% - 106px);object-fit:cover;border-radius:50%;border:1px solid #dbfff06b}.music-disc>i{position:absolute;left:calc(50% - 8px);top:calc(50% - 8px);width:16px;height:16px;background:#dad9dc;border:5px solid #b6b6bd;z-index:1;border-radius:50%}.is-playing .music-disc{animation-play-state:running}.music-info{position:relative;display:flex;align-items:center;flex-direction:column;gap:3px;padding-top:8px;width:100%}.track-title{font-size:13px;font-weight:500;line-height:1.25;max-width:100%;text-wrap:balance}.music-equalizer{height:13px;display:flex;align-items:center;gap:2px;margin-bottom:2px}.music-equalizer i{height:5px;width:2px;background:#777;border-radius:1px}.music-equalizer i:nth-child(2n){height:11px}.music-equalizer i:nth-child(3){height:8px}.is-playing .music-equalizer i{animation:equalize .65s ease-in-out infinite alternate}.is-playing .music-equalizer i:nth-child(2n){animation-delay:-.3s}.music-bottom{display:flex;align-items:center;gap:8px;width:100%;justify-content:center;margin-top:4px}.music-play{position:relative;display:block;flex:0 0 24px;width:24px;height:24px}.music-play>span{position:absolute;inset:0;display:grid;place-items:center;transition:opacity .16s ease,transform .24s cubic-bezier(.16,1,.3,1),filter .16s ease}.pause-glyph{opacity:0;transform:scale(.65);filter:blur(2px)}.is-playing .play-glyph{opacity:0;transform:scale(.65);filter:blur(2px)}.is-playing .pause-glyph{opacity:1;transform:scale(1);filter:blur(0)}.music-time{display:flex;align-items:center;height:24px;font-size:12px;line-height:1;font-variant-numeric:tabular-nums}.music-progress{height:2px;width:40px;background:#aaa8ad;border-radius:2px;overflow:hidden}.music-progress i{display:block;height:100%;width:100%;background:#454149;transform-origin:left;transform:scaleX(var(--played,0))}
+@keyframes disc-spin{to{transform:rotate(360deg)}}@keyframes equalize{to{transform:scaleY(.4)}}
+.about-card{padding:14px;background:#bccd91;color:#fff;border:0}.about-card>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;border-radius:inherit;transition:transform .5s}.about-card:hover>img{transform:scale(1.045)}.portrait-glow{position:absolute;inset:-6px;border-radius:inherit;filter:blur(5px);opacity:.85;z-index:2;pointer-events:none;animation:portrait-breathe 3.2s ease-in-out infinite alternate;animation-play-state:paused;will-change:opacity}.portrait-glow::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:18px;background:conic-gradient(from 20deg,#ff7fac,#9eeaf0,#b29aff,#ffb07a,#ff7fac);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude}.is-visible .portrait-glow{animation-play-state:running}@keyframes portrait-breathe{from{opacity:.7}to{opacity:1}}
+.about-card::after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,#1d252784);z-index:1}.about-card h3{text-shadow:0 1px 3px #0006}.spotify-player{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);pointer-events:none}.spotify-player :global(iframe){border:0}
+.play-card{background:linear-gradient(145deg,#333538,#1b1c20);color:#eee;padding:12px;border-color:#fffffff0}.console-screen{position:absolute;top:13px;left:13px;right:13px;height:47%;border:5px solid #101114;border-radius:16px;background:radial-gradient(ellipse at 30% 30%,#f3b9cb,transparent 65%),linear-gradient(135deg,#9ec8cb,#ac92df 60%,#f5b8bb);box-shadow:inset 0 0 9px #090d3a70,0 1px 0 #ffffff15;overflow:hidden;display:grid;place-items:center}.console-screen::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 2px,#ffffff17 2px 3px);pointer-events:none}.pixel-dino{position:absolute;width:44px;height:44px;left:50%;top:46%;color:#fff;transform:translate(-50%,-50%);filter:drop-shadow(1px 2px 0 #776bac);transition:transform .6s}.screen-caption{position:absolute;bottom:5px;font-family:monospace;font-size:6px;letter-spacing:.15em;color:#252445}.play-card:hover .pixel-dino{transform:translate(-50%,-62%) rotate(-5deg)}.console-controls{position:absolute;left:16px;right:16px;top:60%;height:34px;display:flex;align-items:center;justify-content:space-between}.dpad{display:grid;place-items:center;width:32px;height:32px;font-size:28px;line-height:1;color:#101114;text-shadow:0 1px 0 #ffffff4a}.speaker-slots{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;gap:3px}.speaker-slots i{display:block;width:2px;height:11px;background:#111216;border-radius:2px;box-shadow:0 1px 0 #ffffff10}.game-buttons{position:relative;width:34px;height:34px}.game-buttons i{position:absolute;width:11px;height:11px;border-radius:50%;background:#b8b0d0;box-shadow:inset 0 1px 1px #fff7,0 2px 1px #000a}.game-buttons i:nth-child(1){left:12px;top:0;background:#c9bad7}.game-buttons i:nth-child(2){right:0;top:12px;background:#e2b8b9}.game-buttons i:nth-child(3){left:12px;bottom:0;background:#b7cfc3}.game-buttons i:nth-child(4){left:0;top:12px;background:#b9c8de}.play-card h3{font-size:12px;letter-spacing:.02em}
+.contact-card{grid-column:1/-1;aspect-ratio:auto;height:57px;flex-direction:row;justify-content:space-between;align-items:center;gap:10px;background:#fff;padding:10px 12px 10px 17px;border-radius:18px}.contact-cta{display:grid;place-items:center;min-height:34px;padding:0 15px;font-size:11px}.contact-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}.contact-card{cursor:default;overflow:visible}
+@media(max-width:360px){.menu-card{padding:11px;border-radius:20px}.music-disc{width:140px;height:140px;left:calc(50% - 70px);top:-58px}.disc-art{inset:47px;width:calc(100% - 94px);height:calc(100% - 94px)}.music-info{gap:2px}.track-title{font-size:11px}.music-equalizer{margin:0;height:9px}.work-deck{inset:15px 4px 36px;transform:scale(.86)}.contact-card{padding:12px}.contact-cta{font-size:10px;padding-inline:12px}.console-controls{top:58%;height:30px}.game-buttons{transform:scale(.85);transform-origin:right center}.menu-card h3{font-size:13px}.play-card h3{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.bloom-rail,.timeline,.is-timeline .timeline,.creative-menu,.creative-menu.is-visible,.creative-menu::backdrop,.menu-heading,.is-visible .menu-heading,.menu-card,.is-visible .menu-card,.menu-card::after,.menu-card *,.ruler i,.close-menu span{transition:none!important}.creative-menu,.creative-menu.is-visible{transform:translateX(-50%)}.menu-card{transform:none}.music-disc,.music-equalizer i,.portrait-glow{animation:none!important}}
+/* Soft charcoal notch: keep the blur without an outlined rim. */
+.notch-shell,.menu-heading{background:rgba(22,22,25,.84);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15);filter:none;box-shadow:0 3px 7px #00000012}
+.notch-shell::before,.menu-heading::before{background:radial-gradient(circle at 0 100%,transparent 9.5px,rgba(22,22,25,.84) 10px)}
+.notch-shell::after,.menu-heading::after{background:radial-gradient(circle at 100% 100%,transparent 9.5px,rgba(22,22,25,.84) 10px)}
+.menu-heading{z-index:2;height:50px}.menu-home,.close-menu{z-index:1}.menu-home{position:relative;isolation:isolate;display:inline-flex;align-items:center;gap:8px;min-width:88px;min-height:50px;margin-left:-8px;padding:0 8px;color:#eee;font:400 14px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;text-decoration:none;border-radius:8px;-webkit-tap-highlight-color:transparent}.menu-home svg{width:17px;height:17px;flex:none}.menu-home::before{content:"";position:absolute;inset:6px 0;z-index:-1;border-radius:7px;background:transparent;transition:background .18s}.menu-home:hover{color:#fff}.menu-home:hover::before{background:#ffffff0a}.menu-home:focus-visible{outline:1px solid #fff;outline-offset:-2px}.close-menu{width:44px;height:50px}.close-menu span{left:21px}
+
+
+@media(prefers-reduced-motion:reduce){.menu-card,.is-visible .menu-card{transform:none;animation:none}}
+@media(max-width:809px){.bloom-rail:not(.is-timeline){width:196px;height:54px}.menu-toggle{height:54px;font-size:14px;left:24px;right:24px}.menu-icon,.menu-icon i{width:16px}.menu-heading{width:196px;height:54px;padding-inline:24px}.menu-heading h2{font-size:13px}.close-menu{width:44px;height:54px;right:10px}.close-menu span{width:16px;left:14px}.section-scale a{font-size:12px}}
+@media(max-width:809px){.music-disc{width:90%;height:auto;aspect-ratio:1;left:5%;top:-42%}.music-info{position:absolute;top:52%;bottom:6px;left:8px;width:calc(100% - 16px);padding:0;gap:2px;justify-content:center}.music-disc .disc-art{inset:34%;width:32%;height:32%}.music-equalizer{flex-shrink:0;height:11px;margin:0}.music-bottom{margin-top:2px}.track-title{font-size:12px}}
+/* Add a reversible hover turn without interrupting playback rotation. */
+.music-disc{rotate:0deg;transition:rotate .45s cubic-bezier(.22,1,.36,1)}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.music-card:not(.is-playing):hover .music-disc{rotate:14deg}}
+/* Match the closed notch exactly before the dialog hands control back. */
+.menu-heading{box-sizing:border-box}.menu-home{opacity:0;transition:opacity .1s ease;pointer-events:none}.is-visible .menu-home{opacity:1;pointer-events:auto;transition:opacity .18s .12s ease}.menu-resting-label{position:absolute;left:20px;top:0;height:50px;display:flex;align-items:center;font-size:14px;color:#eee;opacity:1;transition:opacity .12s .14s ease;pointer-events:none}.is-visible .menu-resting-label{opacity:0;transition:opacity .08s ease}
+@media(max-width:809px){.menu-resting-label{left:24px;height:54px;font-size:14px}.menu-home{min-height:54px}}
+@media(prefers-reduced-motion:reduce){.menu-home,.menu-resting-label{transition:none!important}}
+
+.bloom-rail{translate:0 0;transition:translate .25s cubic-bezier(.22,1,.36,1),width .5s cubic-bezier(.22,1,.36,1),height .5s cubic-bezier(.22,1,.36,1)}
+.bloom-rail.is-scroll-hidden{translate:0 calc(-100% - 12px);pointer-events:none}
+@media(prefers-reduced-motion:reduce){.bloom-rail{transition:none}}
+/* GSAP owns the panel geometry and card entrance; avoid competing transitions. */
+.gsap-menu .menu-heading,.gsap-menu .menu-card{transition:none!important}
+</style>

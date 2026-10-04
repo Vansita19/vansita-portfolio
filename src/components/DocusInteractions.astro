@@ -1,0 +1,11 @@
+---
+const studies = ['Signature editing interaction', 'Text formatting interaction', 'Document pages interaction'];
+---
+<div class="docus-interactions" aria-label="Docus AI interactions">
+  {studies.map((title,index)=><iframe src={`/docus-interactions.html?study=${index+1}`} title={title} loading="lazy" />)}
+</div>
+<style>
+.docus-interactions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;width:100%;max-width:none;margin-inline:auto}
+iframe{display:block;width:100%;aspect-ratio:3/4;height:auto;box-sizing:border-box;border:1px solid #dedede;border-radius:24px;background:transparent;overflow:hidden}
+@media(max-width:809.98px){.docus-interactions{width:100%;gap:12px}}
+</style>

@@ -1,0 +1,204 @@
+.playground {
+  --playground-paper: #f5f3ee;
+  --playground-border: #dddacf;
+  --playground-label: #756f64;
+  background: var(--playground-paper);
+  min-height: 100svh;
+}
+.playground-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.playground-stage {
+  --caption-gap: 8.8px;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--playground-paper);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+}
+.playground-stage:focus-visible { box-shadow: inset 0 0 0 2px #fe4116; }
+.playground-stage.is-dragging { cursor: grabbing; }
+.playground-dots {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--playground-border) 0.9px, transparent 0.9px);
+  background-size: 31px 31px;
+  opacity: 0.6;
+}
+.playground-tile,
+.playground-list-item {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  color: var(--playground-label);
+  background: none;
+  font: inherit;
+  cursor: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.playground-tile {
+  position: absolute;
+  width: var(--tile-width);
+  transform-origin: center center;
+  transition: transform 280ms cubic-bezier(0.2, 1.45, 0.45, 1);
+}
+.playground-tile .playground-image { height: var(--tile-height); }
+.playground-image {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--playground-border);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 6%);
+}
+.playground-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.playground-caption {
+  display: block;
+  margin-top: var(--caption-gap, 8px);
+  color: var(--playground-label);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-align: left;
+}
+.playground-tile .playground-caption {
+  width: max-content;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (hover: hover) {
+  .playground-stage:not(.is-dragging) .playground-tile:hover { transform: scale(1.06); z-index: 1; }
+}
+.playground-tile:focus-visible,
+.playground-list-item:focus-visible { outline: 2px solid #fe4116; outline-offset: 6px; border-radius: 10px; }
+.playground-tile:focus-visible { transform: scale(1.06); z-index: 1; }
+.playground-list { display: none; }
+.playground-preview-open { overflow: hidden; }
+.playground-preview {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  padding: 32px;
+  margin: 0;
+  border: none;
+  overflow: hidden;
+  background: transparent;
+  color: var(--playground-label);
+  cursor: zoom-out;
+}
+.playground-preview[open] { display: flex; align-items: center; justify-content: center; }
+.playground-preview::backdrop {
+  background: rgb(20 18 14 / 42%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: playground-fade-in 220ms ease-out both;
+}
+.playground-preview-content {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  max-width: min(90%, 1100px);
+  max-height: 88%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 30px 80px rgb(0 0 0 / 35%);
+  animation: playground-preview-in 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.playground-preview-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: calc(88dvh - 100px);
+  object-fit: contain;
+  background: #fff;
+}
+.playground-preview-content .playground-caption { flex: 0 0 auto; margin: 0; padding: 14px 18px; }
+.playground-close {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: max(20px, env(safe-area-inset-top));
+  right: max(20px, env(safe-area-inset-right));
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 35%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 90%);
+  color:var(--text-primary);
+  cursor: pointer;
+}
+.playground-close:focus-visible { outline: 2px solid #fe4116; outline-offset: 3px; }
+.playground-preview.is-closing .playground-preview-content { animation: playground-preview-out 170ms ease-in both; }
+.playground-preview.is-closing::backdrop { animation: playground-fade-out 170ms ease-in both; }
+@keyframes playground-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes playground-fade-out { to { opacity: 0; } }
+@keyframes playground-preview-in { from { opacity: 0; transform: translateY(12px) scale(0.86); } to { opacity: 1; transform: none; } }
+@keyframes playground-preview-out { to { opacity: 0; transform: translateY(8px) scale(0.9); } }
+@media (min-width: 700px) and (max-width: 809px) {
+  .playground { padding-top: 104px; }
+  .playground-stage { height: calc(100svh - 104px); }
+}
+@media (max-width: 699px) {
+  .playground-stage { display: none; }
+  .playground-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 104px 24px 32px;
+  }
+  .playground-list-item { display: block; width: 100%; cursor: zoom-in; }
+  .playground-preview { padding: 16px; }
+  .playground-preview-content { max-width: 100%; max-height: calc(100dvh - 144px); }
+  .playground-preview-image { max-height: calc(100dvh - 200px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .playground-tile { transition: none; }
+  .playground-stage:not(.is-dragging) .playground-tile:hover,
+  .playground-tile:focus-visible { transform: none; }
+  .playground-preview-content,
+  .playground-preview::backdrop,
+  .playground-preview.is-closing .playground-preview-content,
+  .playground-preview.is-closing::backdrop { animation: none; }
+}
+
+.playground-image video{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.playground-tile .playground-caption,.playground-list-item .playground-caption{display:none}

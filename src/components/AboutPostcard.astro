@@ -1,0 +1,26 @@
+---
+const maskId = `postcard-${crypto.randomUUID()}`;
+---
+<figure class="about-postcard" aria-label="A postcard from Vansita">
+ <svg viewBox="0 0 300 280" role="img" aria-label="Vansita outdoors at dusk, framed as a postage stamp">
+  <defs>
+   <mask id={maskId}>
+    <rect width="300" height="280" fill="white"/>
+    {[25,75,125,175,225,275].map(x=><><circle cx={x} cy="0" r="10" fill="black"/><circle cx={x} cy="280" r="10" fill="black"/></>)}
+    {[23,70,117,164,211,258].map(y=><><circle cx="0" cy={y} r="10" fill="black"/><circle cx="300" cy={y} r="10" fill="black"/></>)}
+   </mask>
+  </defs>
+  <g mask={`url(#${maskId})`}>
+   <rect width="300" height="280" fill="#e8e2d5"/>
+
+  </g>
+ </svg>
+ <img src="/assets/about-entry/postcard-photo.webp" alt="Vansita outdoors at dusk with a Ferris wheel behind her" loading="lazy" decoding="async"/>
+</figure>
+<style>
+.about-postcard{position:relative;width:min(252px,76.5%);margin:30px 0 0 8px;transform:rotate(-6deg)}
+img{position:absolute;left:8%;top:8.57%;width:84%;height:82.86%;object-fit:cover;object-position:50% 58%}
+svg{display:block;width:100%;height:auto}
+:global(html.about-motion-ready .about-desktop) .about-postcard{opacity:var(--postcard-reveal,0);transform:translateY(calc((1 - var(--postcard-reveal,0))*24px)) rotate(-6deg)}
+@media(max-width:700px){.about-postcard{position:relative;width:202.5px;margin:24px 0 12px 8px}}
+</style>

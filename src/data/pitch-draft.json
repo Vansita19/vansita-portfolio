@@ -1,0 +1,472 @@
+[
+  {
+    "id": "overview",
+    "title": "Overview",
+    "blocks": [
+      {
+        "title": "Shaping an AI experience to help investors find the companies worth backing",
+        "paragraphs": [
+          "The fundraising process was broken on both ends. Founders were pitching the same deck ten times over, chasing warm intros and reformatting materials for every fund. Investors were drowning in inbound, manually sifting through hundreds of applications to find the handful worth a conversation.",
+          "Pitch Protocol connects founders with investors, researches companies applying for funding, and matches them with relevant funds. Its research covers the team, product, market, and traction.",
+          "My job was to help investors use that research to understand a company, check the AI’s recommendations, and decide what to do next."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "",
+        "mainHeading": true
+      },
+      {
+        "title": "My role",
+        "paragraphs": [
+          "As the founding designer, I owned the entire user experience from the initial idea through launch, alongside the internal dashboard the team used to manage funds.",
+          "I also owned the UI implementation and production releases. Using AI coding tools, I worked directly in code to explore alternatives, test interactions, and ship improvements as the product evolved."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "",
+        "mainHeading": true
+      }
+    ]
+  },
+  {
+    "id": "core-flows",
+    "title": "Highlights",
+    "blocks": [
+      {
+        "title": "Understand a company at a glance",
+        "paragraphs": [
+          "Investors can quickly understand what a company does, its key stats, and its strengths and risks. The Summary brings the recommendation upfront, with access to the detailed research when they want to learn more."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "Understand a company at a glance",
+        "mainHeading": true
+      },
+      {
+        "title": "Ask AI questions and get structured answers",
+        "paragraphs": [
+          "Investors can ask about one company or their whole deal flow. Answers take the form of tables, focused explanations, or short briefs, depending on what makes the information easier to understand and use."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "Ask AI questions and get structured answers",
+        "mainHeading": true
+      },
+      {
+        "title": "Keep the evidence close",
+        "paragraphs": [
+          "Investors can follow a finding to its evidence and sources. Confidence indicators help them judge how much support a claim has and where they need to look closer."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "Keep the evidence close",
+        "mainHeading": true
+      },
+      {
+        "title": "Find companies with AI-powered filters",
+        "paragraphs": [
+          "Investors can describe the companies they want to find, adjust the applied filters, and save their criteria as a Dynamic View that updates as new matching applications arrive."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "Find companies with AI-powered filters",
+        "mainHeading": true
+      }
+    ]
+  },
+  {
+    "id": "research",
+    "title": "Research",
+    "blocks": [
+      {
+        "title": "Learning what investors wanted to know about a company",
+        "paragraphs": [
+          "The research gave us plenty of information to work with. The harder question was what investors needed to see first and how investors reviewed a business.",
+          "I started by talking to investors about their process. Some wanted to see revenue and traction first. Others cared more about the founders or the problem they were solving.",
+          "To understand these differences, I grouped the research into categories and ran workshops where investors:",
+          "These conversations helped me identify what mattered to investors. I then began exploring how to bring that information together on the company page."
+        ],
+        "items": [
+          "Ranked the information by importance.",
+          "Chose what they wanted to see when opening a company.",
+          "Pointed out information they felt was missing."
+        ],
+        "visual": "",
+        "visualKey": "",
+        "mainHeading": true,
+        "itemsAfterParagraph": 2
+      }
+    ]
+  },
+  {
+    "id": "iterations",
+    "title": "Company experience",
+    "blocks": [
+      {
+        "title": "Finding a way to tell the company’s story",
+        "paragraphs": [
+          "At first, I tried to create a compact version of the company report. I took the important categories, picked the most useful information from each, and explored different ways to display it.",
+          "I worked through **25+ layouts**, and some versions reached production. Four approaches helped me understand why the page still wasn’t working."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "A summary built for a first read",
+        "mainHeading": true
+      },
+      {
+        "title": "The information was organized, but there was too much to read",
+        "paragraphs": [
+          "I grouped the research into clear sections and highlighted important findings.",
+          "Investors could find individual topics more easily, but they still had to read a long report to understand the company. To give them a quicker starting point, I tried bringing more information into one screen."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "1. Organizing the research still left too much to read",
+        "mainHeading": true
+      },
+      {
+        "title": "Everything fit, but the company’s story got lost",
+        "paragraphs": [
+          "I brought metrics, charts, and findings into a compact dashboard. It reduced scrolling, but the numbers didn’t explain what the company did or why it was promising."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "2. Everything fit, but the company’s story got lost",
+        "mainHeading": true
+      },
+      {
+        "title": "More charts didn’t make the story easier to understand",
+        "paragraphs": [
+          "Investors were familiar with pitch decks, so I explored charts with short explanations. But some charts took longer to understand than a sentence. I brought written context back."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "3. More charts didn’t always make the answer clearer",
+        "mainHeading": true
+      },
+      {
+        "title": "The explanations helped, but the page still felt overwhelming",
+        "paragraphs": [
+          "I grouped explanations into clear sections and kept key stats upfront. The context helped, but the page still felt overwhelming: I was trying to fit most of the report into the first view."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "4. Simpler layouts restored context, but still felt hard to read",
+        "mainHeading": true
+      },
+      {
+        "title": "Request to customize the dashboard",
+        "paragraphs": [
+          "Across these versions, investors asked for different information to appear first. One person wanted certain metrics at the top, while another wanted more space for a different part of the research.",
+          "We included customization in the early approach so people could arrange the dashboard around their needs. But that meant they had to organize the page themselves before it worked well for them.",
+          "I began to question whether another layout or more customization would solve the problem."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "customization-requests",
+        "mainHeading": true
+      }
+    ]
+  },
+  {
+    "id": "breakthrough",
+    "title": "The breakthrough",
+    "blocks": [
+      {
+        "title": "The breakthrough was choosing what mattered",
+        "paragraphs": [
+          "Until then, I had been asking:",
+          "**How might we turn extensive company research into an overview investors can easily understand?**",
+          "After the explorations, I reframed it:",
+          "**How might we give investors a trustworthy company snapshot without overwhelming them with the research behind it?**",
+          "The new question changed how I chose the content. I focused on the findings that explained the company and the evidence supporting them, rather than shortening every research category.",
+          "The final approach had two layers:",
+          "Most points in the Summary linked to the relevant research. Investors could read the snapshot first, then open a particular finding when they wanted to understand it more deeply."
+        ],
+        "items": [
+          "**Summary:** A company’s résumé, introducing the business, its key stats, and the recommendation.",
+          "**Details:** The full research, explanations, evidence, and sources."
+        ],
+        "visual": "",
+        "visualKey": "summary-layers",
+        "mainHeading": true,
+        "itemsAfterParagraph": 5
+      },
+      {
+        "title": "",
+        "paragraphs": [
+          "**The goal was to give investors roughly 80% of the information they needed for a first review in 20% of the content.**",
+          "I brought the Summary together through three decisions:"
+        ],
+        "items": [
+          "**Put the recommendation and key stats first.** Investors could see the assessment and essential company information before reading the explanation.",
+          "**Use one radar chart to show the overall picture.** It combined scores for team, market, product, traction, competition, and risk. Investors could see the company’s strengths and gaps together instead of interpreting a separate chart for each category.",
+          "**Keep short explanations beside the numbers.** The writing explained what the scores meant and preserved context that charts alone couldn’t convey."
+        ],
+        "visual": "",
+        "visualKey": "The breakthrough was choosing what mattered",
+        "mainHeading": true,
+        "itemsAfterParagraph": 1
+      },
+      {
+        "title": "The new Summary reduced the need for customization",
+        "paragraphs": [
+          "Once investors had this shared starting point, they asked to rearrange the page less often. The Summary was already showing more of what they needed, so we could leave dashboard customization out of the final approach. Other teams also adopted the format.",
+          "The drop in customization requests gave me a useful sign that we had addressed the problem behind those requests."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "",
+        "mainHeading": true
+      }
+    ]
+  },
+  {
+    "id": "evidence",
+    "title": "Evidence",
+    "blocks": [
+      {
+        "title": "A concise recommendation still needed evidence behind it",
+        "paragraphs": [
+          "With the Summary in place, I worked on how investors could examine the research behind a recommendation and decide whether they agreed.",
+          "I designed ways for them to:",
+          "Investors could investigate one finding in depth while keeping the company’s wider story in view."
+        ],
+        "items": [
+          "**Preview the evidence.** Read a short preview beside a claim without leaving the company page.",
+          "**Follow the reasoning.** Trace a finding through the synthesis and evidence to its original sources.",
+          "**See the uncertainty.** Use confidence indicators to identify findings that needed a closer look."
+        ],
+        "visual": "",
+        "visualKey": "Building trust in AI recommendations",
+        "mainHeading": true,
+        "itemsAfterParagraph": 1
+      }
+    ]
+  },
+  {
+    "id": "interaction-design",
+    "title": "AI chat",
+    "blocks": [
+      {
+        "title": "Helping investors find answers when they needed them",
+        "paragraphs": [
+          "The company page made the research easier to read. As the product grew, investors also needed answers to specific questions without searching through that research themselves.",
+          "AI chat let them ask about one company or explore questions across their deal flow. My next challenge was deciding how to present those answers."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "",
+        "mainHeading": true
+      },
+      {
+        "title": "Let the question shape the answer",
+        "paragraphs": [
+          "A long text response wouldn’t work equally well for every question. I explored different formats for three common tasks:",
+          "This approach let the interface adapt to the task. Investors could compare companies side by side or read an explanation with enough context to understand the answer."
+        ],
+        "items": [
+          "**Compare companies:** Show relevant differences in a table.",
+          "**Investigate a company:** Give a focused explanation, with visuals where they help.",
+          "**Prepare for a meeting:** Bring the research into a short brief with follow-up questions."
+        ],
+        "visual": "",
+        "visualKey": "",
+        "mainHeading": false,
+        "itemsAfterParagraph": 0
+      },
+      {
+        "title": "Follow the conversation beyond the first answer",
+        "paragraphs": [
+          "I also prototyped what happened when investors asked follow-up questions:",
+          "**“Show me AI companies.” → “Only those with revenue.” → “How strong are their teams?”**",
+          "Working through the whole conversation helped me explore how results should change and what information each answer should carry forward.",
+          "I reused the same components, typography, spacing, and controls across response formats. Investors could receive different kinds of answers while still knowing how to read and use them.",
+          "*These interaction explorations used sample data and predefined responses. Competitor comparison remained a design exploration.*"
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "Follow the conversation past the first answer",
+        "mainHeading": false
+      }
+    ]
+  },
+  {
+    "id": "filters",
+    "title": "Filters and Views",
+    "blocks": [
+      {
+        "title": "Making specific searches easier to control and save",
+        "paragraphs": [
+          "AI chat gave investors a flexible way to explore. Next, I worked on filters and saved Views so they could find companies with specific requirements and return to those results later."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "Making complex investment criteria easy to apply",
+        "mainHeading": true
+      },
+      {
+        "title": "Manual filters worked well for simple requests",
+        "paragraphs": [
+          "I started with familiar controls for criteria such as:",
+          "**Funding round: Seed · Revenue: Above $500k**",
+          "Investors could select these quickly and change them directly. But some requirements depended on the research, such as whether a founder had previously scaled a business.",
+          "I needed a way to support those requests without creating a fixed filter for every possible question."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "Version 1 · Manual filters",
+        "mainHeading": false
+      },
+      {
+        "title": "AI handled complex requests, but investors still wanted controls",
+        "paragraphs": [
+          "I explored letting investors describe what they wanted:",
+          "**“Show me seed companies with revenue above $500k and founders who have previously scaled a business.”**",
+          "This made more complex searches possible. But some investors preferred changing a filter directly to writing another prompt, especially for a small adjustment. They also needed to see how AI had understood their request."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "Version 2 · AI filters",
+        "mainHeading": false
+      },
+      {
+        "title": "Final approach · Combining AI with visible control",
+        "paragraphs": [
+          "I brought natural-language requests and manual filters into the same experience.",
+          "Investors could start by typing a request or selecting filters. In both cases, they could see the applied criteria beside the results.",
+          "I followed three rules:",
+          "Keeping manual controls meant showing more on the screen, but it gave investors a direct way to check and change the search."
+        ],
+        "items": [
+          "**Show what AI applied.** Make the criteria visible and editable.",
+          "**Make small changes easy.** Let investors adjust a filter without writing another prompt.",
+          "**Support follow-up requests.** Offer suggestions and prompts when investors wanted to explore further."
+        ],
+        "visual": "",
+        "visualKey": "Final approach · Combining AI with visible control",
+        "mainHeading": false,
+        "itemsAfterParagraph": 2
+      },
+      {
+        "title": "Save the companies, or save the search",
+        "paragraphs": [
+          "Sometimes investors wanted to keep a shortlist of specific companies. Other times they wanted to keep finding new companies with the same characteristics.",
+          "I designed two types of Views:"
+        ],
+        "items": [
+          "**Static Views** saved companies that investors selected and managed themselves.",
+          "**Dynamic Views** saved search criteria, so new matching applications could appear automatically."
+        ],
+        "visual": "",
+        "visualKey": "Two ways to save companies",
+        "mainHeading": false,
+        "itemsAfterParagraph": 1
+      },
+      {
+        "title": "",
+        "paragraphs": [
+          "I used the same saving patterns in Inbox and AI chat. Wherever investors found something useful, they could choose whether to save the selected companies or the criteria behind the results."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "Making saved views work across the whole product",
+        "mainHeading": false
+      }
+    ]
+  },
+  {
+    "id": "collaboration",
+    "title": "Collaboration",
+    "blocks": [
+      {
+        "title": "Giving the team a shared place to think",
+        "paragraphs": [
+          "Alongside finding and reviewing companies, investors needed a place to discuss them with teammates.",
+          "I brought notes and shared findings into the company page. Investors could record observations, save useful excerpts from AI responses, and build on what others had written.",
+          "This kept the team’s discussion close to the research. They could develop a shared understanding of a company while each investor kept their own decision."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "Making team collaboration easier",
+        "mainHeading": true
+      }
+    ]
+  },
+  {
+    "id": "impact",
+    "title": "Impact",
+    "blocks": [
+      {
+        "title": "From company research to a working part of the investment process",
+        "paragraphs": [
+          "Pitch Protocol became a workspace where investors could review research, explore their deal flow, and discuss opportunities with their teams.",
+          "Reported product outcomes included:",
+          "Investors used the recommendations and supporting research to focus their reviews and decide what to pursue. Several companies on the platform received funding.",
+          "Feedback also pointed to more regular use of the app, while plans expanded toward a founder experience.",
+          "These outcomes reflect the combined work of the platform, research, and investor experience."
+        ],
+        "items": [
+          "**15+ VC funds**",
+          "**1,500+ founder applications**",
+          "**79.3% reported pitch-to-meeting rate**",
+          "**Under 30 minutes to a decision**"
+        ],
+        "visual": "",
+        "visualKey": "Growing with VC funds and their teams",
+        "mainHeading": true,
+        "itemsAfterParagraph": 1
+      }
+    ]
+  },
+  {
+    "id": "reflection",
+    "title": "Reflection",
+    "blocks": [
+      {
+        "title": "More iterations don’t always solve the right problem",
+        "paragraphs": [
+          "The biggest step forward came when I changed the question I was trying to answer. That helped me recognize customization requests as feedback about what the page wasn’t providing.",
+          "I learned to understand what people were trying to fix before adding more options."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "",
+        "mainHeading": false
+      },
+      {
+        "title": "A familiar format can still be hard to use",
+        "paragraphs": [
+          "Pitch decks gave me a useful direction to explore, but familiarity alone didn’t make the research easier to understand.",
+          "I learned to judge a format by how clearly it explained the information and how much effort it asked of the reader."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "",
+        "mainHeading": false
+      },
+      {
+        "title": "Think about how each feature affects the rest of the product",
+        "paragraphs": [
+          "A search could become a saved View. An AI answer could become a note. A summary finding could lead to a source.",
+          "As the product grew, I had to design these connections alongside the individual features so the whole experience continued to make sense."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "",
+        "mainHeading": false
+      },
+      {
+        "title": "Learn the domain well enough to interpret feedback",
+        "paragraphs": [
+          "Interviews gave me a starting point. Reading company research and working through investment scenarios helped me understand the decisions behind investors’ questions.",
+          "That understanding made it easier to translate their feedback into design decisions."
+        ],
+        "items": [],
+        "visual": "",
+        "visualKey": "",
+        "mainHeading": false
+      }
+    ]
+  }
+]

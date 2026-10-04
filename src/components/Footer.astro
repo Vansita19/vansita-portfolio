@@ -1,0 +1,219 @@
+---
+import FooterSticker from './FooterSticker.astro';
+import desktopKeys from '../../public/assets/footer-keyboard.svg?raw';
+import mobileKeys from '../../public/assets/footer-keyboard-mobile.svg?raw';
+interface Props { variant?: "home" | "project"; }
+const { variant = "home" } = Astro.props;
+const isProject = variant === "project";
+const keys = `<span class="keyboard-desktop">${desktopKeys}</span><span class="keyboard-mobile">${mobileKeys}</span>`;
+---
+<footer class:list={["footer-wrap", { "project-footer": isProject }]} id="contact">
+  <div class="contact-card">
+    {isProject ? (
+      <div class="project-contact-row">
+        <h2 class="project-contact-title">Love what you see? <span>Let's chat</span></h2>
+        <a class="project-email-cta portfolio-cta" href="mailto:avansita2002@gmail.com">Email me <span aria-hidden="true">↗</span></a>
+        <div class="project-footer-badge">
+          <FooterSticker variant="project" />
+        </div>
+      </div>
+    ) : (<>
+      <div class="ruler-track" aria-hidden="true"><img class="ruler" src="/assets/design-footer-ruler.svg" alt="" width="40" height="1350" loading="lazy" /></div>
+      <div class="contact-copy"><h2>Let’s Chat</h2><p>Would love to talk projects, collaborations, or anything design!</p></div>
+      <FooterSticker />
+      <a class="email-keys" href="mailto:avansita2002@gmail.com" aria-label="Email me" set:html={keys} />
+    </>)}
+    <div class="social-links"><a href="https://www.linkedin.com/in/vansita/" target="_blank" rel="noopener noreferrer"><img src="/assets/design-linkedin.svg" width="24" height="24" alt="" /><span>LinkedIn</span></a><a href="https://x.com/Vansita19" target="_blank" rel="noopener noreferrer"><img src="/assets/design-twitter.svg" width="24" height="24" alt="" /><span>Twitter</span></a></div>
+  </div>
+</footer>
+<style>
+.footer-wrap:not(.project-footer){margin-top:0}.footer-wrap{width:100%;padding:24px 20px 20px;border-top:1px solid #dedede;box-shadow:inset 0 1px 0 #fff;margin-top:60px;scroll-margin-top:100px}
+.contact-card{position:relative;width:100%;max-width:1920px;margin-inline:auto;height:622px;border-radius:40px;background:#272727;color:#fff;box-shadow:0 5px 12px #0000001a,0 21px 21px #00000017,0 48px 29px #0000000d,0 86px 34px #00000003,inset 0 4px 8px #fff3;overflow:hidden}
+.contact-copy{position:absolute;top:120px;left:140px;width:377px}
+.contact-copy h2{font-size:80px;line-height:68px;letter-spacing:0}
+.contact-copy p{margin-top:32px;font-size:18px;line-height:24px;color:var(--text-description-on-dark)}
+.ruler-track{position:absolute;left:26px;top:-550px;bottom:-178px;width:40px;overflow:clip;pointer-events:none;transform:translateY(540px);will-change:transform}
+.ruler{position:absolute;inset:0;width:40px;height:1350px;max-width:none}
+.email-keys{position:absolute;left:140px;bottom:80px;width:360px;height:113px;display:block;overflow:clip;isolation:isolate}
+.email-keys :global(.keyboard-desktop),.email-keys :global(.keyboard-mobile){display:block;width:100%;height:100%}
+.email-keys :global(.keyboard-mobile){display:none}
+.email-keys :global(.keyboard-desktop > svg),.email-keys :global(.keyboard-mobile > svg){display:block;width:100%;height:100%;overflow:hidden}
+.email-keys :global([data-key-name]){cursor:pointer}
+.social-links{position:absolute;bottom:80px;right:60px;width:320px;display:grid}
+.social-links a{height:56px;display:flex;align-items:center;gap:12px;border-bottom:.5px solid #535353;padding:12px;color:var(--text-description-on-dark)}
+.social-links a:hover{color:#fe4116}
+.social-links img{object-fit:contain}
+@media(min-width:810px) and (max-width:1199.98px){
+ .contact-copy,.email-keys{left:100px}
+ .social-links{width:180px}
+}
+@media(min-width:1480px) and (max-width:1799.98px){
+ .footer-wrap{padding:44px 40px 40px}
+ .contact-copy,.email-keys{left:220px}
+ .email-keys{bottom:100px}
+ .social-links{width:480px;right:80px;bottom:100px}
+ .ruler-track{left:141px}
+}
+@media(min-width:1800px){
+ .contact-copy,.email-keys{left:240px}
+ .social-links{width:517px;right:80px}
+ .ruler-track{left:161px}
+}
+/* Keep the badge anchored to the right edge at every desktop width. */
+@media(min-width:810px){
+}
+@media(max-width:809.98px){
+ .footer-wrap{padding:20px 12px 16px;margin-top:40px}
+ .contact-card{height:684px;border-radius:24px}
+ .contact-copy{top:206px;left:24px;width:min(313px,calc(100% - 48px))}
+ .contact-copy h2{font-size:48px;line-height:56px}
+ .contact-copy p{font-size:14px;line-height:24px;margin-top:14px}
+ .ruler-track{left:0;top:-666px;bottom:-62px;transform:rotate(90deg);will-change:auto}
+ .ruler{left:50%;top:48%;right:auto;bottom:auto;width:32px;height:auto;aspect-ratio:40/1350;transform:translate(-50%,-50%)}
+ .email-keys{left:24px;bottom:243px;width:288px;height:92px}
+ .email-keys :global(.keyboard-desktop){display:none}
+ .email-keys :global(.keyboard-mobile){display:block}
+ .social-links{left:24px;right:24px;width:auto;bottom:48px}
+}
+.project-footer{background:#fff;margin-top:0;padding:0 20px 20px;border-top:0;box-shadow:none}
+.project-footer .contact-card{display:flex;flex-direction:column;align-items:center;gap:20px;height:auto;border-radius:40px}
+.project-contact-row{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;padding:60px}
+.project-contact-title{width:521px;max-width:100%;font-size:50px;font-weight:350;line-height:68px;letter-spacing:0;color:#fff;overflow-wrap:break-word}
+.project-contact-title span{display:block;color:#ccc}
+.project-footer .email-keys{position:relative;left:auto;right:auto;top:auto;bottom:auto;flex-shrink:0;width:360px;max-width:100%;height:113px}
+.project-footer .social-links{position:relative;left:auto;right:auto;bottom:auto;display:flex;gap:40px;width:100%;padding:0 60px 40px}
+.project-footer .social-links a{height:56px;flex:1;min-width:0;padding:12px;gap:20px;border-bottom:.5px solid #535353;font-size:20px;line-height:24px;letter-spacing:-1px;color:var(--text-description-on-dark)}
+.project-footer .social-links img{width:32px;height:32px}
+@media(min-width:1480px){.project-footer{padding:0 40px 40px}}
+@media(min-width:810px) and (max-width:1200.98px){.project-contact-row{flex-direction:column;justify-content:flex-start;gap:40px;padding:40px}.project-contact-title{width:100%;text-align:center}}
+@media(max-width:809.98px){
+ .project-footer{padding:0 20px 20px}
+ .project-footer .contact-card{gap:12px;border-radius:40px}
+ .project-contact-row{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:24px;padding:40px 32px 32px}
+ .project-contact-title{width:100%;font-size:40px;line-height:44px;text-align:left}
+ .project-contact-title span{display:inline}
+ .project-footer .email-keys{width:288px;height:auto;aspect-ratio:288/91}
+ .project-footer .social-links{flex-direction:column;gap:8px;padding:0 32px 40px}
+ .project-footer .social-links a{flex:none;width:100%}
+}
+@media(max-width:359px){.footer-wrap:not(.project-footer) .email-keys{width:calc(100% - 48px);height:auto;aspect-ratio:288/91}}
+
+/* Keep the original rotating sticker in case-study footers as well. */
+.project-footer .project-contact-row{display:grid;grid-template-columns:minmax(0,1fr) 200px;column-gap:48px;row-gap:28px}
+.project-footer .project-contact-title{grid-column:1;grid-row:1;width:100%;text-align:left}
+.project-footer .email-keys{grid-column:1;grid-row:2}
+.project-footer-badge{position:relative;width:200px;height:200px;grid-column:2;grid-row:1 / 3;justify-self:end;align-self:start}
+@media(max-width:809.98px){
+ .project-footer .project-contact-row{grid-template-columns:minmax(0,1fr);gap:24px}
+ .project-footer-badge{grid-column:1;grid-row:1;width:160px;height:160px}
+ .project-footer .project-contact-title{grid-column:1;grid-row:2}
+ .project-footer .email-keys{grid-column:1;grid-row:3}
+}
+
+@media(max-width:809.98px){
+ .email-keys,.project-footer .email-keys{width:288px;max-width:calc(100% - 48px);height:auto;aspect-ratio:288/91}
+ .ruler-track{display:none}
+ .project-footer .project-contact-row{padding:32px 20px}
+ .project-footer .social-links{padding-inline:20px}
+}
+.project-email-cta{grid-column:1;grid-row:2;display:inline-flex;align-items:center;justify-content:center;gap:24px;justify-self:start;padding:18px 28px;min-width:210px;font-size:20px}
+@media(max-width:809.98px){.project-email-cta{grid-row:3;font-size:18px;min-width:180px;padding:16px 24px}}
+</style>
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const compactFooter = window.matchMedia('(max-width: 809.98px)');
+  const numberPattern = /-?\d*\.?\d+(?:e[-+]?\d+)?/gi;
+  type Attributes = Record<string, string | number>;
+
+  // Interpolate the original vector attributes, including the shortened key base.
+  function interpolateAttribute(from: string, to: string, amount: number) {
+    const start = from.match(numberPattern)?.map(Number);
+    const finish = to.match(numberPattern)?.map(Number);
+    if (!start || !finish || start.length !== finish.length) return to;
+    let index = 0;
+    return to.replace(numberPattern, () => String(start[index] + (finish[index] - start[index++]) * amount));
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>('.email-keys').forEach((keyboard) => {
+    let animation = 0;
+    let state = 'rest';
+    const animated = Array.from(keyboard.querySelectorAll<SVGElement>('[data-rest]'));
+    function changeState(next: 'rest' | 'email' | 'return') {
+      if (state === next) return;
+      state = next;
+      cancelAnimationFrame(animation);
+      const changes = animated.map((element) => {
+        const target: Attributes = JSON.parse(element.dataset[next] || '{}');
+        const start = Object.fromEntries(Object.keys(target).map((name) => [name, element.getAttribute(name) || String(target[name])]));
+        return { element, target, start };
+      });
+      const started = performance.now();
+      function frame(now: number) {
+        const time = Math.min((now - started) / 1000, .4);
+        const damping = .8;
+        // Natural frequency resolved from the source’s 0.4s duration and 0.2 bounce.
+        const frequency = Math.log(damping / Math.sqrt(1 - damping * damping) / .001) / (damping * .4);
+        const dampedFrequency = frequency * Math.sqrt(1 - damping * damping);
+        const progress = reducedMotion.matches || time === .4 ? 1 : 1 - Math.exp(-damping * frequency * time) * (Math.cos(dampedFrequency * time) + damping * frequency / dampedFrequency * Math.sin(dampedFrequency * time));
+        changes.forEach(({ element, target, start }) => Object.entries(target).forEach(([name, value]) => element.setAttribute(name, interpolateAttribute(start[name], String(value), progress))));
+        if (progress !== 1) animation = requestAnimationFrame(frame);
+      }
+      animation = requestAnimationFrame(frame);
+    }
+    keyboard.addEventListener('pointerover', (event) => {
+      const key = (event.target as Element).closest<SVGElement>('[data-key-name]');
+      if (key) changeState(key.dataset.keyName as 'email' | 'return');
+    });
+    keyboard.addEventListener('pointerleave', () => changeState('rest'));
+    keyboard.addEventListener('focus', () => changeState('email'));
+    keyboard.addEventListener('blur', () => changeState('rest'));
+  });
+
+  const ruler = document.querySelector<HTMLElement>('.ruler-track');
+  if (ruler) {
+    let current = 540;
+    let velocity = 0;
+    let target = current;
+    let animation = 0;
+    let previous = 0;
+    function move(now: number) {
+      let remaining = Math.min((now - previous) / 1000, .064);
+      previous = now;
+      // Original scroll spring: stiffness 500, damping 60, mass 1.
+      while (remaining > 0) {
+        const step = Math.min(remaining, 1 / 240);
+        velocity += ((target - current) * 500 - velocity * 60) * step;
+        current += velocity * step;
+        remaining -= step;
+      }
+      ruler!.style.transform = `translateY(${current}px)`;
+      if (Math.abs(current - target) > .001 || Math.abs(velocity) > .001) animation = requestAnimationFrame(move);
+      else animation = 0;
+    }
+    function updateRuler() {
+      if (compactFooter.matches || reducedMotion.matches) {
+        cancelAnimationFrame(animation);
+        animation = 0;
+        if (compactFooter.matches) ruler!.style.removeProperty('transform');
+        else ruler!.style.transform = 'translateY(0px)';
+        return;
+      }
+      const card = ruler!.parentElement!.getBoundingClientRect();
+      // Source range is the untransformed ruler's "start end" to "end end".
+      const top = card.top + ruler!.offsetTop;
+      const progress = Math.max(0, Math.min(1, (window.innerHeight - top) / ruler!.offsetHeight));
+      target = 540 - 620 * progress;
+      if (!animation) {
+        previous = performance.now();
+        animation = requestAnimationFrame(move);
+      }
+    }
+    window.addEventListener('scroll', updateRuler, { passive: true });
+    window.addEventListener('resize', updateRuler, { passive: true });
+    compactFooter.addEventListener('change', updateRuler);
+    reducedMotion.addEventListener('change', updateRuler);
+    new ResizeObserver(updateRuler).observe(document.body);
+    document.fonts.ready.then(updateRuler);
+    updateRuler();
+  }
+</script>

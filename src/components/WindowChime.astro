@@ -1,0 +1,92 @@
+---
+const colors=['#e9a08e','#b8a5d8','#95c5b6','#e8c470','#9cbddd'];
+const strands=Array.from({length:15},(_,i)=>({x:12+i*5.4,length:100+Math.sin(i*.47)*22}));
+---
+<button class="window-chime" type="button" aria-label="Play the hanging wind chime" title="Brush the chime">
+ <svg viewBox="0 0 100 220" fill="none" aria-hidden="true">
+  <defs>
+   <linearGradient id="chime-color" x1="0" y1="0" x2="1" y2=".3"><stop stop-color="#af8ec4"/><stop offset=".28" stop-color="#f4d1bf"/><stop offset=".58" stop-color="#deb1c5"/><stop offset="1" stop-color="#a482b4"/></linearGradient>
+  </defs>
+  <path d="M50 0V23" stroke="#9ba4ab" stroke-width=".7"/>
+  <path d="M12 49C12 14 88 14 88 49Z" fill="url(#chime-color)" stroke="#ad87a3" stroke-width=".55"/>
+  <path d="M20 39C29 23 49 22 61 26" stroke="#fff" stroke-opacity=".65" stroke-width="1" stroke-linecap="round"/>
+  <ellipse cx="50" cy="49" rx="38" ry="3" fill="#b18aa7"/>
+  <path d="M12 49Q50 54 88 49" stroke="#f4d3d8" stroke-width="1"/>
+  {strands.map(({x,length},i)=><g class="chime-strand" data-anchor={x} data-length={length}>
+   <path class="chime-string" d={`M${x} 51L${x} ${51+length}`} stroke="#b0bbc3" stroke-width=".65"/>
+   <g class="chime-bead" transform={`translate(${x} ${51+length})`}>
+    <ellipse rx={i%3===0?2.8:2} ry={i%3===0?5:3} fill={colors[i%colors.length]} stroke={colors[(i+1)%colors.length]} stroke-width=".45"/>
+    <path d="M-.8-1.6V.6" stroke="#ffffff" stroke-width=".75" stroke-linecap="round"/>
+   </g>
+  </g>)}
+ </svg>
+</button>
+<style>
+.window-chime{position:absolute;top:0;right:8%;width:clamp(66px,8vw,108px);padding:0;border:0;background:none;cursor:pointer;touch-action:pan-y;pointer-events:auto;filter:drop-shadow(1px 2px 1px #38271925)}
+.window-chime svg{display:block;width:100%;height:auto;overflow:visible}.window-chime:focus-visible{outline:1px solid #9aa9b4;outline-offset:4px;border-radius:8px}
+@media(max-width:700px){.window-chime{right:8%;width:46px}}
+</style>
+<script>
+import { chimeTone, unlockChime } from '../scripts/chime-sound';
+document.addEventListener('pointerdown',unlockChime,{once:true});
+document.addEventListener('keydown',unlockChime,{once:true});
+const reduce=matchMedia('(prefers-reduced-motion:reduce)');
+document.querySelectorAll<HTMLButtonElement>('.window-chime').forEach(host=>{
+ const svg=host.querySelector('svg')!;
+ const strands=[...host.querySelectorAll<SVGGElement>('.chime-strand')].map((g,i)=>{
+  const x=Number(g.dataset.anchor),length=Number(g.dataset.length);
+  return {g,i,x,length,lastSound:0,nodes:Array.from({length:13},(_,j)=>({x,y:51+length*j/12,px:x,py:51+length*j/12}))};
+ });
+ let frame=0,lastTime=0,quietFrames=0;
+ function draw(time:number){
+  const dt=Math.min((time-lastTime)/16.67||1,1.5);lastTime=time;let movement=0;
+  for(const s of strands){
+   const nodes=s.nodes,segment=s.length/12;
+   for(let i=1;i<nodes.length;i++){
+    const n=nodes[i],vx=(n.x-n.px)*.978,vy=(n.y-n.py)*.978;
+    n.px=n.x;n.py=n.y;n.x+=vx;n.y+=vy+.11*dt*dt;
+
+   }
+   for(let pass=0;pass<8;pass++){
+    nodes[0].x=s.x;nodes[0].y=51;
+    for(let i=1;i<nodes.length;i++){
+     const a=nodes[i-1],b=nodes[i],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1;
+     const correction=(d-segment)/d;
+     if(i>1){a.x+=dx*correction*.5;a.y+=dy*correction*.5;}
+     b.x-=dx*correction*(i===1?1:.5);b.y-=dy*correction*(i===1?1:.5);
+    }
+   }
+   for(const n of nodes.slice(1))movement+=Math.abs(n.x-n.px)+Math.abs(n.y-n.py);
+   let path=`M${s.x} 51`;
+   for(let i=1;i<nodes.length-1;i++){
+    const a=nodes[i],b=nodes[i+1];path+=` Q${a.x} ${a.y} ${(a.x+b.x)/2} ${(a.y+b.y)/2}`;
+   }
+   const tip=nodes[nodes.length-1];path+=` T${tip.x} ${tip.y}`;
+   s.g.querySelector('path')!.setAttribute('d',path);
+   s.g.querySelector('.chime-bead')!.setAttribute('transform',`translate(${tip.x} ${tip.y})`);
+  }
+  quietFrames=movement<.7?quietFrames+1:0;
+  frame=quietFrames<45?requestAnimationFrame(draw):0;
+ }
+ function excite(x:number,y:number,full=false){
+  const now=performance.now();quietFrames=0;
+  for(const s of strands){
+   let touched=false;
+   for(let i=1;i<s.nodes.length;i++){
+    const n=s.nodes[i],distance=Math.hypot(x-n.x,y-n.y);
+    if(!full&&distance>25)continue;
+    touched=true;
+    if(!reduce.matches){
+     const force=full?Math.sin(s.i*.7+i*.3)*1.5:(1-distance/25)*2.5;
+     n.px-=(n.x<x?-1:1)*force;n.py+=(full?.15:.3)*(i/12);
+    }
+   }
+   if(touched&&now-s.lastSound>650){chimeTone(s.i);s.lastSound=now;}
+  }
+  if(!frame&&!reduce.matches){lastTime=now;frame=requestAnimationFrame(draw);}
+ }
+ host.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const r=svg.getBoundingClientRect();excite((e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*220);});
+ host.addEventListener('click',()=>{unlockChime();excite(50,160,true);});
+ window.addEventListener('pagehide',()=>cancelAnimationFrame(frame));
+});
+</script>

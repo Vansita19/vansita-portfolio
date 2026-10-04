@@ -1,0 +1,38 @@
+---
+const points = Array.from({length:241}, (_,i) => {
+ const a = i / 240 * Math.PI * 2;
+ const r = 145 + 29 * Math.cos(5*a - .5) + 5 * Math.sin(3*a);
+ return `${i ? 'L' : 'M'}${(Math.cos(a)*r).toFixed(2)},${(Math.sin(a)*r).toFixed(2)}`;
+}).join(' ') + 'Z';
+---
+<div class="bloom-loader" aria-hidden="true" style="position:fixed;inset:0;z-index:100;background:#fff;overflow:hidden;pointer-events:none">   <svg viewBox="-260 -260 520 520" fill="none">
+    <defs>
+     <path id="loader-petal" d={points}/>
+     <filter id="loader-softness" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+     <radialGradient id="loader-warmth"><stop stop-color="#ff4a28"/><stop offset="1" stop-color="#fa879b"/></radialGradient>
+    </defs>
+    <g filter="url(#loader-softness)">
+     <use href="#loader-petal" fill="#d1b6ec" opacity=".48" transform="scale(1.16)"/>
+     <use href="#loader-petal" fill="#85c8e3" transform="scale(1.02)"/>
+     <use href="#loader-petal" fill="#eea0c1" transform="scale(.83)"/>
+     <use href="#loader-petal" fill="#fff1ce" transform="scale(.65)"/>
+     <use href="#loader-petal" fill="url(#loader-warmth)" transform="scale(.49)"/>
+     <use href="#loader-petal" fill="#f7c1eb" transform="scale(.25)"/>
+    </g>
+   </svg></div>
+<script is:inline>
+// Run beside the loader markup, before any page content can paint.
+(()=>{const loader=document.currentScript.previousElementSibling;
+ if(matchMedia('(prefers-reduced-motion: reduce), (max-width:809.98px)').matches){loader.remove();return;}
+ loader.addEventListener('animationend',event=>{if(event.target===loader)loader.remove();});
+ setTimeout(()=>loader.remove(),1800);
+})();
+</script>
+<style>
+.bloom-loader{animation:loader-out 1.5s linear both}
+.bloom-loader svg{position:absolute;left:50%;top:50%;width:min(660px,90vw);height:auto;aspect-ratio:1;overflow:visible;transform-origin:center;animation:loader-bloom 1.5s cubic-bezier(.35,0,.65,1) both;will-change:transform,opacity}
+@keyframes loader-bloom{0%{transform:translate(-50%,-50%) scale(.45);opacity:1}60%{opacity:1}100%{transform:translate(-50%,-50%) scale(5);opacity:0}}
+@keyframes loader-out{0%,62%{opacity:1}100%{opacity:0;visibility:hidden}}
+@media(max-width:600px){@keyframes loader-bloom{0%{transform:translate(-50%,-50%) scale(.5);opacity:1}60%{opacity:1}100%{transform:translate(-50%,-50%) scale(7);opacity:0}}}
+@media(max-width:809.98px),(prefers-reduced-motion:reduce){.bloom-loader{display:none}}
+</style>

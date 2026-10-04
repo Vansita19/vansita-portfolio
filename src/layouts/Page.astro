@@ -1,0 +1,84 @@
+---
+import PortfolioAnalytics from "../components/PortfolioAnalytics.astro";
+import '../styles/scrollbars.css';
+import SerifFont from '../components/SerifFont.astro';
+import '../styles/fonts.css';
+import '../styles/global.css';
+const { title = "Vansita's Portfolio", description = 'Product designer building AI-native web products and experiences, from brand and UX to scalable product design.', bodyClass = '', themeColor = '#f7f7f7' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, 'https://vansita.design');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SerifFont />
+    <title>{title}</title><meta name="description" content={description} />
+    {Astro.url.pathname === '/' && <script is:inline>
+      // Hold a returning homepage before its first paint, while the stack is rebuilt.
+      try {
+        const saved = JSON.parse(sessionStorage.getItem('portfolio-featured-return') || 'null');
+        const source = document.referrer ? new URL(document.referrer) : null;
+        const back = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
+        if (saved && (!location.hash || location.hash === '#work') &&
+            (back || (source?.origin === location.origin && source.pathname === saved.href))) {
+          document.documentElement.dataset.restoringProject = '';
+          history.scrollRestoration = 'manual';
+          // Fail open if a script fails; never leave the page hidden.
+          window.setTimeout(() => {
+            delete document.documentElement.dataset.restoringProject;
+            history.scrollRestoration = 'auto';
+          }, 4000);
+        }
+      } catch {}
+    </script>}
+    <style is:global>
+      html[data-restoring-project] body { visibility: hidden; }
+      html[data-restoring-project] { scroll-behavior: auto !important; }
+    </style>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/assets/jbcFu7dGKUIQkncvyB6IrNjC6Z8.png?v=1d336c0ef0" />
+    <meta name="theme-color" content={themeColor} />
+    <meta property="og:title" content={title} /><meta property="og:description" content={description} />
+    <meta property="og:type" content="website" /><meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://vansita.design/assets/DeFgMtSVMRf5ZHqXxUC7z1ZDEwA.jpg?v=ea77264d2c" />
+  </head>
+  <body class={bodyClass}><a class="skip-link" href="#main-content">Skip to content</a><slot /><PortfolioAnalytics /></body>
+</html>
+<script>
+  import '../scripts/project-navigation';
+  import '../scripts/nearby-images';
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const playbackGroups = new Map<Element, HTMLVideoElement[]>();
+  const visibleGroups = new Set<Element>();
+  const updatePlayback = (group: Element) => {
+    const shouldPlay = visibleGroups.has(group) && !document.hidden && !reduceMotion.matches;
+    playbackGroups.get(group)?.forEach(video => {
+      if (!shouldPlay) { video.pause(); return; }
+      video.muted = true;
+      video.playsInline = true;
+      void video.play().then(() => { delete video.dataset.playbackError; }).catch(error => {
+        // A pending source load can interrupt play; canplay/pageshow retry it.
+        video.dataset.playbackError = error.name;
+      });
+    });
+  };
+  document.querySelectorAll<HTMLVideoElement>('video[autoplay]').forEach(video => {
+    // Observe the stationary strip, not each child moving through its clipped edges.
+    const group = video.closest('.ticker') ?? video;
+    playbackGroups.set(group, [...(playbackGroups.get(group) ?? []), video]);
+    video.addEventListener('canplay', () => updatePlayback(group));
+  });
+  const videoObserver = new IntersectionObserver(entries => entries.forEach(({target, isIntersecting}) => {
+    if (isIntersecting) visibleGroups.add(target); else visibleGroups.delete(target);
+    updatePlayback(target);
+  }), {rootMargin:'180px'});
+  playbackGroups.forEach((_, group) => videoObserver.observe(group));
+  const refreshPlayback = () => playbackGroups.forEach((_, group) => updatePlayback(group));
+  document.addEventListener('visibilitychange', refreshPlayback);
+  window.addEventListener('pageshow', refreshPlayback);
+  reduceMotion.addEventListener('change', refreshPlayback);
+  const revealObserver = new IntersectionObserver(entries => entries.forEach(({target,isIntersecting})=>{
+    if(isIntersecting){target.classList.add('is-visible');revealObserver.unobserve(target);}
+  }), {threshold:0.05});
+  document.querySelectorAll('[data-reveal]').forEach(e=>revealObserver.observe(e));
+</script>

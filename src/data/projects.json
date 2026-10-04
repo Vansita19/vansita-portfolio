@@ -1,0 +1,2223 @@
+[
+  {
+    "slug": "pitch-protocol",
+    "title": "Pitch Protocol",
+    "description": "An investor workspace for reviewing startups, understanding signals, and making investment decisions.",
+    "intro": [
+      [
+        {
+          "type": "paragraph",
+          "text": "I joined Growth Factory Ventures about a year ago, initially working on the founder experience for Pitch Protocol. When the focus expanded to investors, I designed the experience to bring promising companies and the reasons behind the AI’s recommendations forward, so investors could decide more quickly and investigate further when they needed to.",
+          "highlights": [
+            "I designed the experience to bring promising companies and the reasons behind the AI’s recommendations forward"
+          ]
+        }
+      ]
+    ],
+    "galleries": [
+      [
+        {
+          "type": "image",
+          "src": "/assets/ONgzY9AQKocbyyCguWQ6Cb2EuU.png?v=7bd7a2495b",
+          "width": 2434,
+          "height": 1558,
+          "alt": "Company assessment with scores, evidence signals, strengths, and risks",
+          "ratio": 1.5622593068035944,
+          "border": true,
+          "wideSrc": "/assets/Uvhz6XZ8fQXJSmscgF9E1ygZMNw.png?v=8d2256db1f",
+          "wideOrder": 0
+        },
+        {
+          "type": "section",
+          "navLabel": "Intro",
+          "title": "Shaping an AI experience to help investors find the companies worth backing",
+          "paragraphs": [
+            {
+              "type": "subtitle",
+              "text": "My focus",
+              "highlights": [
+                "My focus"
+              ],
+              "mediaBefore": {
+                "type": "image",
+                "src": "/assets/dSpZVt7kjPZAXg4VnHkJwomLpT4.png?v=d2d807ae3b",
+                "width": 3152,
+                "height": 2092,
+                "alt": "Fund profile showing investment criteria used to match founder applications",
+                "ratio": 1.5066921606118546,
+                "wideSrc": "/assets/f8G4jCom4uLjsvk3p8kD3Cd7W3c.png?v=326f877621"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": "Pitch Protocol receives applications directly from founders seeking funding. It researches each company with AI and matches it with funds based on their investment criteria. This helps founders reach relevant investors and helps funds find companies with the potential to become strong investments. My focus was helping investors understand those matches and decide which companies are worth betting on.",
+              "highlights": [
+                "which companies are worth betting on"
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "I also helped build the internal admin dashboard, where the Pitch Protocol team manages funds and accesses developer debugging tools.",
+              "highlights": [
+                "internal admin dashboard"
+              ]
+            },
+            {
+              "type": "note",
+              "text": "Project stage: the core investor experience is established and expanding, with a similar experience for founders as a future direction.",
+              "highlights": [
+                "Project stage:"
+              ],
+              "strongPrefix": "Project stage:"
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/l2UAWhSx8Jays8nf0rH4SnkRyc.png?v=f38b01ff7e",
+          "width": 3152,
+          "height": 2092,
+          "alt": "Investor inbox listing founder applications, scores, and recommendations",
+          "ratio": 1.5066921606118546,
+          "wideSrc": "/assets/aABCkjfSYRX3JThkdEyKFZzHtI.png?v=22c0f663fb",
+          "wideOrder": 2
+        },
+        {
+          "type": "section",
+          "navLabel": "Problem",
+          "title": "Finding promising companies meant working through too much information",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Analysts would spend days researching a company. Pitch Protocol took on that work with AI, bringing founder materials and external research together into a detailed company assessment. But with hundreds of applications, investors still faced a huge amount of information to make sense of. My challenge was to help them see which companies deserved their attention and why, without having to piece together every finding themselves.",
+              "highlights": [
+                "My challenge was to help them see which companies deserved their attention and why"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/IHA7bLYfC4JrxIn0fAYw0X4zn1I.png?v=a5769bbb93",
+          "width": 2338,
+          "height": 1564,
+          "alt": "Company Summary bringing together the business, key metrics, founders, and investment case",
+          "ratio": 1.4948849104859334,
+          "border": true,
+          "wideSrc": "/assets/BLs4WAaKz5g9F1rxRj8JSFl7Lzo.png?v=d795551f4a",
+          "wideOrder": 4
+        },
+        {
+          "type": "section",
+          "navLabel": "Research",
+          "title": "Let investors shape what came first",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I initially focused on making the full company report engaging and easy to follow. But as applications grew, feedback from the VC team changed the direction. Investors needed a quicker way to understand a company before deciding whether to read further."
+            },
+            {
+              "type": "paragraph",
+              "text": "The goal became giving investors 80% of the information they needed in 20% of the content, with the full report available when they wanted to dig deeper.",
+              "highlights": [
+                "giving investors 80% of the information they needed in 20% of the content"
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "To decide what belonged in that snapshot, I spoke with VCs and grouped the AI’s research into related topics. In workshops, investors ranked what they needed first, what could wait, and what was missing. Their combined priorities shaped the snapshot, giving each information choice a reason.",
+              "highlights": [
+                "Their combined priorities shaped the snapshot"
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "The two goals behind the exercise",
+              "highlights": [
+                "The two goals behind the exercise"
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "1. Understand what investors needed to make an initial decision."
+            },
+            {
+              "type": "paragraph",
+              "text": "2. Identify what was missing before choosing what belonged in the snapshot."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Insights",
+          "title": "1. Some information could wait until an investor wanted to dig deeper",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The rankings helped distinguish what investors needed for a first decision from what mattered during a closer review. Useful information did not all need to appear at once. Some findings belonged in the snapshot, while others could stay in the detailed report until an investor wanted to explore them.",
+              "highlights": [
+                "Useful information did not all need to appear at once."
+              ]
+            },
+            {
+              "type": "subtitle",
+              "text": "2. Investors wanted different things from the same company"
+            },
+            {
+              "type": "paragraph",
+              "text": "Some investors wanted revenue and metrics first. Others cared more about the founders and the problem they were solving. There was no single investor perspective to design around. A useful snapshot needed to reflect their shared priorities while leaving room for individual questions.",
+              "highlights": [
+                "There was no single investor perspective to design around."
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Ideation & feedback",
+          "title": "Working through the experience with the team",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "After feedback that the company snapshot had too much text, I explored more visual versions. But much of the research was written explanation, and turning it into graphs took more space without making it clearer. I returned to a layout the team found easier to read, keeping concise text where it explained the company better.",
+              "highlights": [
+                "I returned to a layout the team found easier to read"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Solution",
+          "title": "Keep the evidence close to the recommendation",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "If the AI described a founding team as experienced, an investor needed a way to understand what supported that assessment. I explored opening a short preview of the supporting sources directly from the statement, with a path into the deeper research. This would let investors check the reasoning without losing their place. I also distinguished evidence strength from whether a finding was good news: strong evidence of a risk should not look like a positive endorsement.",
+              "highlights": [
+                "opening a short preview of the supporting sources directly from the statement"
+              ],
+              "mediaBefore": {
+                "type": "image",
+                "src": "/assets/pitch-dashboard-original-colors.png",
+                "width": 3152,
+                "height": 2092,
+                "alt": "Investor dashboard with matched opportunities and companies worth reviewing",
+                "ratio": 1.5066921606118546
+              }
+            },
+            {
+              "type": "subtitle",
+              "text": "Help the next person build on the research",
+              "mediaBefore": {
+                "type": "video",
+                "src": "/assets/pitch-protocol-shared-notes.mp4",
+                "width": 3368,
+                "height": 1788,
+                "ratio": 1.883668903803132,
+                "alt": "Shared company notes and research collaboration",
+                "fit": "contain"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": "I designed Notes around each company so investors could record observations, save useful AI answers, and return to them before a meeting. We kept individual decisions personal while making notes a place for shared discussion.",
+              "highlights": []
+            },
+            {
+              "type": "paragraph",
+              "text": "This gave teammates a shared place to see what had happened and what others thought about the company.",
+              "highlights": [
+                "This gave teammates a shared place to see what had happened and what others thought about the company."
+              ]
+            },
+            {
+              "type": "subtitle",
+              "text": "Make the next conversation easier to arrange"
+            },
+            {
+              "type": "paragraph",
+              "text": "An investor wanting to meet the founders should be able to take that next step from the company they were reviewing. I connected Interested to sharing a scheduling link, with the link saved for future applications. The aim was to reduce the back-and-forth of arranging a call and avoid asking investors for the same setup each time.",
+              "highlights": [
+                "The aim was to reduce the back-and-forth of arranging a call"
+              ]
+            },
+            {
+              "type": "subtitle",
+              "text": "Keep a useful comparison ready for next time"
+            },
+            {
+              "type": "paragraph",
+              "text": "An investor might want to compare early-stage companies by revenue, while a colleague cared more about the teams. I designed Views as saved searches with a comparison table shaped around the investor’s criteria. They could adjust filters, benchmark companies on the factors that mattered to them, and save that setup. New applications matching the criteria could appear in the same View, so returning to the research would not mean rebuilding it.",
+              "highlights": [
+                "Views as saved searches with a comparison table shaped around the investor’s criteria"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Design System",
+          "title": "Let the investigation follow the investor’s questions",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The AI chat could help an investor compare several companies or investigate one in depth. A comparison might need a table, a question about revenue over time might need a chart, and a question about the founders might need a written explanation. I designed reusable response components within a shared design system, so the format could follow the question while the ways to read and interact with each answer stayed familiar.",
+              "highlights": [
+                "reusable response components within a shared design system"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/tRuMEFQbGrV8lR1mYS72oo6Z8.png?v=901337d4c7",
+          "width": 3368,
+          "height": 2092,
+          "alt": "AI research responses using comparison tables and charts",
+          "ratio": 1.6099426386233269,
+          "border": true,
+          "wideSrc": "/assets/uCmcdkOI46N1qh5e55vNzVBuBWk.png?v=4cdd4a2551",
+          "wideOrder": 10
+        },
+        {
+          "type": "section",
+          "navLabel": "Prototyping",
+          "title": "A second search exposed a missing journey",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Walking through the save flow revealed a conflict. I initially considered letting investors add new search results to an existing View. But a View for companies with paying customers would stop making sense if a later search added companies with no revenue yet."
+            },
+            {
+              "type": "paragraph",
+              "text": "That led me to separate creating a new View from deliberately editing an existing one. Investors could keep a consistent basis for their comparisons and change the criteria when they needed to. It also exposed a missing step in the flow, which was how to loosen a search that had become too restrictive.",
+              "highlights": [
+                "That led me to separate creating a new View from deliberately editing an existing one."
+              ]
+            },
+            {
+              "type": "subtitle",
+              "text": "Test the conversation beyond the first answer",
+              "mediaBefore": {
+                "type": "video",
+                "src": "/assets/pitch-protocol-chat-short-silent.mp4",
+                "width": 1280,
+                "height": 720,
+                "ratio": 1.7777777777777777,
+                "alt": "Pitch Protocol AI chat and follow-up research",
+                "fit": "contain"
+              }
+            },
+            {
+              "type": "paragraph",
+              "text": "I built an interactive prototype to try the AI experience as a conversation. For example, an investor could ask, “Show me promising AI companies,” then add, “Only those with revenue,” and follow with, “How strong are their teams?” Each question changed what they needed from the research."
+            },
+            {
+              "type": "paragraph",
+              "text": "Working through that sequence helped me design how one answer should lead into the next. When the company list narrowed or the comparison changed, the response needed to make that change understandable. I refined how the results updated so investors could keep investigating without losing track of the companies they were considering.",
+              "highlights": [
+                "Working through that sequence helped me design how one answer should lead into the next."
+              ]
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Outcome & reflection",
+          "title": "Enough context to choose a next step",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Investors were using the assessment to choose whom to meet. May from Growth Factory Ventures used the recommendations and scores to select companies and send scheduling links. Greg from The Bond Fund found the Pass / Take a meeting recommendations helpful for quickly deciding which companies deserved attention.",
+              "highlights": [
+                "Investors were using the assessment to choose whom to meet."
+              ]
+            },
+            {
+              "type": "subtitle",
+              "text": "Product impact"
+            },
+            {
+              "type": "paragraph",
+              "text": "15+ VC funds adopted Pitch Protocol and brought their teams onboard for shared company review. The platform received 1,500+ founder applications.",
+              "highlights": [
+                "15+ VC funds adopted Pitch Protocol and brought their teams onboard",
+                "1,500+ founder applications"
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "84% of applications matched at least one fund’s investment criteria, giving investors a relevant starting point.",
+              "highlights": [
+                "84% of applications matched at least one fund’s investment criteria"
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "Applications reached investors’ attention, with a median first look within 24 hours of submission.",
+              "highlights": [
+                "median first look within 24 hours of submission"
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "About one in three submissions (34.2%) attracted interest from at least one fund.",
+              "highlights": [
+                "About one in three submissions (34.2%) attracted interest"
+              ]
+            },
+            {
+              "type": "subtitle",
+              "text": "What I’ll carry into the next project"
+            },
+            {
+              "type": "paragraph",
+              "text": "Design around differences. Working with investors taught me to look for shared priorities while making room for different ways of thinking.",
+              "highlights": [
+                "Design around differences."
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "Give trust room to grow. Designing with AI made me more attentive to whether people could question an answer and understand its support.",
+              "highlights": [
+                "Give trust room to grow."
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "Keep asking what happens next. I learned to test what happens after the AI gives an answer: can the investor refine the question, compare the options, and decide what to pursue? This helped me judge whether the experience supported a complete task.",
+              "highlights": [
+                "Keep asking what happens next."
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "I came into this project learning how investors think. My work became connecting the pieces into one experience: deep research, AI recommendations, and shared insights. I learned how to make AI feel like a natural part of an investor’s work: helping them recognize promising companies, reach decisions more easily, and build on each other’s thinking.",
+              "highlights": [
+                "I learned how to make AI feel like a natural part of an investor’s work: helping them recognize promising companies, reach decisions more easily, and build on each other’s thinking."
+              ]
+            }
+          ]
+        }
+      ]
+    ],
+    "related": [
+      {
+        "title": "VentureOS",
+        "slug": "venture-os",
+        "image": "/assets/venture-os-founder-original-colors.png"
+      },
+      {
+        "title": "Growth Factory Ventures",
+        "slug": "gfvc",
+        "image": "/assets/DOtaDnGtc7CJ9COP6xUKFDrPwI.png?v=7cfdc015a0"
+      },
+      {
+        "title": "TurboML",
+        "slug": "turboml",
+        "image": "/assets/CX5HF93Y1aceetjqHGioM1KRDkE.jpg?v=9746a665d8"
+      }
+    ],
+    "details": {
+      "scope": "Product design, research, website, prototyping, systems thinking",
+      "team": "1 designer (me), 1 CTO, 6 VCs",
+      "timeline": "5 months"
+    },
+    "productUrl": "https://www.pitchprotocol.vc/?page=investor"
+  },
+  {
+    "slug": "turboml",
+    "title": "TurboML",
+    "description": "Designing a real-time machine learning platform from zero to its first MVP, with connected workflows that keep engineers in control.",
+    "intro": [
+      [
+        {
+          "type": "paragraph",
+          "text": "TurboML brings the complete machine learning lifecycle into one platform, from ingesting streaming data to creating features, training models, and monitoring performance."
+        },
+        {
+          "type": "paragraph",
+          "text": "I designed the product experience from scratch, working closely with founders, developers, and the internal ML team to turn complex infrastructure into workflows people could follow. My scope extended from the web app and design system to the brand identity and launch website."
+        }
+      ]
+    ],
+    "galleries": [
+      [
+        {
+          "type": "image",
+          "src": "/assets/IRHixakHj0bcDOnErS4QgxhVbZs.png?v=2a389bacc8",
+          "width": 1400,
+          "height": 1152,
+          "alt": "",
+          "ratio": 1.21593
+        },
+        {
+          "type": "section",
+          "navLabel": "Challenge",
+          "title": "Real-time ML needed a connected workflow",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Backend engineers managed the data infrastructure, while data scientists and ML engineers built pipelines, trained models, and deployed them. Their work crossed several tools, each with its own controls and conventions. Following a dataset through that process was difficult."
+            },
+            {
+              "type": "paragraph",
+              "text": "TurboML was built for streaming events rather than relying only on batch processing. The design challenge was to make that real-time workflow understandable without hiding the technical details people needed to inspect and control."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Research",
+          "title": "Understanding how ML teams work",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I interviewed the ML team, reviewed competing platforms, and mapped technical workflows to guide the design."
+            }
+          ],
+          "points": [
+            {
+              "label": "Internal interviews:",
+              "text": "Learned how TurboML’s ML team managed data infrastructure and built pipelines."
+            },
+            {
+              "label": "Founder alignment:",
+              "text": "Connected design decisions with product priorities and business goals."
+            },
+            {
+              "label": "Developer walkthroughs:",
+              "text": "Compared early flows and alternatives, then incorporated feedback shared on Slack."
+            },
+            {
+              "label": "Competitive research:",
+              "text": "Reviewed Databricks, Redpanda, Snowflake, Kafka, Vercel, Langtrace, and Tecton for useful patterns and friction."
+            },
+            {
+              "label": "Technical immersion:",
+              "text": "Read documentation, blogs, and developer discussions to understand unfamiliar concepts."
+            },
+            {
+              "label": "Continuous mapping:",
+              "text": "Revisited user flows and information architecture as backend capabilities changed."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Design strategy",
+          "title": "Keep the complexity understandable",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Overloaded screens, difficult integrations, and inconsistent controls made the workflow harder to follow. I organized the experience around four connected stages, keeping technical detail available within a clear structure."
+            }
+          ],
+          "points": [
+            {
+              "label": "Data ingestion:",
+              "text": "Import, verify, and manage data."
+            },
+            {
+              "label": "Feature engineering:",
+              "text": "Create real-time features from raw data."
+            },
+            {
+              "label": "ML modeling:",
+              "text": "Train, deploy, and compare models."
+            },
+            {
+              "label": "MLOps and visualization:",
+              "text": "Monitor performance, manage versions, and understand pipeline relationships."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Workspace overview",
+          "title": "A starting point for the next task",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I designed the homepage around recent activity and quick access to important areas of the app. Activity logs helped teams see what had changed, while shortcuts gave them a direct route back into their work. The aim was to make the starting screen useful for an ongoing workflow, not just a collection of platform metrics."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/turboml-home-figma.png",
+          "width": 1400,
+          "height": 863,
+          "ratio": 1.6222479721900347,
+          "fit": "contain",
+          "alt": "TurboML workspace with activity logs and quick access"
+        },
+        {
+          "type": "section",
+          "navLabel": "Data ingestion",
+          "title": "Bring data setup into the product",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I brought data setup into a structured flow so users could configure sources and understand incoming data within the same product."
+            }
+          ],
+          "points": [
+            {
+              "label": "Connect:",
+              "text": "Add data sources and configure the connection."
+            },
+            {
+              "label": "Verify:",
+              "text": "Inspect incoming data before moving further into the workflow."
+            },
+            {
+              "label": "Manage:",
+              "text": "Keep datasets and key Kafka controls together, with visibility into the stream."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/turboml-data-figma.png",
+          "width": 1400,
+          "height": 863,
+          "ratio": 1.6222479721900347,
+          "fit": "contain",
+          "alt": "Data ingestion and dataset management screens"
+        },
+        {
+          "type": "section",
+          "navLabel": "Feature engineering",
+          "title": "Make room for both code and visual control",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "A visual interface needed to support engineers’ expertise. I introduced code and visual options so users could work with a more structured flow while retaining the ability to customize their pipelines."
+            },
+            {
+              "type": "paragraph",
+              "text": "The goal was to make the relationship between an action and its result easier to understand. Data previews and feedback helped users inspect what they were working with as they created features."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/KZowmpqTJawrP2SqMft6DaD0Umw.png?v=c057b65749",
+          "width": 2660,
+          "height": 1508,
+          "alt": "",
+          "ratio": 1.75758
+        },
+        {
+          "type": "section",
+          "navLabel": "Visibility",
+          "title": "Show what is happening as it happens",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "In a real-time product, users need to see what happened after an action and whether the system is behaving as expected."
+            }
+          ],
+          "points": [
+            {
+              "label": "Live feedback:",
+              "text": "Updates, logs, and previews make system state visible."
+            },
+            {
+              "label": "Focused exploration:",
+              "text": "Filters, metrics, and widgets help users inspect the data that matters."
+            },
+            {
+              "label": "Pipeline context:",
+              "text": "A connected view shows how raw data moves through sources and feature stores into models."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/tTcmx0a0chpFZ42saJlxC8YQs.png?v=5b1e23e689",
+          "width": 1400,
+          "height": 840,
+          "alt": "",
+          "ratio": 1.66667
+        },
+        {
+          "type": "image",
+          "src": "/assets/turboml-pipeline-figma.png",
+          "width": 1400,
+          "height": 863,
+          "ratio": 1.6222479721900347,
+          "fit": "contain",
+          "alt": "Pipeline view connecting data sources, features, and models"
+        },
+        {
+          "type": "section",
+          "navLabel": "Design system",
+          "title": "Build consistency while the product keeps changing",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Backend capabilities and product ideas evolved throughout the project. I kept revisiting the information architecture and user flows with the team so the interface reflected what the product could actually do."
+            },
+            {
+              "type": "paragraph",
+              "text": "The design system gave us shared patterns across data, features, models, and monitoring. Reusing controls and visual conventions helped connect those modules while we continued iterating on individual workflows."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/turboml-system-figma.png",
+          "width": 1400,
+          "height": 863,
+          "ratio": 1.6222479721900347,
+          "fit": "contain",
+          "alt": "TurboML shared design system"
+        },
+        {
+          "type": "section",
+          "navLabel": "Brand & website",
+          "title": "An identity built around speed and continuous data",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I developed the brand identity alongside the product. The bull-inspired mark expressed strength, speed, and resilience, with forms that hinted at the T and M in TurboML. Curved lines referenced continuous data streams, while the orange-to-red palette gave the brand an energetic character."
+            },
+            {
+              "type": "paragraph",
+              "text": "I carried that identity into the landing page, pitch decks, and marketing materials, connecting the product experience with how we introduced it to the outside world."
+            }
+          ]
+        },
+        {
+          "type": "video",
+          "src": "/assets/eSd2xk5QfKU3Qt9GLWF46HSkZkI.mp4",
+          "ratio": 1.58904,
+          "autoplay": true,
+          "loop": true,
+          "muted": true,
+          "controls": false,
+          "radius": 0
+        },
+        {
+          "type": "image",
+          "src": "/assets/6lhkm96zwvf8Wsdr1EGgbnTvI.png?v=433857d0c5",
+          "width": 2800,
+          "height": 1680,
+          "alt": "",
+          "ratio": 1.66667
+        },
+        {
+          "type": "section",
+          "navLabel": "Related work",
+          "title": "Extending the work into TurboTrace",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "My scope also included TurboTrace, an observability platform for understanding AI application flows. Alongside the core TurboML work, I designed interfaces for inspecting traces and exploring what was happening inside those applications."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/2H3TqQy83vB6W1sve7G2xshs7kw.png?v=55a92e19ab",
+          "width": 1440,
+          "height": 840,
+          "alt": "",
+          "ratio": 1.66667
+        },
+        {
+          "type": "image",
+          "src": "/assets/vVpkhax93UtycZHFhDgtU6fydc.png?v=a89b3b0f11",
+          "width": 1440,
+          "height": 840,
+          "alt": "",
+          "ratio": 1.66667
+        },
+        {
+          "type": "image",
+          "src": "/assets/5h5TKyNSDmz8uABnsq5o6WBuwK4.png?v=e159ddc62e",
+          "width": 1440,
+          "height": 840,
+          "alt": "",
+          "ratio": 1.66667
+        },
+        {
+          "type": "section",
+          "navLabel": "Impact",
+          "title": "From a new product to its first users",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The first release brought TurboML to its first users, with results across launch speed, adoption, and pipeline completion."
+            }
+          ],
+          "outcome": true,
+          "points": [
+            {
+              "label": "4 months:",
+              "text": "Time to ship the first MVP."
+            },
+            {
+              "label": "1,500+ signups:",
+              "text": "Playground registrations during the first launch cycle."
+            },
+            {
+              "label": "150+ active sessions:",
+              "text": "Recorded in the first week."
+            },
+            {
+              "label": "90% first-pipeline completion:",
+              "text": "First users completing a pipeline without assistance, as recorded in my project notes."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Reflection",
+          "title": "Understanding the system changed how I designed it",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I could not make this product clearer without understanding the work behind it. Conversations with the ML team helped me see why a field, log, or configuration option mattered. That changed what I considered unnecessary complexity: some details were essential to an engineer’s ability to make a decision."
+            },
+            {
+              "type": "paragraph",
+              "text": "I also learned to treat feedback as part of the workflow. In a streaming system, a well-organized form is only part of the experience. Users need to see what happened after they acted, and whether the data or pipeline is behaving as expected."
+            },
+            {
+              "type": "paragraph",
+              "text": "Working toward launch while the backend evolved taught me to revisit flows without losing consistency across the product. Shared patterns gave us a stable starting point, while frequent conversations helped me adapt individual screens as the team learned more."
+            }
+          ]
+        }
+      ]
+    ],
+    "related": [
+      {
+        "title": "Growth Factory Ventures",
+        "slug": "gfvc",
+        "image": "/assets/DOtaDnGtc7CJ9COP6xUKFDrPwI.png?v=7cfdc015a0"
+      },
+      {
+        "title": "Docus AI",
+        "slug": "docus",
+        "image": "/assets/i7Z4HPvkOBIPdfih8oVNpYNHFk.jpg?v=c6c00ba4ef"
+      },
+      {
+        "title": "Ether",
+        "slug": "ether",
+        "image": "/assets/fpyzsoQ80gC1eGA06zCfIvh5Z7o.jpg?v=e2ee02815e"
+      }
+    ],
+    "details": {
+      "scope": "Product design\nBrand identity\nDesign system\nWebsite & launch materials",
+      "team": "1 designer (me)\n4 developers\n2 founders\n10 ML engineers",
+      "timeline": "1 year"
+    },
+    "productUrl": "https://turboml.com/"
+  },
+  {
+    "slug": "shapeshifter",
+    "title": "Shapeshifter",
+    "description": "Designing an AI career guidance experience that evolved into a B2B platform for career coaches. Now CoCareer.",
+    "intro": [
+      [
+        {
+          "type": "paragraph",
+          "text": "Shapeshifter is an AI-powered career guidance and job-search platform for people looking for their next role or exploring a career change. At APM Labs, I led research, product strategy, and design, taking the experience from early concepts through testing and iteration."
+        },
+        {
+          "type": "paragraph",
+          "text": "I led its pivot into CoCareer, a B2B platform that helps career coaches guide their clients, manage progress, and support their next career move."
+        }
+      ]
+    ],
+    "galleries": [
+      [
+        {
+          "type": "image",
+          "src": "/assets/shapeshifter-client-dashboard-cover.png",
+          "width": 2680,
+          "height": 1866,
+          "alt": "CoCareer client dashboard showing career goals, job applications, tasks, and networking progress.",
+          "ratio": 1.4362272240085745
+        },
+        {
+          "type": "section",
+          "navLabel": "Challenge",
+          "title": "Finding a role was only part of the problem",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Job boards offered plenty of listings, but people still needed help understanding which roles suited them and how to move toward those roles. Career changers faced another layer of uncertainty: whether their existing strengths could translate into a different path."
+            },
+            {
+              "type": "paragraph",
+              "text": "The goal was to connect relevant opportunities with personal guidance, assessment, and practical next steps."
+            }
+          ],
+          "points": [
+            {
+              "label": "Job seekers:",
+              "text": "Find opportunities that reflect their experience and preferences."
+            },
+            {
+              "label": "Career changers:",
+              "text": "Understand possible paths and what a transition would require."
+            },
+            {
+              "label": "People seeking growth:",
+              "text": "Identify strengths, skill gaps, and opportunities to develop."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Research",
+          "title": "Understanding what people needed beyond job listings",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Research combined an analysis of existing career platforms with conversations with job seekers to understand their needs, motivations, and pain points."
+            },
+            {
+              "type": "paragraph",
+              "text": "I compared Glassdoor, Indeed, LinkedIn Jobs, and Wanderer Space, looking at their strengths and gaps rather than collecting features to copy. I then organized the findings into motivations, pain points, and three recurring needs."
+            }
+          ],
+          "points": [
+            {
+              "label": "Personalized recommendations:",
+              "text": "Roles connected to a person’s skills, interests, and aspirations."
+            },
+            {
+              "label": "Self-assessment:",
+              "text": "A clearer understanding of strengths, gaps, and suitable career paths."
+            },
+            {
+              "label": "Ongoing guidance:",
+              "text": "Useful support after the recommendation, including resources and preparation."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/shapeshifter-research-themes.png",
+          "alt": "Three research themes: personalized recommendations, assessment tools, and career guidance",
+          "ratio": 1.539714867617108,
+          "width": 1512,
+          "height": 982,
+          "fit": "contain"
+        },
+        {
+          "type": "section",
+          "navLabel": "Design process",
+          "title": "Turn three needs into one connected journey",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I used How Might We questions and Crazy 8s to explore alternatives, then a priority matrix to focus the scope. The central flow connected discovering a suitable role with understanding gaps and taking action."
+            }
+          ],
+          "points": [
+            {
+              "label": "Discover:",
+              "text": "Explore roles aligned with a profile and career goals."
+            },
+            {
+              "label": "Understand:",
+              "text": "Review compatibility and the skills or experience needed."
+            },
+            {
+              "label": "Act:",
+              "text": "Practice, learn, prepare, and apply, then revisit the next step."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Onboarding",
+          "title": "Start with the person behind the profile",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The onboarding flow gathered the context needed for personal recommendations. LinkedIn import reduced repeated entry of work history, while questions about interests, personality, and salary preferences added information a résumé alone could not supply."
+            },
+            {
+              "type": "paragraph",
+              "text": "Users could also describe what they wanted from their next career step. The flow then invited them to choose roles to explore, connecting setup to the wider experience."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/aeIaWfx9VQE3IPE9gAsp1rIluQ.png?v=98b90b7362",
+          "width": 1400,
+          "height": 840,
+          "alt": "LinkedIn profile import and career preference onboarding",
+          "ratio": 1.66667
+        },
+        {
+          "type": "section",
+          "navLabel": "Career fit",
+          "title": "Make a recommendation useful beyond its score",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "A compatibility score gave users an entry point into a more detailed assessment. The accompanying breakdown showed how their experience related to a role and where they could improve."
+            },
+            {
+              "type": "paragraph",
+              "text": "The design connected those findings to role information, career pathways, learning resources, and preparation tools. The AI copilot provided a way to ask follow-up questions using the profile context already gathered."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/b14q6pRiVvT81kIcezela8nlbM.png?v=735a2a90b1",
+          "width": 1400,
+          "height": 840,
+          "alt": "Career recommendations with role compatibility scores",
+          "ratio": 1.66667
+        },
+        {
+          "type": "section",
+          "navLabel": "Iterations",
+          "title": "Four changes shaped by usability feedback",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Across four weeks and testing with more than 50 users, I refined the experience as recurring points of confusion emerged. The most useful feedback concerned what people understood and what they expected to do next."
+            }
+          ],
+          "points": [
+            {
+              "label": "Clearer visual hierarchy:",
+              "text": "The first main page felt cluttered. I explored card layouts and reduced redundant profile information."
+            },
+            {
+              "label": "A more useful starting page:",
+              "text": "A cleaner UI still left users unsure where to go. An overview of the available tools created clearer routes into the scorecard and other features."
+            },
+            {
+              "label": "Onboarding that leads somewhere:",
+              "text": "Some users mistook the end of setup for the whole app. Step indicators, clearer wording, and continuation cues explained what followed."
+            },
+            {
+              "label": "Resources that invite action:",
+              "text": "Users saved milestone resources for later without engaging. I introduced AI-generated practice assignments tailored to their experience and learning needs."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/PhndqksU4PHxlkydIBq8K1vVco.png?v=37d866f22a",
+          "width": 1400,
+          "height": 840,
+          "alt": "Role dashboard with scorecard, resources, and preparation tools",
+          "ratio": 1.66667
+        },
+        {
+          "type": "section",
+          "navLabel": "Solutions",
+          "title": "Bring the next steps together",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The role workspace brought exploration, assessment, and preparation into one experience, so users could move from “Is this right for me?” to “What can I do next?”"
+            }
+          ],
+          "points": [
+            {
+              "label": "Explore the role:",
+              "text": "Responsibilities, career progression, and a clearer picture of the work."
+            },
+            {
+              "label": "Understand the gaps:",
+              "text": "Compatibility insights connected to areas for improvement."
+            },
+            {
+              "label": "Build readiness:",
+              "text": "Milestones, resources, practice assignments, and interview preparation."
+            },
+            {
+              "label": "Ask for guidance:",
+              "text": "A career copilot informed by the user’s background and preferences."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "B2B pivot",
+          "title": "Designing for the coach behind each career journey",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The pivot to CoCareer called for a new product direction: helping career coaches guide multiple clients through their next career move. I shaped that direction and designed the client management dashboard around the coaching workflow."
+            },
+            {
+              "type": "paragraph",
+              "text": "The design challenge changed from helping one person decide what to do next to helping a coach understand where each client stood and who needed attention. The dashboard brought client management and progress into a shared view, supporting the ongoing relationship between a coach and their clients."
+            }
+          ],
+          "points": [
+            {
+              "label": "Manage clients:",
+              "text": "Give coaches a central place to follow their clients’ career journeys."
+            },
+            {
+              "label": "Make progress visible:",
+              "text": "Connect individual client activity with a broader view of the coaching practice."
+            },
+            {
+              "label": "Support follow-through:",
+              "text": "Bring guidance, progress tracking, and follow-ups into the coaching workflow."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Impact",
+          "title": "Supporting coaches and their clients at scale",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "My scope spanned the product experience from individual career guidance to client management for coaches. CoCareer reports the following results and is backed by Antler and supported by Microsoft for Startups."
+            }
+          ],
+          "points": [
+            {
+              "label": "5M+",
+              "text": "Jobs scanned and analyzed"
+            },
+            {
+              "label": "80+ hours",
+              "text": "Saved per coach each month"
+            },
+            {
+              "label": "< 2 weeks",
+              "text": "Average time to first interview for Prasha Dutra’s coaching practice"
+            }
+          ],
+          "stats": true
+        },
+        {
+          "type": "section",
+          "navLabel": "Reflection",
+          "title": "A recommendation needs a clear next action",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The homepage iterations taught me that improving visual clarity was only one part of the problem. Even after the interface looked cleaner, users still needed a clear explanation of what they could do and where to start."
+            },
+            {
+              "type": "paragraph",
+              "text": "I saw the same pattern in learning resources: making something relevant did not automatically make it actionable. The move toward practice assignments came from observing that gap between saving a resource and using it."
+            },
+            {
+              "type": "paragraph",
+              "text": "For me, the core design lesson was to connect insight with action. A score, a suggested role, or an AI answer becomes more useful when the experience helps someone decide what to do with it."
+            }
+          ]
+        }
+      ]
+    ],
+    "related": [
+      {
+        "title": "Pitch Protocol",
+        "slug": "pitch-protocol",
+        "image": "/assets/ONgzY9AQKocbyyCguWQ6Cb2EuU.png?v=7bd7a2495b"
+      },
+      {
+        "title": "VentureOS",
+        "slug": "venture-os",
+        "image": "/assets/venture-os-founder-original-colors.png"
+      },
+      {
+        "title": "Growth Factory Ventures",
+        "slug": "gfvc",
+        "image": "/assets/DOtaDnGtc7CJ9COP6xUKFDrPwI.png?v=7cfdc015a0"
+      }
+    ],
+    "details": {
+      "role": "Product designer",
+      "scope": "Research, product strategy, UX/UI design, prototyping & usability testing",
+      "timeline": "8 months"
+    },
+    "productUrl": "https://cocareer.ai/"
+  },
+  {
+    "slug": "puch",
+    "title": "Puch",
+    "description": "Puch is a WhatsApp bot that makes everyday tasks easier through AI-powered chat. It began under TurboML and later pivoted into its own product, focused on being simple, fast, and always accessible.",
+    "intro": [
+      [
+        {
+          "type": "label",
+          "text": "About",
+          "fontSize": "28px",
+          "color": "#404040",
+          "weight": 500
+        },
+        {
+          "type": "paragraph",
+          "text": "Puch is a WhatsApp bot that makes everyday tasks easier through AI-powered chat. It began under TurboML and later pivoted into its own product, focused on being simple, fast, and always accessible.",
+          "letterSpacing": "-0.02em",
+          "strongPrefix": "Puch"
+        },
+        {
+          "type": "paragraph",
+          "text": "As a marketing designer, I shaped the brand identity—building the visuals, mascot, and overall personality so the bot feels approachable and fun while staying trustworthy and useful.",
+          "letterSpacing": "-0.02em"
+        }
+      ]
+    ],
+    "galleries": [
+      [
+        {
+          "type": "image",
+          "src": "/assets/rU7w8ffiW19vpplPi35fZa1NuM.png?v=3a00a5de9f",
+          "width": 1280,
+          "height": 1010,
+          "alt": "",
+          "ratio": 1.26789
+        },
+        {
+          "type": "image",
+          "src": "/assets/enveQocr44Fv28EQZImBQ7HlfY.png?v=5d41766bbb",
+          "width": 1440,
+          "height": 1057,
+          "alt": "",
+          "ratio": 1.363
+        }
+      ]
+    ],
+    "related": [
+      {
+        "title": "Pitch Protocol",
+        "slug": "pitch-protocol",
+        "image": "/assets/ONgzY9AQKocbyyCguWQ6Cb2EuU.png?v=7bd7a2495b"
+      },
+      {
+        "title": "VentureOS",
+        "slug": "venture-os",
+        "image": "/assets/venture-os-founder-original-colors.png"
+      },
+      {
+        "title": "Growth Factory Ventures",
+        "slug": "gfvc",
+        "image": "/assets/DOtaDnGtc7CJ9COP6xUKFDrPwI.png?v=7cfdc015a0"
+      }
+    ],
+    "details": {}
+  },
+  {
+    "slug": "my-drip",
+    "title": "My Drip",
+    "description": "My Drip is a generative AI platform that personalizes shopping by analyzing your style and delivering daily outfit recommendations with realistic try-on images. It helps users make confident choices by validating looks with friends before purchasing, creating a seamless fashion experience.",
+    "intro": [
+      [
+        {
+          "type": "label",
+          "text": "About",
+          "fontSize": "28px",
+          "color": "#404040",
+          "weight": 500
+        },
+        {
+          "type": "paragraph",
+          "text": "My Drip is a generative AI platform that personalizes shopping by analyzing your style and delivering daily outfit recommendations with realistic try-on images. It helps users make confident choices by validating looks with friends before purchasing, creating a seamless fashion experience.",
+          "letterSpacing": "-0.02em"
+        },
+        {
+          "type": "label",
+          "text": "My role",
+          "fontSize": "28px",
+          "color": "#404040",
+          "weight": 500,
+          "letterSpacing": "-0.02em"
+        },
+        {
+          "type": "paragraph",
+          "text": "During my 2-month tenure at the agency, I owned the end-to-end design of My Drip’s MVP web app. I translated the vision into a functional product that validated AI-driven personal styling, provided key insights into user behavior, and laid the foundation for scaling into a full mobile app.",
+          "letterSpacing": "-0.02em"
+        }
+      ]
+    ],
+    "galleries": [
+      [
+        {
+          "type": "image",
+          "src": "/assets/sxwuQcBhWBGURJQjBPV8NpYE.jpg?v=58b758e72e",
+          "width": 1609,
+          "height": 1082,
+          "alt": "",
+          "ratio": 1.48889
+        },
+        {
+          "type": "image",
+          "src": "/assets/3xkBeICytlhwKtg1GP6YVvP7M.jpg?v=57048c241e",
+          "width": 1608,
+          "height": 1029,
+          "alt": "",
+          "ratio": 1.56382
+        },
+        {
+          "type": "image",
+          "src": "/assets/Pztwvfm0AgmllrJeVLMNlNDYRY.png?v=54286c4096",
+          "width": 1609,
+          "height": 888,
+          "alt": "",
+          "ratio": 1.81387
+        }
+      ]
+    ],
+    "related": [
+      {
+        "title": "Pitch Protocol",
+        "slug": "pitch-protocol",
+        "image": "/assets/ONgzY9AQKocbyyCguWQ6Cb2EuU.png?v=7bd7a2495b"
+      },
+      {
+        "title": "VentureOS",
+        "slug": "venture-os",
+        "image": "/assets/venture-os-founder-original-colors.png"
+      },
+      {
+        "title": "Growth Factory Ventures",
+        "slug": "gfvc",
+        "image": "/assets/DOtaDnGtc7CJ9COP6xUKFDrPwI.png?v=7cfdc015a0"
+      }
+    ],
+    "details": {}
+  },
+  {
+    "slug": "docus",
+    "title": "Docus AI",
+    "description": "Docus AI is a self-initiated design concept exploring document creation, review, and signing in one workspace.",
+    "intro": [
+      [
+        {
+          "type": "paragraph",
+          "text": "Docus AI is a self-initiated concept project exploring how creating, reviewing, and signing documents could work in one place."
+        },
+        {
+          "type": "paragraph",
+          "text": "The concept follows a document from an AI-generated draft through editing, recipient setup, and signing, with progress visible along the way."
+        }
+      ]
+    ],
+    "galleries": [
+      [
+        {
+          "type": "section",
+          "navLabel": "Challenge",
+          "title": "Making the document journey feel connected",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "A document’s journey extends beyond writing its content. Someone needs to review it, decide who should sign, prepare the right fields, and follow up on outstanding actions."
+            },
+            {
+              "type": "paragraph",
+              "text": "The design challenge was to make those steps feel connected. Senders need control over preparation and progress, while recipients need to understand what they’re reviewing and what action is required."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "AI & review",
+          "title": "From an AI draft to a document ready to share",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Docus brings AI generation and review into the document workflow. A generated draft becomes a starting point that people can read, refine, and prepare for others."
+            },
+            {
+              "type": "paragraph",
+              "text": "The experience connects assistance with editing, keeping the document central as users move from creating content to checking its details. The goal is to support preparation while keeping people in control of the final document."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Editor",
+          "title": "Editing tools close to the content",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The editor brings together text formatting, signature placement, and page management. Contextual controls keep relevant actions close to the selected content."
+            },
+            {
+              "type": "paragraph",
+              "text": "The interaction studies explore these everyday moments: selecting and removing a signature, formatting text, and adding or navigating pages. Visible feedback helps communicate what changed and keeps small actions understandable."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/k5a9bSY42nxDCe4bSBq8hr9an8.jpg?v=db20a91c6d",
+          "width": 1930,
+          "height": 1089,
+          "alt": "",
+          "ratio": 1.77356,
+          "fit": "contain",
+          "wideOrder": 3
+        },
+        {
+          "type": "video",
+          "src": "/assets/NHuMfrZCiRnW31t4Y5nHv1ZJ4E.mp4",
+          "ratio": 1.54578,
+          "border": true,
+          "autoplay": true,
+          "loop": true,
+          "muted": true,
+          "controls": false,
+          "radius": 20,
+          "wideOrder": 4
+        },
+        {
+          "type": "video",
+          "src": "/assets/czzWSyyUhZkzoD0e2UbAM5KQCA.mp4",
+          "ratio": 1.54578,
+          "border": true,
+          "autoplay": true,
+          "loop": true,
+          "muted": true,
+          "controls": false,
+          "radius": 20,
+          "wideOrder": 5
+        },
+        {
+          "type": "video",
+          "src": "/assets/czrBnOHrUFwly8pVufGrNHPbJ8A.mp4",
+          "ratio": 1.54467,
+          "border": true,
+          "autoplay": true,
+          "loop": true,
+          "muted": true,
+          "controls": false,
+          "radius": 20,
+          "wideOrder": 6
+        },
+        {
+          "type": "video",
+          "src": "/assets/EZLrMwvaIL0REqJaLlJBAwqAJI.mp4",
+          "ratio": 1.54578,
+          "border": true,
+          "autoplay": true,
+          "loop": true,
+          "muted": true,
+          "controls": false,
+          "radius": 20,
+          "wideOrder": 7
+        },
+        {
+          "type": "video",
+          "src": "/assets/gWdrpYKyxGuqsTrq8BAsmrpuIF0.mp4",
+          "ratio": 1.54578,
+          "border": true,
+          "autoplay": true,
+          "loop": true,
+          "muted": true,
+          "controls": false,
+          "radius": 20,
+          "wideOrder": 8
+        },
+        {
+          "type": "section",
+          "navLabel": "Recipients",
+          "title": "Making recipient responsibilities clear",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Preparing a document for others introduces another layer of decisions: who needs to sign, who needs to approve, and which fields belong to each person."
+            },
+            {
+              "type": "paragraph",
+              "text": "The sending workflow brings those decisions together. Recipient assignments and signing order establish responsibilities before the document is shared, giving the sender a clear structure for coordinating multiple people."
+            },
+            {
+              "type": "paragraph",
+              "text": "For recipients, the focus shifts to reviewing the document and completing the actions assigned to them."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Tracking",
+          "title": "Keeping progress understandable",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Sending is one step in the process. Document status and recipient progress help the sender understand what is complete and what still needs attention."
+            },
+            {
+              "type": "paragraph",
+              "text": "Connecting preparation with tracking gives the workflow continuity: the document remains the reference point as it moves between people."
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "navLabel": "Design system",
+          "title": "One visual language across the experience",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "My work also covered the brand identity and design system. Shared typography, controls, and interface patterns give the editor and surrounding workflows a consistent foundation."
+            },
+            {
+              "type": "paragraph",
+              "text": "That consistency supports the product’s central idea: a connected workspace for creating, reviewing, sending, and signing documents."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/AX6kVWxZEugC5ovinJxA1l3wOE.jpg?v=2746862157",
+          "width": 1930,
+          "height": 1159,
+          "alt": "",
+          "ratio": 1.66719,
+          "wideOrder": 12
+        },
+        {
+          "type": "section",
+          "navLabel": "Summary",
+          "title": "A connected document workspace",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Docus AI brings a broad document workflow into a single product experience. The design connects AI-assisted preparation with direct editing, recipient coordination, and progress tracking, with clear actions at each stage."
+            }
+          ]
+        }
+      ]
+    ],
+    "related": [
+      {
+        "title": "Pitch Protocol",
+        "slug": "pitch-protocol",
+        "image": "/assets/ONgzY9AQKocbyyCguWQ6Cb2EuU.png?v=7bd7a2495b"
+      },
+      {
+        "title": "VentureOS",
+        "slug": "venture-os",
+        "image": "/assets/venture-os-founder-original-colors.png"
+      },
+      {
+        "title": "Ether",
+        "slug": "ether",
+        "image": "/assets/fpyzsoQ80gC1eGA06zCfIvh5Z7o.jpg?v=e2ee02815e"
+      }
+    ],
+    "details": {}
+  },
+  {
+    "slug": "gfvc",
+    "title": "Growth Factory Ventures",
+    "description": "Building an identity for a venture capital fund that builds alongside founders.",
+    "intro": [
+      [
+        {
+          "type": "label",
+          "text": "Building an identity for a venture capital fund that builds alongside founders"
+        },
+        {
+          "type": "paragraph",
+          "text": "Growth Factory Ventures combines investment with hands-on company building, supporting founders from early conviction to scale."
+        },
+        {
+          "type": "paragraph",
+          "text": "I developed its brand identity and website, extending the visual language across marketing materials, brand guidelines, and merch."
+        }
+      ]
+    ],
+    "galleries": [
+      [
+        {
+          "type": "image",
+          "src": "/assets/gfvc-website-hero.png",
+          "width": 1672,
+          "height": 941,
+          "alt": "Growth Factory Ventures website displayed on a laptop above a rocky landscape.",
+          "ratio": 1.7768331562167907,
+          "wideOrder": 0
+        },
+        {
+          "type": "image",
+          "src": "/assets/KkaN7HtZMj6Fi0OC2huJXaGWdvg.png?v=3fa4de9536",
+          "width": 2000,
+          "height": 1200,
+          "alt": "",
+          "ratio": 1.6666666666666667,
+          "border": true,
+          "wideOrder": 1
+        },
+        {
+          "type": "section",
+          "navLabel": "The idea",
+          "title": "Giving “Engineering Wins” a visual voice",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The identity brings together two sides of Growth Factory Ventures: the discipline of building companies and the ambition to move them forward."
+            },
+            {
+              "type": "paragraph",
+              "text": "For me, “Engineering Wins” became the connection between those two sides. It captured the fund’s involvement in building a company, beyond the investment itself. I carried that idea through the work, from the logo to the way Growth Factory Ventures introduced itself online."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/gfvc-visual-voice.png",
+          "width": 1588,
+          "height": 888,
+          "alt": "Growth Factory Ventures brand visuals: a new perspective, built to move forward, and conviction in action.",
+          "ratio": 1.7882882882882882,
+          "wideOrder": 3
+        },
+        {
+          "type": "image",
+          "src": "/assets/FeRETaVf8mViT2ad4gtQzdJCAE.png?v=0ac9d99be1",
+          "width": 2000,
+          "height": 1204,
+          "alt": "",
+          "ratio": 1.66113,
+          "wideOrder": 4
+        },
+        {
+          "type": "section",
+          "navLabel": "The identity",
+          "title": "Starting with opportunity and growth",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I brought those ideas together in the logo: a window of opportunity combined with an arrow moving forward. It gave the identity a simple starting point that could carry across everything else."
+            },
+            {
+              "type": "paragraph",
+              "text": "From there, I developed a visual language that felt confident and energetic. Deep green and bright lime became its most recognizable pairing, with expressive typography and imagery giving the brand different ways to show up."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/k0YldhO7nLfapYSLz0Qd8qkVA.png?v=64de7767e5",
+          "width": 3840,
+          "height": 2160,
+          "alt": "",
+          "ratio": 1.7777777777777777,
+          "fit": "contain",
+          "border": true,
+          "wideOrder": 6
+        },
+        {
+          "type": "image",
+          "src": "/assets/VZwJ7nJGeDaXzIDKlHjVlDVp8j8.png?v=a195f7e0c9",
+          "width": 2000,
+          "height": 911,
+          "alt": "",
+          "ratio": 2.19539,
+          "wideOrder": 7
+        },
+        {
+          "type": "section",
+          "navLabel": "The website",
+          "title": "Helping founders understand what Growth Factory Ventures offers",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "On the website, that identity needed to tell a fuller story. Alongside introducing Growth Factory Ventures, I shaped how the site explained its two offerings, Capital and Studio, and what working together could look like."
+            },
+            {
+              "type": "paragraph",
+              "text": "The story moves from what the team believes to how it works, giving founders context before inviting them to take the next step. The visual identity connects those moments, while the content makes the offering more concrete."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/9ULsQiAO2N1samcBxPlVwPCo.png?v=cffab95f36",
+          "width": 4288,
+          "height": 4000,
+          "alt": "",
+          "ratio": 1.072,
+          "border": true,
+          "wideOrder": 9
+        },
+        {
+          "type": "image",
+          "src": "/assets/f2fLphnMLtfnVNDCBXtL62ME5KI.png?v=0f02ae3d3f",
+          "width": 2950,
+          "height": 2598,
+          "alt": "",
+          "ratio": 1.1354888375673595,
+          "border": true,
+          "wideOrder": 10
+        },
+        {
+          "type": "image",
+          "src": "/assets/K2D8SzBp4njXcWX6YFIXOimE.png?v=16636ef218",
+          "width": 2000,
+          "height": 2687,
+          "alt": "",
+          "ratio": 0.744325,
+          "wideOrder": 11
+        },
+        {
+          "type": "section",
+          "navLabel": "Beyond the website",
+          "title": "Making the identity work in everyday use",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I extended the brand into reports, marketing materials, event graphics, and merch. These applications gave the identity different roles: explaining an idea, introducing a speaker, or making a statement on a T-shirt."
+            },
+            {
+              "type": "paragraph",
+              "text": "Each format needed its own expression. I used the same core elements across them, adjusting the balance so the brand could stay familiar without every piece looking identical."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/ABsygoIxMXAPpih3RN5Jwc1ciEY.png?v=77f24717ad",
+          "width": 2000,
+          "height": 920,
+          "alt": "",
+          "ratio": 2.17391,
+          "wideOrder": 13
+        },
+        {
+          "type": "image",
+          "src": "/assets/RBDCbwj5iFlv2CANTEMjX30kVg.png?v=25b48ba9d5",
+          "width": 2000,
+          "height": 920,
+          "alt": "",
+          "ratio": 2.17391,
+          "wideOrder": 14
+        },
+        {
+          "type": "image",
+          "src": "/assets/6Plasn16j5dsNxDvP9nOJS2n67A.png?v=a1f3660df8",
+          "width": 2000,
+          "height": 920,
+          "alt": "",
+          "ratio": 2.17391,
+          "wideOrder": 15
+        },
+        {
+          "type": "image",
+          "src": "/assets/XtUXafx1YcZXyw6PvjWR44gpFW8.png?v=ea21de4143",
+          "width": 1920,
+          "height": 1080,
+          "alt": "",
+          "ratio": 1.77356,
+          "fit": "contain",
+          "wideOrder": 16
+        },
+        {
+          "type": "section",
+          "navLabel": "Bringing it together",
+          "title": "A shared foundation for what comes next",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I brought the identity and its applications into a brand book, documenting the choices behind the logo, colors, typography, and their use."
+            },
+            {
+              "type": "paragraph",
+              "text": "Together, the work gives Growth Factory Ventures a consistent way to introduce itself, from a founder’s first visit to the website to the materials they encounter beyond it."
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/assets/PHQARv3eS6PPEC6NRd39kcAjFg.png?v=1b4e46f304",
+          "width": 2000,
+          "height": 1506,
+          "alt": "",
+          "ratio": 1.32802,
+          "wideOrder": 18
+        }
+      ]
+    ],
+    "related": [
+      {
+        "title": "VentureOS",
+        "slug": "venture-os",
+        "image": "/assets/venture-os-founder-original-colors.png"
+      },
+      {
+        "title": "TurboML",
+        "slug": "turboml",
+        "image": "/assets/CX5HF93Y1aceetjqHGioM1KRDkE.jpg?v=9746a665d8"
+      },
+      {
+        "title": "Docus AI",
+        "slug": "docus",
+        "image": "/assets/i7Z4HPvkOBIPdfih8oVNpYNHFk.jpg?v=c6c00ba4ef"
+      }
+    ],
+    "details": {
+      "scope": "Brand identity\nWebsite design\nMarketing materials\nScalable brand system\nMerch"
+    },
+    "productUrl": "https://growthfactory.vc/"
+  },
+  {
+    "slug": "venture-os",
+    "title": "VentureOS",
+    "description": "Helping founders understand and strengthen their funding application.",
+    "intro": [
+      [
+        {
+          "type": "label",
+          "text": "Helping founders understand and strengthen their funding application"
+        },
+        {
+          "type": "paragraph",
+          "text": "I designed the founder application experience for VentureOS, a platform that helps founders apply for funding and match with relevant funds."
+        },
+        {
+          "type": "paragraph",
+          "text": "The experience starts with a pitch deck. From there, AI researches the company, identifies gaps, and asks follow-up questions before the application goes to the team for review."
+        },
+        {
+          "type": "paragraph",
+          "text": "My focus was on making that journey feel clear and useful. Founders were sharing something they had put a lot of work into. I wanted the experience to help them understand how their company was being assessed and give them an opportunity to strengthen the story they were telling."
+        }
+      ]
+    ],
+    "galleries": [
+      [
+        {
+          "type": "image",
+          "src": "/assets/venture-os-founder-original-colors.png",
+          "width": 3024,
+          "height": 1964,
+          "alt": "",
+          "ratio": 1.539714867617108,
+          "wideOrder": 0
+        },
+        {
+          "type": "section",
+          "title": "Where I started",
+          "navLabel": "Context",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "A lot happened after a founder uploaded their documents. The system read the material, researched the company, compared findings, and worked out what else it needed to understand."
+            },
+            {
+              "type": "paragraph",
+              "text": "But founders were there for a bigger reason: they wanted investors to see the potential in their company."
+            },
+            {
+              "type": "paragraph",
+              "text": "That shaped how I approached the flow. The research needed to offer useful feedback, and the questions needed to feel worth answering. Each step had to help founders understand what mattered to their application."
+            }
+          ],
+          "outcome": false
+        },
+        {
+          "type": "section",
+          "title": "A simple starting point",
+          "navLabel": "Document upload",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Founders could upload their pitch deck and supporting documents, check that their files were ready, and start the analysis. This let them begin with the story they had already prepared."
+            }
+          ],
+          "outcome": false
+        },
+        {
+          "type": "video",
+          "src": "/assets/Oyej1VB17JBj0hnhUi1sipFvGoM.mp4",
+          "ratio": 1.78571,
+          "autoplay": true,
+          "loop": true,
+          "muted": true,
+          "controls": false,
+          "radius": 24,
+          "wideOrder": 3
+        },
+        {
+          "type": "section",
+          "title": "Giving founders a reason to stay engaged",
+          "navLabel": "Research progress",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The research took time. I wanted to use that time to keep founders involved and give them a clearer view of what the application was being examined for."
+            },
+            {
+              "type": "paragraph",
+              "text": "We organized the processing experience into stages, with topic tabs for exploring individual research areas. Founders could follow the overall progress or look closer at the findings and sources behind a particular area."
+            },
+            {
+              "type": "paragraph",
+              "text": "The goal was to make the research feel relevant to them. Seeing what was being checked could help founders understand the kinds of evidence and questions that would inform the investment team’s review."
+            },
+            {
+              "type": "paragraph",
+              "text": "As the analysis developed, the interface surfaced what had been supported, what needed further investigation, and what was still missing. This gave founders feedback before asking them to contribute more."
+            },
+            {
+              "type": "paragraph",
+              "text": "That connection was important: the research was building toward something they could act on."
+            }
+          ],
+          "outcome": false
+        },
+        {
+          "type": "image",
+          "src": "/assets/K2iEDnbFuTsf795O6Lt4eZLexHk.png?v=8e8660afad",
+          "width": 3024,
+          "height": 1964,
+          "alt": "",
+          "ratio": 1.539714867617108,
+          "border": true,
+          "wideOrder": 5
+        },
+        {
+          "type": "image",
+          "src": "/assets/TiHdwEg63LeTSg2T81gCnUL7sI.png?v=998eb827b2",
+          "width": 3024,
+          "height": 1964,
+          "alt": "",
+          "ratio": 1.539714867617108,
+          "wideOrder": 6
+        },
+        {
+          "type": "section",
+          "title": "Connecting every question to a visible gap",
+          "navLabel": "Follow-up questions",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The question flow was where that feedback became useful."
+            },
+            {
+              "type": "paragraph",
+              "text": "We paired the questions with a spider graph showing the analysis across different areas. This helped founders connect an individual question to the broader picture of their application."
+            },
+            {
+              "type": "paragraph",
+              "text": "For example, when the analysis identified a gap in traction evidence, a question about traction data had a visible purpose. The founder could see which area needed more support and understand how their answer could add to it."
+            },
+            {
+              "type": "paragraph",
+              "text": "I wanted that relationship to be clear: here is what we haven’t understood yet, and here is your opportunity to explain it.",
+              "highlights": [
+                "here is what we haven’t understood yet, and here is your opportunity to explain it."
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "The distinction matters because missing evidence in a pitch deck does not necessarily mean a weakness in the company. A founder may have the information but not have included it. The questions gave them room to add that context."
+            },
+            {
+              "type": "paragraph",
+              "text": "Each question also included a rationale where available, and the conversation could continue with a follow-up. This kept the exchange focused on resolving a specific gap."
+            },
+            {
+              "type": "paragraph",
+              "text": "My goal was to give founders a reason to engage with the questions. They could see how answering helped make their application more complete and better represented the company they were building."
+            }
+          ],
+          "outcome": false
+        },
+        {
+          "type": "pair",
+          "items": [
+            {
+              "type": "image",
+              "src": "/assets/EwMoUpoNCfY2bTrMgBvHLtNFy4.png?v=08b2e021da",
+              "width": 3024,
+              "height": 1964,
+              "alt": "",
+              "wideSrc": "/assets/7sQxwAA7tCx1EpuIi7kM3RF3TN0.png?v=3e0b304613"
+            },
+            {
+              "type": "image",
+              "src": "/assets/gEI8dIjWTpuYp9kvwslpCv3LFLw.png?v=a06e2d5486",
+              "width": 3024,
+              "height": 1964,
+              "alt": ""
+            }
+          ],
+          "wideOrder": 8
+        },
+        {
+          "type": "section",
+          "title": "Making the flow easier to follow",
+          "navLabel": "Interaction details",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "As we refined the experience, we moved toward a tabs-based research view and worked through how new findings, messages, and questions appeared."
+            },
+            {
+              "type": "paragraph",
+              "text": "The focus was continuity. Founders needed to keep their place, revisit information, and understand what to do next as the system updated around them."
+            }
+          ],
+          "outcome": false
+        },
+        {
+          "type": "section",
+          "title": "Keeping the visual experience clear",
+          "navLabel": "Visual system",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "I wanted the interface to feel fresh, calm, and easy to read, especially as the research became more detailed. A shared set of styles and components helped keep the screens consistent and gave us a foundation to build on as the product grew."
+            }
+          ],
+          "outcome": false
+        },
+        {
+          "type": "section",
+          "title": "Ending with a clear next step",
+          "navLabel": "Submission",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "Once founders finished, the confirmation screen explained that their application had been received and that the team would review it and reach out within 48 hours."
+            },
+            {
+              "type": "paragraph",
+              "text": "It closed the loop with a clear handoff from the AI-assisted application to human review."
+            }
+          ],
+          "outcome": false
+        },
+        {
+          "type": "section",
+          "title": "What I took away",
+          "navLabel": "Reflection",
+          "paragraphs": [
+            {
+              "type": "paragraph",
+              "text": "The most meaningful part of this project was connecting the system’s analysis to something the founder could use."
+            },
+            {
+              "type": "paragraph",
+              "text": "Showing research activity could keep someone informed. Connecting a finding to a question gave them a way to respond, clarify missing evidence, and strengthen how their company was represented."
+            },
+            {
+              "type": "paragraph",
+              "text": "That became the thread running through the experience: help founders understand what we were learning about their company and where their input could make that understanding more complete."
+            }
+          ],
+          "outcome": true
+        }
+      ]
+    ],
+    "related": [
+      {
+        "title": "Pitch Protocol",
+        "slug": "pitch-protocol",
+        "image": "/assets/ONgzY9AQKocbyyCguWQ6Cb2EuU.png?v=7bd7a2495b"
+      },
+      {
+        "title": "Growth Factory Ventures",
+        "slug": "gfvc",
+        "image": "/assets/DOtaDnGtc7CJ9COP6xUKFDrPwI.png?v=7cfdc015a0"
+      },
+      {
+        "title": "TurboML",
+        "slug": "turboml",
+        "image": "/assets/CX5HF93Y1aceetjqHGioM1KRDkE.jpg?v=9746a665d8"
+      }
+    ],
+    "details": {
+      "scope": "Product design\nUX strategy\nDesign system",
+      "timeline": "4 months"
+    }
+  },
+  {
+    "slug": "ether",
+    "title": "Ether",
+    "description": "Ether is an AI-powered website builder designed to help anyone go from idea to live site in minutes. It focuses on speed and simplicity without sacrificing design quality. I defined Ether’s visual identity and product experience, shaping how users generate, customize, and launch websites with ease.",
+    "intro": [
+      [
+        {
+          "type": "paragraph",
+          "text": "Ether is an AI-powered website builder designed to help anyone go from idea to live site in minutes. It focuses on speed and simplicity without sacrificing design quality. I defined Ether’s visual identity and product experience, shaping how users generate, customize, and launch websites with ease."
+        }
+      ]
+    ],
+    "galleries": [
+      [
+        {
+          "type": "image",
+          "src": "/assets/EfTknHU7BMjKckgyCrf0yn4paQ.jpg?v=e7b06ecb5c",
+          "width": 1512,
+          "height": 982,
+          "alt": "",
+          "ratio": 1.54058
+        },
+        {
+          "type": "image",
+          "src": "/assets/iuYf5vwg1K7SaASCgVoS1RSsCAw.jpg?v=9a96d66df9",
+          "width": 1512,
+          "height": 982,
+          "alt": "",
+          "ratio": 1.54058
+        },
+        {
+          "type": "image",
+          "src": "/assets/RCjNo4V4CAlF8sr00eI2pgQjZs.jpg?v=7a60f0a05d",
+          "width": 1512,
+          "height": 982,
+          "alt": "",
+          "ratio": 1.53952
+        },
+        {
+          "type": "image",
+          "src": "/assets/Uz0kA5U5BIS2MPvIKfW20QnQiI.jpg?v=7d00720038",
+          "width": 1512,
+          "height": 982,
+          "alt": "",
+          "ratio": 1.53952
+        },
+        {
+          "type": "image",
+          "src": "/assets/Rfpecb8T89QPge5k78WowDw48.jpg?v=e865da43ec",
+          "width": 1512,
+          "height": 982,
+          "alt": "",
+          "ratio": 1.53952
+        },
+        {
+          "type": "image",
+          "src": "/assets/6lAJ7RCHbQZ6iF7TaTFBXTntDk.jpg?v=33557cfdfa",
+          "width": 1512,
+          "height": 982,
+          "alt": "",
+          "ratio": 1.53952
+        },
+        {
+          "type": "heading",
+          "title": "Light mode",
+          "paragraphs": [],
+          "outcome": false
+        },
+        {
+          "type": "image",
+          "src": "/assets/LwsdmItJaxuaVI5LjtS81UnM.jpg?v=3e37d97cef",
+          "width": 1512,
+          "height": 982,
+          "alt": "",
+          "ratio": 1.53952
+        },
+        {
+          "type": "image",
+          "src": "/assets/s8gqqkLTdKfQJzGnxp11QDyG28.jpg?v=6525264b44",
+          "width": 1512,
+          "height": 982,
+          "alt": "",
+          "ratio": 1.53952
+        }
+      ]
+    ],
+    "related": [
+      {
+        "title": "Pitch Protocol",
+        "slug": "pitch-protocol",
+        "image": "/assets/ONgzY9AQKocbyyCguWQ6Cb2EuU.png?v=7bd7a2495b"
+      },
+      {
+        "title": "VentureOS",
+        "slug": "venture-os",
+        "image": "/assets/venture-os-founder-original-colors.png"
+      },
+      {
+        "title": "Docus AI",
+        "slug": "docus",
+        "image": "/assets/i7Z4HPvkOBIPdfih8oVNpYNHFk.jpg?v=c6c00ba4ef"
+      }
+    ],
+    "details": {}
+  },
+  {
+    "slug": "travello",
+    "title": "Travello",
+    "description": "Travello makes planning trips simple with the help of AI. Instead of bouncing between apps and endless tabs, you can keep everything in one place: build smart itineraries, uncover hidden gems, and explore cafes, hotels, and activities tailored to you. Interactive maps, easy collaboration with friends, and a single spot for all your bookings turn planning into part of the fun, so you can go from idea to a complete trip without the usual hassle.",
+    "intro": [
+      [
+        {
+          "type": "paragraph",
+          "text": "Travello makes planning trips simple with the help of AI. Instead of bouncing between apps and endless tabs, you can keep everything in one place: build smart itineraries, uncover hidden gems, and explore cafes, hotels, and activities tailored to you. Interactive maps, easy collaboration with friends, and a single spot for all your bookings turn planning into part of the fun, so you can go from idea to a complete trip without the usual hassle."
+        }
+      ]
+    ],
+    "galleries": [
+      [
+        {
+          "type": "image",
+          "src": "/assets/FgHqpSq4h6agt76tDzSb7fU3AU.jpg?v=2528c2c629",
+          "width": 1899,
+          "height": 874,
+          "alt": "",
+          "ratio": 2.17277,
+          "radius": 0
+        },
+        {
+          "type": "image",
+          "src": "/assets/hZvTAUryrydCun21laRiolFcJnU.jpg?v=9eb75781fd",
+          "width": 1899,
+          "height": 874,
+          "alt": "",
+          "ratio": 2.17277,
+          "radius": 0
+        },
+        {
+          "type": "image",
+          "src": "/assets/znoN3ExUvGFCU6xCyRsBcvrDT4.jpg?v=185923886a",
+          "width": 1899,
+          "height": 874,
+          "alt": "",
+          "ratio": 2.17277,
+          "radius": 0
+        },
+        {
+          "type": "image",
+          "src": "/assets/4pecf9BscylK39o0s6YTWQkKlp0.jpg?v=d9eceff23c",
+          "width": 1899,
+          "height": 874,
+          "alt": "",
+          "ratio": 2.17277,
+          "radius": 0
+        }
+      ]
+    ],
+    "related": [
+      {
+        "title": "Pitch Protocol",
+        "slug": "pitch-protocol",
+        "image": "/assets/ONgzY9AQKocbyyCguWQ6Cb2EuU.png?v=7bd7a2495b"
+      },
+      {
+        "title": "VentureOS",
+        "slug": "venture-os",
+        "image": "/assets/venture-os-founder-original-colors.png"
+      },
+      {
+        "title": "Growth Factory Ventures",
+        "slug": "gfvc",
+        "image": "/assets/DOtaDnGtc7CJ9COP6xUKFDrPwI.png?v=7cfdc015a0"
+      }
+    ],
+    "details": {}
+  }
+]
